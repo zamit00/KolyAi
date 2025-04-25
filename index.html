@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-41JX3YK216"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-41JX3YK216');
+</script>
+    <meta property="og:title" content="פיננסי-נט">
+    <meta property="og:description" content="אתר השוואה לנתוני קופות גמל, קרנות השתלמות, קרנות פנסיה ופוליסות חסכון ">
+    <meta property="og:image" content="https://i.postimg.cc/L4YLr22D/logoxnew.png">
+    <meta property="og:url" content="https://zamit00.github.io">
+    <meta property="og:type" content="website">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="כאן תמצאו מידע מקיף על קופות גמל, קרנות השתלמות, קרנות פנסיה ופוליסות חסכון פרט, כולל השוואת נתונים, מחשבונים פיננסיים מתקדמים ותוכן מקצועי שיעזור לכם לקבל החלטות
+	    חכמות בנוגע לחיסכון הפנסיוני שלכם.">
+	<title> פיננסי-נט</title>
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/eruda"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script> 
+	<link rel="stylesheet" href="KupaInfoStyle.css">
+	<link rel="stylesheet" href="mainstyle.css">
+	<link rel="stylesheet" href="hasifotHesber.css">
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<!--<script>    
+	eruda.init();
+</script> -->
+
+<script>
+var startStop;		
+function showmehasifot(x){
+  createForm(x)
+}
+function hideframe(){
+  if(document.getElementById('ifrm'))	{
+  if(document.getElementById('ifrm').style.display==='flex'){
+	document.getElementById('ifrm').src='';
+	document.getElementById('ifrm').style.display='none';
+	
+}
+}
+	document.getElementById('backtop').style.display='block';
+	document.getElementById('allTheTables').style.display="flex";
+	document.getElementById('tkufatdivuach').style.display='block';
+	showkot();
+	window.scrollTo({ top: 0, behavior: "smooth" }); 
+
+  }
+function hidekupainfo(){
+	document.getElementById('kupaInfo').style.display='none';
+	document.getElementById('pieChartkupa').style.display='none';
+	document.getElementById('allTheTables').style.display="flex";
+	document.getElementById('tkufatdivuach').style.display='block';
+	document.getElementById('footer').style.display='flex';
+	showkot();
+}
+const recognition = new webkitSpeechRecognition() || new SpeechRecognition(); 
+recognition.lang = "he-IL";
+recognition.interimResults = false;
+recognition.maxAlternatives = 1;
+recognition.continuous = false;
+
+function micClick() {
+   startStop=0;
+  console.log("האזנה התחילה");
+  document.getElementById('resultMic').textContent = " מאזין קבוע - לעצירה אמור עצור או הפסק";
+  recognition.start();
+}
+
+recognition.onresult = (event) => {
+  const transcript = event.results[0][0].transcript;
+  console.log("קלט מהמשתמש:", transcript);
+  handleSearchFromVoice(transcript);
+};
+
+recognition.onend = () => {
+  console.log("האזנה הסתיימה – מתחיל מחדש");
+ if(startStop===0) {recognition.start();}
+else{document.getElementById('resultMic').textContent ="לא מאזין"}
+};
+
+recognition.onerror = (e) => {
+  console.error("שגיאת זיהוי קולי:", e.error);
+  document.getElementById("result").textContent = "שגיאה בזיהוי קולי: " + e.error;
+};
+
+function hideformic() {
+  hideAllimages();
+  hideTkufa();
+}
+
+function handleSearchFromVoice(transcript) {
+var ifrmValue;
+const iframe = document.getElementById('ifrm');
+
+
+if(iframe){
+	var iframeHref = iframe.contentWindow.location.href;
+	var iframeCont=iframe.contentWindow;
+	console.log(iframeCont);
+	if(iframeHref==='about:blank'){ifrmValue=0}
+	else{ifrmValue=1;}	
+}
+
+if(iframe!==null){
+	if(iframe.src.includes('loan')){ifrmValue=1;}
+}
+else{
+	ifrmValue=0;
+}
+if(!transcript){return};
+ 	if (transcript.includes("ראש")  && ifrmValue===1) {iframeCont.scrollTo(0, 0);
+	}
+	else if (transcript.includes("ראש")  && ifrmValue===0) {window.scrollTo(0, 0);
+	}
+	
+  else if ((transcript.includes("הלוואות") || transcript.includes("הלוואה") ||
+   transcript.includes("שפיצר")) && ifrmValue===0) {
+    hideformic(); showIframe("loan.html");
+  }
+  else if (transcript.includes("דריבית") || transcript.includes("ערך עתידי")) {
+	
+    hideformic(); showIframe("ribitderibit.html");
+  }
+  else if (transcript.includes("דמי ניהול") || transcript.includes("ניהול")) {
+    hideformic(); showIframe("hashDmeyNihul.html");
+  }
+  else if (transcript.includes("הפקדה חודשית") || transcript.includes("יעד") 
+  || transcript.includes("סכום יעד")) {
+    hideformic(); showIframe("hafkada.html");
+  }
+  else if (transcript.includes("מחשבונים") || transcript.includes("פיננסיים")) {
+    hideformic(); showIframe("Machshevonim.html");
+  }
+  else if (transcript.includes("השוואה") || transcript.includes("חברות")) {
+    if (transcript.includes("מנהלות") || transcript.includes("מנהלת")) {
+      hideformic(); showIframe("hashMenahalot.html");
+    }
+    else if (transcript.includes("חשיפות")) {
+      hideformic(); showIframe("hasifotMeshulav.html");
+    }
+    else if (transcript.includes("שארפ") || transcript.includes("שרפ")) {
+      hideIframe(); toggleMenu(); hideAllimages(); createForm(0);
+    }
+    else if (transcript.includes("משולב") || transcript.includes("תיק")) {
+      hideformic(); showIframe("VirtualInvest.html");
+    }
+    else {
+      hideformic(); showIframe("hashvaotRikuz.html");
+    }
+  }
+  else if(transcript.includes("מנהלות") || transcript.includes("מנהלת")) {
+      hideformic(); showIframe("hashMenahalot.html");
+    }
+    else if(transcript.includes("חשיפות")) {
+      hideformic(); showIframe("hasifotMeshulav.html");
+    }
+    else if(transcript.includes("שארפ") || transcript.includes("שרפ")) {
+		hideformic(); toggleMenu();  createForm(0);
+    }
+    else if(transcript.includes("משולב") || transcript.includes("תיק")) {
+      hideformic(); showIframe("VirtualInvest.html");
+    }
+  else if(transcript.includes("מקצועי") || transcript.includes("מידע")) {
+    if (transcript.includes("קרנות השתלמות")) {
+      hideformic(); showIframe("hishtalmotMikzoei.html");
+    }
+    else if (transcript.includes("קרנות פנסיה")) {
+      hideformic(); showIframe("pensiaMikzoei.html");
+    }
+    else if (transcript.includes("השקעה")) {
+      hideformic(); showIframe("hashkaaMikzoei.html");
+    }
+    else if (transcript.includes("ילד")) {
+      hideformic(); showIframe("hisyeled.html");
+    }
+    else if (transcript.includes("פוליסות")) {
+      hideformic(); showIframe("polisotMikzoei.html");
+    }
+    else if (transcript.includes("גמל") && !transcript.includes("השקעה")) {
+      hideformic(); showIframe("kupatgemelmikzoei.html");
+    }
+    else {
+      hideformic(); showIframe("meidaMikzoei.html");
+    }
+  }
+  else if (transcript.includes("קרנות השתלמות") && !transcript.includes("מקצועי")) {
+    showKupaMeida('pHish'); hideMaBaatar(); maslulim(30,'קרנות השתלמות',0);
+  }
+  else if (transcript.includes("קרנות פנסיה") && !transcript.includes("מקצועי")) {
+    showKupaMeida('pPensia'); hideMaBaatar(); maslulimP(30,'קרנות חדשות',0);
+  }
+  else if (transcript.includes("השקעה") && !transcript.includes("מקצועי")) {
+    showKupaMeida('pHash'); hideMaBaatar(); maslulim(30,'קופת גמל להשקעה',0);
+  }
+  else if (transcript.includes("ילד") && !transcript.includes("מקצועי")) {
+    showKupaMeida('pYeled'); hideMaBaatar(); maslulim(30,'קופת גמל להשקעה - חסכון לילד',0);
+  }
+  else if (transcript.includes("פוליסות") && !transcript.includes("מקצועי")) {
+    showKupaMeida('pPolisa'); hideMaBaatar(); maslulim(30,'פוליסות חסכון',0);
+  }
+  else if (transcript.includes("גמל") && !transcript.includes("השקעה") && !transcript.includes("מקצועי")) {
+    showKupaMeida('pGemel'); hideMaBaatar(); maslulim(30,'תגמולים ואישית לפיצויים',0);
+  }
+  else if (((transcript.includes("דף") || transcript.includes("חזור") || transcript.includes("הבית"))) 
+&& !transcript.includes("ראש")) {
+    hideframe(); showAllimages(); 
+  }
+  else if (transcript.includes("שימוש") || transcript.includes("תנאי")) {
+    showIframe('tnaiyShimosh.html');
+  }
+  else if (transcript.includes("סיכון") || transcript.includes("סיכון")) {
+    showIframe('riskQuest.html');
+  }
+  else if (transcript.includes("עצור") || transcript.includes("הפסק") || transcript.includes("צליל")) {
+	startStop=1;
+	  
+    }
+	else if (transcript.includes("הסבר") || transcript.includes("הוראות קוליות") || transcript.includes("הוראות")) {
+		showIframe('koliHes.html');
+	  
+    }
+	else if (transcript.includes("תקרות") || transcript.includes("תקרות הפקדה")) {
+		showIframe('tikrot.html');
+	  
+    }
+	else if (transcript.includes("מסלול") ) {
+		const match = transcript.match(/מסלול\s+(\S+)/);
+			if (match) {
+				searchMh(match[1]); 
+		}
+
+		else{alert("אמור מסלול + מספר מסלול")}	  
+    }
+
+	
+
+
+	else if ((transcript.includes("גלול למטה") || transcript.includes('למטה')) &&
+	ifrmValue===1) {
+		if(transcript.includes("הרבה")){
+			var tvach=400;
+			var minustvach=-400;
+		}
+		else{
+			var tvach=225
+			var minustvach=-225
+		}
+    
+    	if (iframeCont.scrollY + tvach > iframeCont.document.body.scrollHeight - iframeCont.innerHeight) {
+       	 iframeCont.scrollTo(0, iframeCont.document.body.scrollHeight - iframeCont.innerHeight);
+    	} else {
+        	iframeCont.scrollBy(0, tvach);
+    	}
+	}
+
+	else if ((transcript.includes("גלול למעלה") || transcript.includes('למעלה')) &&
+	ifrmValue===1) {
+		if(transcript.includes("הרבה")){
+			var tvach=400;
+			var minustvach=-400;
+		}
+		else{
+			var tvach=225
+			var minustvach=-225
+		}
+		if (iframeCont.scrollY - tvach < 0) {
+			iframeCont.scrollTo(0, 0);
+		} else {
+			iframeCont.scrollBy(0, minustvach);
+		}
+	}
+
+	else if (transcript.includes("גלול למטה") || transcript.includes('למטה')) {
+		if(transcript.includes("הרבה")){
+			var tvach=400;
+			var minustvach=-400;
+		}
+		else{
+			var tvach=225
+			var minustvach=-225
+		}
+	if(window.scrollY+tvach>document.scrollHeight-window.innerHeight){
+		window.scrollBy(0,document.scrollHeight-window.innerHeight)
+	}	
+	else{window.scrollBy(0,tvach)}
+	  
+    }
+	else if (transcript.includes("גלול למעלה") || transcript.includes('למעלה')) {
+		if(transcript.includes("הרבה")){
+			var tvach=400;
+			var minustvach=-400;
+		}
+		else{
+			var tvach=200
+			var minustvach=-200
+		}
+		if(window.scrollY-tvach<0){
+		window.scrollTo(0,0)
+	}	
+	else{window.scrollBy(0,minustvach)}
+	  
+    }
+	else if(document.getElementById('ifrm')){
+		if(document.getElementById('ifrm').src.includes("loan")){
+		handleLoan(transcript);return
+		}
+	}	
+  else {
+    alert("הבקשה אינה ברורה - לחץ שוב");
+  }
+}
+function handleLoan(transcript) {
+	
+    console.log("🔍 טקסט שזוהה:", transcript);
+    let amount = null;
+    let term = null;
+    let interest = null;
+
+	const iframex = document.getElementById('ifrm');
+	const loanDoc = iframex.contentWindow.document;
+	const loanWindow = iframex.contentWindow;
+	const loanAmountInput = loanDoc.getElementById('loan-amount');
+	const termfor = loanDoc.getElementById('loan-term');
+	const interestfor = loanDoc.getElementById('interest-rate');
+	const delayfor = loanDoc.getElementById('payment-delay');
+	
+
+	if (transcript.includes("סכום") || transcript.includes("מיליון") || 
+		transcript.includes("אלף") || transcript.includes("מאות")){  
+        loanAmountInput.value =extractAmount(transcript);
+        console.log("📌 סכום זוהה:", loanAmountInput.value);
+    }
+	else if((transcript.includes("שני") || transcript.includes("חודשי")) && 
+	 !transcript.includes("גרייס")){
+		const termMatch = transcript.match(/(\d{1,2})\s*(שנה|שנים|חודש|חודשים)/);
+    	if (termMatch) {
+        const value = parseInt(termMatch[1]);
+        const unit = termMatch[2];
+        termfor.value = /חודש/.test(unit) ? value : value * 12;
+        console.log("📌 תקופה זוהתה:", termfor.value, "חודשים");
+    	}	
+	}
+	else if((transcript.includes("שני") || transcript.includes("חודשי")) && 
+	 transcript.includes("גרייס")){
+		const termMatch = transcript.match(/(\d{1,2})\s*(שנה|שנים|חודש|חודשים)/);
+    	if (termMatch) {
+        const value = parseInt(termMatch[1]);
+        const unit = termMatch[2];
+        delayfor.value = /חודש/.test(unit) ? value : value * 12;
+        console.log("📌 תקופה זוהתה:", termfor.value, "חודשים");
+    	}	
+	}
+	else if(transcript.includes("ריבית") || transcript.includes("אחוז") ||
+	transcript.includes("%") ){
+		
+		const interestMatch =  extractInterestRate(transcript);
+    	if (interestMatch) {
+		interestfor.value =interestMatch;
+        console.log("📌 ריבית זוהתה:", interestfor.value + "%");
+   		 }
+	}
+
+	if (termfor.value && interestfor.value && loanAmountInput.value) {
+		loanWindow.calculateLoan();
+	}
+	if(transcript.includes("סילוקין") || transcript.includes("לוח") || transcript.includes("הסתר")){
+		loanWindow.toggleAmortizationTable()
+	}
+	
+	return;
+
+   
+    
+
+    // ניתוח תוצאה
+    if (amount && term && interest) {
+        console.log("✅ כל הנתונים זוהו. מבצע עדכון");
+		console.log(amount, term, interest);
+        //updateLoanSimulator(amount, term, interest);
+    } else {
+        // זיהוי חסרים
+       // if (!amount) alert("אנא אמור לי את סכום ההלוואה");
+       // else if (!term) alert("אנא אמור לי את תקופת ההלוואה");
+       // else if (!interest) alert("אנא אמור לי את הריבית");
+    }
+}
+function extractAmount(text) {
+    let total = 0;
+
+    // נבדוק אם יש "מיליון"
+    const millionMatch = text.match(/(?:מיליון)/);
+    if (millionMatch) {
+        total += 1_000_000;
+    }
+
+    // זיהוי "X אלף"
+    const thousandMatch = text.match(/(\d+)\s*אלף/);
+    if (thousandMatch) {
+        total += parseInt(thousandMatch[1]) * 1000;
+    }
+
+    // ננקה את מה שכבר תפסנו
+    const cleanedText = text
+        .replace(/(?:מיליון)/g, '')
+        .replace(/(\d+)\s*אלף/g, '');
+
+    // תופס את כל המספרים שנותרו
+    const remainingNumbers = cleanedText.match(/\d+/g);
+
+    if (remainingNumbers) {
+        for (const num of remainingNumbers) {
+            total += parseInt(num);
+        }
+    }
+
+    return total || null;
+}
+function extractInterestRate(text) {
+  text = text.replaceAll("אחוזים", "אחוז").replaceAll("%", "אחוז").trim();
+
+  // 1. חיפוש ביטוי כמו "5.5", "5.3" או "5"
+  const decimalMatch = text.match(/(\d+(?:\.\d+)?)\s*אחוז/);
+  if (decimalMatch) return parseFloat(decimalMatch[1]);
+
+  // 2. חיפוש מילולי כמו "חמש נקודה חמש אחוז"
+  const hebrewToNumber = {
+    "אחד": 1, "שתיים": 2, "שניים": 2, "שלוש": 3, "ארבע": 4, "חמש": 5, "חמישה": 5,
+    "שש": 6, "שישה": 6, "שבע": 7, "שבעה": 7, "שמונה": 8, "תשע": 9, "תשעה": 9,
+    "עשר": 10, "עשרה": 10
+  };
+
+  // תבנית "חמש נקודה חמש"
+  const matchWords = text.match(/(אחד|שתיים|שניים|שלוש|ארבע|חמשה?|שש(ה)?|שבע(ה)?|שמונה|תשע(ה)?|עשר(ה)?)\s*נקודה\s*(אחד|שתיים|שניים|שלוש|ארבע|חמשה?|שש(ה)?|שבע(ה)?|שמונה|תשע(ה)?)/);
+  if (matchWords) {
+    const integerPart = hebrewToNumber[matchWords[1].replace("ה", "")];
+    const decimalPart = hebrewToNumber[matchWords[3].replace("ה", "")];
+    return parseFloat(`${integerPart}.${decimalPart}`);
+  }
+
+  // תבנית "חמש וחצי", "חמישה וחצי"
+  if (text.includes("חצי")) {
+    const matchHalf = text.match(/(אחד|שתיים|שניים|שלוש|ארבע|חמשה?|שש(ה)?|שבע(ה)?|שמונה|תשע(ה)?|עשר(ה)?)\s*ו\s*חצי/);
+    if (matchHalf) {
+      const integerPart = hebrewToNumber[matchHalf[1].replace("ה", "")];
+      return integerPart + 0.5;
+    }
+  }
+
+  // תבנית שלמה כמו "חמשה אחוז", "שבע אחוז"
+  const matchFullWord = text.match(/(אחד|שתיים|שניים|שלוש|ארבע|חמשה?|שש(ה)?|שבע(ה)?|שמונה|תשע(ה)?|עשר(ה)?)\s*אחוז/);
+  if (matchFullWord) {
+    return hebrewToNumber[matchFullWord[1].replace("ה", "")];
+  }
+
+  return null; // לא זוהתה ריבית
+}
+
+
+</script>
+<style>
+    #mic { font-size: 2em; cursor: pointer; }
+    #result { margin-top: 2em; white-space: pre-line; direction: rtl; }
+    .tblMic td{text-align: center;padding: 5px 12px;}
+  </style>
+</head>
+<body>
+<header class="header">
+ 	<img src="logoxnew.png" class="logo" id="logo" onclick='hideframe();showAllimages();' >
+	<span onclick="showSearch()" class="search-icon"><svg class="svg" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+		<circle cx="20" cy="20" r="12" stroke="black" stroke-width="1" fill="none" />
+		<line x1="27" y1="27" x2="40" y2="40" stroke="black" stroke-width="1" stroke-linecap="round" />
+	  </svg>
+	  </span>
+</header>
+
+<div id='odotH' >
+ 	<div onclick="toggleMenu(); closeOdot()" style="text-align:center;font-size:16px;color:blue;
+	 margin-top:15px;">X</div>
+    <img src="profile.avif"  class="zach img-fluid" id="img3" width="30%" height="30%"
+	style="margin-right: 35%;">  
+    <p class="tzevet">
+                     חגי זך, רו"ח ובעל רישיון פנסיוני <br> מעל 20 שנות ניסיון בענף 
+    </p> 
+    <p name="hatar" id="hatar">
+		שמי חגי זך, ואני מביא עמי מעל 20 שנות ניסיון מקצועי ותפעולי בתחום הפנסיוני. אני בעל רישיון פנסיוני ורישיון רואה חשבון.  
+ 		במהלך השנים צברתי ידע מעמיק והבנה רחבה בתהליכים, רגולציה, ושירותים פיננסיים הקשורים לתחום זה.
+		האתר נבנה מתוך מטרה להעניק מידע מקצועי, כלים שימושיים,  ומחשבונים שיעזרו 
+		לכם להבין את האפשרויות הקיימות ולתכנן את עתידכם הפיננסי בצורה מיטבית. אני 
+		מאמין שלכל אחד ואחת מגיע לקבל את הידע והכלים לקבלת החלטות מושכלות, והאתר הזה 
+		הוא הדרך שלי לחלוק את הידע שלי ולהנגיש אותו בצורה פשוטה לכל אחד ואחת.
+		אני מזמין את המשתמשים לגלות את המידע,להיעזר במחשבונים, ולפנות אליי בכל שאלה 
+		או צורך נוסף.  יחד נוכל להפוך את המידע לכלי מעשי לתכנון פיננסי חכם .
+    </p>
+</div>
+
+<div id="overlay">
+	<div id="alert-box">
+		<h2>תנאי שימוש</h2>
+		<p>בשימוש באתר זה, אתה מסכים לתנאי השימוש והפרטיות שלנו.</p>
+  		<button id="accept-btn">הבנתי</button>
+	</div>
+</div>
+<div id="content">
+	<div class="allmenu" id="allmenu" >  
+		<div id='hamb' class="menu-btn"  ><!--onclick =' toggleMenu()'-->
+			<div></div>
+			<div></div>
+			<div></div>
+		</div>
+        <!-- תפריט צד -->
+		<nav class="menu-container" id="menu">
+			<h3 onclick="toggleMenu();showMikzoei()">✍ מידע מקצועי</h3>
+			<h3 onclick="toggleMenu();showMachshevonim()">📈 מחשבונים פיננסיים </h3>
+			<h3 onclick="toggleMenu();showHashvaa()">📊 השוואת חברות</h3>
+			<h3 onclick="toggleMenu();showTikrot()">📊 תקרות מס הכנסה </h3>  
+			<h3 >👨‍🔧 השרותים שלנו</h3>
+			<!--  <ul class="dropdown-content" id="drp4">
+				<li><a href="#">ייעוץ פנסיוני</a></li>
+				<li><a href="#">ייעוץ פרישה</a></li>
+				<li><a href="#">ייעוץ בתפעול קופות גמל</a></li>
+				<li><a href="#">כלים תפעוליים</a></li>
+			</ul> -->
+			<h3 onclick='openOdot()'>👬 אודותינו</h3>
+			<!-- <ul class="dropdown-content" id='drp5' >
+				<img src="profile.avif" width='135' height='150'
+				style='margin:20px 50px 0px 0px'\>
+				<li style='margin-right:30px; border:none' >חגי זך, רו"ח ויועץ פנסיוני</li>
+			</ul>
+		-->
+			<h3 onclick="toggleMenu();yossi();">📞 צור קשר</h3>
+		    <h3 onclick="toggleMenu();showIframe('tnaiyShimosh.html'); "> 📝 תנאי שימוש</h3>
+		</nav>
+	</div>
+	<div class="search-container" id="search-container">
+    	<input type="text" id="searchBox" placeholder="חפש באתר...">
+    	<ul id="searchResults"></ul>
+	</div>
+	
+	<div class="meidaMuzar" id="mabaatar"
+		style=" width:clamp(300px,90%,1000px);height:200px;position:relative;
+	background-color:aliceblue;margin-left:auto;margin-right:auto;margin-top:30px;margin-bottom:20px;">
+		<div  style="width:100%;position:absolute;top:0;right:0;height:100%;
+			background-color:aliceblue;">
+			<p class="pMuzarSmall" style="text-align:right;padding:5px 10px 5px 10px;margin:0;width:100%;">
+				אתר <span style="color:darkgreen;font-size:larger;font-weight:bolder;">פיננסי</span>
+				<span style="color:darkblue;font-size:larger;font-weight:bolder;">-נט</span>
+				הוא אתר ידידותי ונוח לביצוע השוואות בין מוצרים פנסיונים ופיננסיים. האתר
+				מספק מחוללי השוואה, מחוללי איתור מוצרים לפי סיכון וכלים פיננסיים.
+				 הנתונים באתר מבוססים על פירסומי  רשות שוק ההון באתרים גמל נט, ביטוח נט ופנסיה נט.
+			</p>
+		</div>
+	</div>
+	<table  class="tblMic" style="max-width: 90vw; display: block;margin: 10px auto;overflow:hidden;
+		box-sizing:border-box;margin:0;padding:0;border:1px solid rgb(0,148,255);margin-bottom:10px;">
+		<tr style="max-width: 100%; display: block;margin: 10px auto;overflow:hidden;
+		box-sizing:border-box;margin:0;padding:0;">
+			<td><label style="font-size:12px;">   להפעלת ניווט קולי  לחץ</label></td>
+			<td><div id="mic" onclick="micClick()">🎤</div></td>
+			<td><div id="resultMic">לא מאזין</div></td>
+			<td><div style="color:green;font-size:14px;
+			float:left;" onclick="showIframe('koliHes.html');">הסבר </div></td>
+		</tr>	
+	</table>
+	<h3 id='kategorut' style="text-align: center; font-family: 'David Bril', sans-serif;
+	box-sizing: border-box;max-width: 100%;font-weight:bold;overflow-x: hidden;color:darkblue;margin-bottom:15px;"
+	>קטגוריות ראשיות</h3>
+	<div id="tnaiyShimoshB" onclick="showIframe('tnaiyShimosh.html');">תנאי שימוש באתר</div>  
+<div class="Imgcontainer" id='allImages'>
+	<div class="boxImg boxcalc" onclick="showMachshevonim()" ><div class="stripe" style="text-align:center;">מחשבונים פיננסים</div></div>
+	<div class="boxImg boxdata" onclick="showHashvaa();" ><div class="stripe" style="text-align:center;">השוואת חברות</div></div>
+	<div class="boxImg boxstud" onclick="showMikzoei()" ><div class="stripe" style="text-align:center;">מידע מקצועי</div></div>
+        <div class="boxImg boxpension" onclick="showKupaMeida('pPensia'); hideMaBaatar();maslulimP(30,'קרנות חדשות',0)" ><div class="stripe" style="text-align:center;" onclick=" maslulimP(30,'קרנות חדשות',0)">קרנות פנסיה</div></div>
+        <div class="boxImg boxinvest" onclick="showKupaMeida('pHash'); hideMaBaatar();maslulim(30,'קופת גמל להשקעה',0)" ><div class="stripe" style="text-align:center;"> גמל להשקעה</div></div>
+        <div class="boxImg boxeducation" onclick="showKupaMeida('pHish');hideMaBaatar();maslulim(30,'קרנות השתלמות',0)" ><div class="stripe" style="text-align:center;">קרנות השתלמות</div></div>
+        <div class="boxImg boxyeled" onclick="showKupaMeida('pYeled'); hideMaBaatar();maslulim(30,'קופת גמל להשקעה - חסכון לילד',0)" ><div class="stripe"style="text-align:center;">חסכון לילד</div></div>
+        <div class="boxImg boxgemel" onclick=" showKupaMeida('pGemel');hideMaBaatar();maslulim(30,'תגמולים ואישית לפיצויים',0)"  ><div class="stripe" style="text-align:center;">קופות גמל</div></div>
+        <div class="boxImg boxsaving" onclick=" showKupaMeida('pPolisa');hideMaBaatar();maslulim(30,'פוליסות חסכון',0)" ><div class="stripe" style="text-align:center;">פוליסות חסכון</div></div>
+</div>
+<div class="meidaMuzarSpecific" id="mabaatarSpecific">
+	<p class="pMuzarBigSpecific pMuzarBig" style="padding:10px;"></p>
+	<p class="pMuzarSmallSpecific pMuzarSmall" style="padding:10px;"></p>
+	<div class="baalrishayon" onclick="yossi()">צור קשר עם סוכן פנסיוני
+		&nbsp;<i class="fa fa-phone"></i></div>
+</div>
+
+	<h6 id="tkufatdivuach"></h6>
+	<div style="width: 100%;margin-bottom: 10px;" id="searchmh">
+		<div class="search-mh" id="search-mh">
+			<label  style="margin-left: 15px;">חפש לפי מ"ה</label>
+			<input type="text" id="searchBoxmh" placeholder="הקלד מספר..." style="max-height: 30px;
+			max-width: 100px;">
+			<input type="button"  value="חפש" onclick="searchMh(0)" style="max-height: 30px;
+				background-color:aliceblue;color:rgb(0,154,255);
+				font-weight:bold;"></input>
+		</div>
+	</div>
+	<h1 id="kothasifot" style="width: 100%;text-align: center;">⚖️ חשיפות מרכזיות בהשקעות</h1>
+	<div id="filter">
+		
+		<form id="productForm" style="overflow-y: hidden;">
+			
+			<div class="product">
+				<div class="baalrishayon" onclick="window.parent.yossi()"
+        style="width: 100%;
+        box-sizing: border-box;
+        margin: 0%;
+        padding: 10px;
+        height: 30px;
+        font-size: 16px;
+        text-align: center;
+        background-color: blue;
+        position: relative;
+        top: 0%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: bold;overflow-y: hidden;">צור קשר עם סוכן פנסיוני
+		&nbsp;<i class="fa fa-phone"></i></div>
+		<div class='closewindow' onclick='hideproductForm(); showHashvaa();'
+		style="margin-top: 15px;margin-right: 10px;"><i class="fa-solid fa-rotate-left"></i>
+		</div>
+				<h3 id="meholelhasifot">⚖️ השוואה לפי מדד שארפ</h3>
+				<label class="hsf"  for="selectProduct" >בחר מוצר</label>
+				<select class="hsf"  id="sugM"onchange='changehasifa()' >
+					<option value='קרנות השתלמות'>קרנות השתלמות</option>
+					<option value='תגמולים ואישית לפיצויים'>קופות גמל</option>
+					<option value='קופת גמל להשקעה'>קופת גמל להשקעה</option>
+					<option value='פוליסות חסכון'>פוליסות חסכון</option>
+					<option value='קרנות פנסיה - מקיפה'>קרנות פנסיה</option>
+				</select>
+			</div>
+			<button  id='btnHas' class="sbmitbutton hsf" onclick="tablhasifot(event)">בצע</button>
+		</form>
+		
+	</div>
+
+	<div class="filterChoose" id="filterChoose">
+		<h2 class="phasifot" style="text-align:center; color:#444;margin-top: 50px;">💡 איך לבחור?</h2>
+    	<p class="phasifot" style="text-align:center;">בחירת רמת החשיפה תלויה בפרופיל הסיכון האישי שלך,
+		 ביעדים הפיננסיים ובאופק ההשקעה. פיזור נכון בין החשיפות השונות יכול למקסם את התשואה ולנהל את הסיכונים בצורה חכמה! 🚀</p>
+	</div>
+	
+		<input id='leloMifaliut'  type="checkbox" checked onchange='maslulim(1,0,0);'>&nbsp;&nbsp;<span id="spanMif" style='color:#0073e6;font-size: 12px;'>ללא מפעליות</span>
+		<br><input id='hadashim'    type="checkbox" onchange='maslulim(1,0,0);'>&nbsp;&nbsp;<span id="spanHad" style='color:#0073e6;font-size: 12px;'>מסלולים חדשים</span>
+	<div style="justify-content: right;" id="sanenMosdy">
+		<label for="sinon" style="font-size: 12px;margin-top: 10px;" >סנן לפי חברה</label>
+		<select id="sinonHevra" style="transform: scaleY(0.6);max-width: 150px;
+		margin-right: 10px;" onchange="maslulimSanen()"></select>
+		
+	</div>
+	<div class="centertables">
+		<div class="allTheTables" id="allTheTables"></div>	
+	</div>
+</div>
+<div id='iframeContainer' style></div>
+<div class='kupaInfo' id='kupaInfo'>
+	<div class="pdf" id="pdf"style="float: left;margin-left: 10px;font-size: 15px;color:blue;
+	text-decoration: underline;" onclick="exportToPDF()">קובץ pdf</div>
+	<div class='closekupainfo' id="closeinfo" onclick='hidekupainfo(); showAllimages();showMabaatar()'
+		style="margin-right:10px"><i class="fa-solid fa-rotate-left"></i>
+	</div>
+  	<h3 id="kupa" class=" h3kupa" style="color: darkblue;padding-top:15px;"></h3>
+  	<table class="tblmeida" id='tblmeida'>
+      <tr class='trkupa'>
+          <td  class='tdkupa' id="sugmuzar"></td>
+      </tr>
+      <tr class='trkupa'>
+          <td  class='tdkupa' id="sugmaslul"></td>
+      </tr>
+      <tr class='trkupa'>
+        	<td class='tdkupa'  id="mhkupa"></td>
+    	</tr>
+    	<tr class='trkupa'>
+      		<td class='tdkupa'  id="miztaberet"></td>
+    	</tr>
+    	<tr class='trkupa'>
+      		<td class='tdkupa'  id="shana"></td>
+    	</tr>
+    	<tr class='trkupa'>
+      		<td class='tdkupa'  id="shalosh"></td>
+    	</tr>
+    	<tr class='trkupa'>
+      		<td class='tdkupa'  id="stiya36"></td>
+    	</tr>
+    	<tr class='trkupa'>
+      		<td class='tdkupa'  id="ramatsikon"></td>
+    	</tr>
+    	<tr class='trkupa'>
+      		<td class='tdkupa'  id="derog"></td>
+    	</tr>
+      	<tr class='trkupa'>
+          	<td class='tdkupa'  id="ofi"></td>
+      	</tr>
+    </table>
+  	<h4 id="kupatypeinfo"></h4>
+  	<canvas id="myChartkupa" style="width:100%;max-width:1000px;max-height: 200px;"></canvas>
+  	<canvas id="myChart"  style="width:100%;max-width: 1000px;
+ 		 max-height: 200px;margin:30px auto;"></canvas>
+  	<div id="nehasimkot" class="nehasimkot" style="color:orangered;"></div>
+  	<div id="tblnehasim" class="tblnehasim">
+    <table id="nehasim"></table>
+	<canvas id="pieChartkupa" 
+		style="width:clamp(250px,80vw,300px);
+	   max-height: 400px;"></canvas> 
+</div> 
+</div>
+
+<div  id="backtop" class="backtop" onclick="backtop()">⬆️</div>
+	<footer id="footer">
+		<p style="margin-top:10px;text-align:center;width:100%;box-sizing:border-box;overflow-x:hidden;color:green;"> 
+			<i class="fas fa-copyright"></i> כל הזכויות שמורות לחגי זך
+		</p>
+	</footer>			
+	<script src="mainscript.js" defer></script>
+	<script src="kochavimscript.js" defer></script>
+	<script src="PensiaScript.js" defer></script>
+	<script src="dataMenahelet.js" defer></script>
+	<script src="data.js" defer></script>
+	<script src="hasifot.js" defer></script>
+	<script src="kupaInfoScript.js" defer></script> 
+	<script src="searchScript.js" defer></script> 
+	<script src="HasifotMeshulav.js" defer></script> 
+ <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+<script src="https://cdn.userway.org/widget.js" data-account="rylh57CLUH"></script>
+</body>
+</html>
+
+<!--<div class="centerHasifa">	
+			<div class="section" style="width: 50vw !important;
+			overflow-y: hidden;margin-bottom: 20px;">
+				<span class="harhev" style="float: left;margin-left:6vw;
+				color:green;font-weight: bold;"
+				onclick="harhev(this)">הרחב</span>
+				<h2>💹 חשיפה למניות</h2>
+				<div class="explainHasifa" >
+					<p>חשיפה למניות מתייחסת לחלק מהתיק המושקע בשוק המניות. השקעה זו מספקת פוטנציאל לתשואות גבוהות אך מלווה בסיכון גבוה יותר.</p>
+				</div>
+				<div class="advantages hasmenayot">
+					<strong>✔️ יתרונות:</strong>
+					<ul>
+						<li>אפשרות לרווחים גבוהים בטווח הארוך</li>
+						<li>הגנה מפני אינפלציה</li>
+						<li>השתתפות בצמיחה הכלכלית של חברות</li>
+					</ul>
+				</div>
+				<div class="risks  hasmenayot">
+					<strong>❌ סיכונים:</strong>
+					<ul>
+						<li>תנודתיות גבוהה</li>
+						<li>סיכון להפסדים במקרה של ירידות בשוק</li>
+					</ul>
+				</div>
+			</div>
+			<div class="section" style="width: 50vw !important;
+			overflow-y: hidden;margin-bottom: 20px;">
+				<span class="harhev" style="float: left;margin-left:6vw;
+				color:green;font-weight: bold;"
+				onclick="harhev(this)">הרחב</span>
+				<h2>💱 חשיפה למטבע חוץ</h2>
+				<div class="explainHasifa" >
+					<p>חשיפה למט"ח משמעותה השקעה בנכסים הנקובים במטבעות זרים, כמו הדולר, האירו והין היפני.</p>
+				</div>
+				<div class="advantages  hasmenayot">
+					<strong>✔️ יתרונות:</strong>
+					<ul>
+						<li>פיזור סיכונים ושמירה על ערך הכסף</li>
+						<li>רווחים פוטנציאליים משינויים בשערי חליפין</li>
+						<li>התאמה להשקעות בינלאומיות</li>
+					</ul>
+				</div>
+				<div class="risks  hasmenayot">
+					<strong>❌ סיכונים:</strong>
+					<ul>
+						<li>שינויים חדים בשערי חליפין עלולים לפגוע בתשואה</li>
+						<li>חשיפה לתנודות כלכליות בעולם</li>
+					</ul>
+				</div>
+			</div>
+			<div class="section" style="width: 50vw !important;
+			overflow-y: hidden;">
+				<span class="harhev" style="float: left;margin-left:6vw;
+				color:green;font-weight: bold;"
+				onclick="harhev(this)">הרחב</span>
+				<h2>🌍 חשיפה לחו"ל</h2>
+				<div class="explainHasifa" >
+					<p>חשיפה לחו"ל כוללת השקעות בשווקים מחוץ לישראל, כגון מניות, אגרות חוב וקרנות בינלאומיות.</p>
+				</div>
+				<div class="advantages  hasmenayot">
+					<strong>✔️ יתרונות:</strong>
+					<ul>
+						<li>פיזור השקעות בין כלכלות שונות</li>
+						<li>גישה לטכנולוגיות חדשניות ושווקים מתפתחים</li>
+						<li>צמצום הסיכון במקרה של משבר כלכלי מקומי</li>
+					</ul>
+				</div>
+				<div class="risks  hasmenayot">
+					<strong>❌ סיכונים:</strong>
+					<ul>
+						<li>תלות במדיניות כלכלית וממשלתית במדינות היעד</li>
+						<li>שינויים ברגולציה או במיסוי עלולים להשפיע על התשואה</li>
+					</ul>
+				</div>
+			</div>
+		</div>-->	
