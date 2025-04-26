@@ -125,7 +125,7 @@ if(!transcript){return};
 	
   else if ((transcript.includes("הלוואות") || transcript.includes("הלוואה") ||
    transcript.includes("שפיצר")) && ifrmValue===0) {
-    hideformic(); showIframe("loan.html");
+    hideformic(); showIframe("loan.html");handleLoan(transcript);
   }
   else if (transcript.includes("דריבית") || transcript.includes("ערך עתידי")) {
 	
