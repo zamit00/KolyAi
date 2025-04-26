@@ -329,27 +329,67 @@ function handleLoan(transcript) {
 
 	// גרייס
 	if ((transcript.includes("חודשי") || transcript.includes("שנה") || transcript.includes("חודש")) &&
-		transcript.includes("גרייס")) {
-		const termMatch = transcript.match(/(\d{1,2})\s*(שנה|שנים|חודש|חודשים)/);
-		if (termMatch) {
-			const value = parseInt(termMatch[1]);
-			const unit = termMatch[2];
-			delayfor.value = /חודש/.test(unit) ? value : value * 12;
-			console.log("📌 גרייס זוהה:", delayfor.value, "חודשים");
-		}
-	}
+    transcript.includes("גרייס")) {
+
+  const termMatch = transcript.match(/(\d{1,2}|אחד|שניים|שלושה|ארבעה|חמישה|שישה|שבעה|שמונה|תשעה|עשרה|\d+)\s*(שנה|שנים|חודש|חודשים)/);
+
+  if (termMatch) {
+    let value;
+    const unit = termMatch[2];
+
+    // המרת מילים למספרים
+    switch (termMatch[1]) {
+      case "אחד": value = 1; break;
+      case "שניים": value = 2; break;
+      case "שלושה": value = 3; break;
+      case "ארבעה": value = 4; break;
+      case "חמישה": value = 5; break;
+      case "שישה": value = 6; break;
+      case "שבעה": value = 7; break;
+      case "שמונה": value = 8; break;
+      case "תשעה": value = 9; break;
+      case "עשרה": value = 10; break;
+      default: value = parseInt(termMatch[1]); break;  // טיפול במספרים רגילים (11 ומעלה)
+    }
+
+    delayfor.value = /חודש/.test(unit) ? value : value * 12;
+    console.log("📌 גרייס זוהה:", delayfor.value, "חודשים");
+  }
+}
+
 
 	// תקופה (ללא גרייס)
-	if ((transcript.includes("חודשי") || transcript.includes("שנה") || transcript.includes("חודש")) &&
-		!transcript.includes("גרייס")) {
-		const termMatch = transcript.match(/(\d{1,2})\s*(שנה|שנים|חודש|חודשים)/);
-		if (termMatch) {
-			const value = parseInt(termMatch[1]);
-			const unit = termMatch[2];
-			termfor.value = /חודש/.test(unit) ? value : value * 12;
-			console.log("📌 תקופה זוהתה:", termfor.value, "חודשים");
-		}
-	}
+	
+  if ((transcript.includes("חודשי") || transcript.includes("שנה") || transcript.includes("חודש")) &&
+      !transcript.includes("גרייס")) {
+
+    const termMatch = transcript.match(/(\d{1,2}|אחד|שניים|שלושה|ארבעה|חמישה|שישה|שבעה|שמונה|תשעה|עשרה|\d+)\s*(שנה|שנים|חודש|חודשים)/);
+
+    if (termMatch) {
+      let value;
+      const unit = termMatch[2];
+
+      // המרת מילים למספרים
+      switch (termMatch[1]) {
+        case "אחד": value = 1; break;
+        case "שניים": value = 2; break;
+        case "שלושה": value = 3; break;
+        case "ארבעה": value = 4; break;
+        case "חמישה": value = 5; break;
+        case "שישה": value = 6; break;
+        case "שבעה": value = 7; break;
+        case "שמונה": value = 8; break;
+        case "תשעה": value = 9; break;
+        case "עשרה": value = 10; break;
+        default: value = parseInt(termMatch[1]); break;  // טיפול במספרים רגילים
+      }
+
+      termfor.value = /חודש/.test(unit) ? value : value * 12;
+      console.log("📌 תקופה זוהתה:", termfor.value, "חודשים");
+    }
+  }
+
+
 
 	// ריבית
 	if (transcript.includes("ריבית") || transcript.includes("אחוז") || transcript.includes("%")) {
@@ -437,18 +477,7 @@ function handleCompoundInterest(transcript) {
   }
 }
 
-    /*
-    if (amount && term && interest) {
-        console.log("✅ כל הנתונים זוהו. מבצע עדכון");
-		console.log(amount, term, interest);
-        updateLoanSimulator(amount, term, interest);
-    } else {
-        
-        if (!amount) alert("אנא אמור לי את סכום ההלוואה");
-       else if (!term) alert("אנא אמור לי את תקופת ההלוואה");
-        else if (!interest) alert("אנא אמור לי את הריבית");
-    }
-}*/
+   
 function extractAmount(text) {
     let total = 0;
 
