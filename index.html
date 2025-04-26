@@ -42,10 +42,10 @@ function showmehasifot(x){
   createForm(x)
 }
 function hideframe(){
-  if(document.getElementById('ifrm'))	{
-  if(document.getElementById('ifrm').style.display==='flex'){
-	document.getElementById('ifrm').src='';
-	document.getElementById('ifrm').style.display='none';
+  if(iframe)	{
+  if(iframe.style.display==='flex'){
+	iframe.src='';
+	iframe.style.display='none';
 	
 }
 }
@@ -100,211 +100,197 @@ function hideformic() {
 }
 
 function handleSearchFromVoice(transcript) {
-  if (!transcript) return;
-
-  const iframe = document.getElementById('ifrm');
-  const iframeCont = iframe?.contentWindow;
-  const iframeLoaded = iframe && iframe.src && !iframe.src.includes('about:blank');
-
-  const scrollToTop = () => {
-    iframeLoaded ? iframeCont.scrollTo(0, 0) : window.scrollTo(0, 0);
-  };
-
-  const loadIframeAndHandle = (src, handler) => {
-    hideformic();
-    showIframe(src);
-    iframe.onload = () => handler(transcript);
-  };
-
-  const simpleShowIframe = (src) => {
-    hideformic();
-    showIframe(src);
-  };
-
-  const handleScroll = (direction) => {
-    const delta = getTvach(transcript) * (direction === 'up' ? -1 : 1);
-    const target = iframeLoaded ? iframeCont : window;
-    const maxScroll = target.document ? target.document.body.scrollHeight - target.innerHeight : document.documentElement.scrollHeight - window.innerHeight;
-    const currentScroll = target.scrollY || window.scrollY;
-
-    let newScroll = currentScroll + delta;
-    if (newScroll < 0) newScroll = 0;
-    if (newScroll > maxScroll) newScroll = maxScroll;
-
-    if (target.scrollTo) target.scrollTo(0, newScroll);
-    else window.scrollTo(0, newScroll);
-  };
-
-  const searchMaslul = () => {
-    const match = transcript.match(/מסלול\s+(\S+)/);
-    if (match) searchMh(match[1]);
-    else alert("אמור מסלול + מספר מסלול");
-  };
-
-  const loadPageByContent = (pages) => {
-    for (const [keywords, src] of pages) {
-      if (keywords.some(word => transcript.includes(word))) {
-        simpleShowIframe(src);
-        return true;
-      }
+var ifrmValue;
+let iframeCont;
+if (iframe) {
+    iframeCont = iframe.contentWindow;
+    if (iframe.src && !iframe.src.includes('about:blank')) {
+        ifrmValue = 1;
     }
-    return false;
-  };
-
-  // תחילת עיבוד הבקשות
-  let actionTaken = false;
-
-  switch (true) {
-    case transcript.includes("ראש"):
-      scrollToTop();
-      actionTaken = true;
-      break;
-
-    case (transcript.includes("הלוואות") || transcript.includes("הלוואה") || transcript.includes("שפיצר")) && !iframeLoaded:
-      loadIframeAndHandle("loan.html", handleLoan);
-      actionTaken = true;
-      break;
-
-    case transcript.includes("דריבית") || transcript.includes("ערך עתידי"):
-      loadIframeAndHandle("ribitderibit.html", handleCompoundInterest);
-      actionTaken = true;
-      break;
-
-    case (transcript.includes("דמי ניהול") || transcript.includes("ניהול")) && !iframeLoaded:
-      simpleShowIframe("hashDmeyNihul.html");
-      actionTaken = true;
-      break;
-
-    case (transcript.includes("הפקדה חודשית") || transcript.includes("יעד") || transcript.includes("סכום יעד")) && !iframeLoaded:
-      simpleShowIframe("hafkada.html");
-      actionTaken = true;
-      break;
-
-    case transcript.includes("מחשבונים") || transcript.includes("פיננסיים"):
-      simpleShowIframe("Machshevonim.html");
-      actionTaken = true;
-      break;
-
-    case transcript.includes("השוואה") || transcript.includes("חברות"):
-      if (transcript.includes("מנהלות") || transcript.includes("מנהלת")) simpleShowIframe("hashMenahalot.html");
-      else if (transcript.includes("חשיפות")) simpleShowIframe("hasifotMeshulav.html");
-      else if (transcript.includes("שארפ") || transcript.includes("שרפ")) {
-        hideIframe();
-        toggleMenu();
-        hideAllimages();
-        createForm(0);
-      } else if (transcript.includes("משולב") || transcript.includes("תיק")) simpleShowIframe("VirtualInvest.html");
-      else simpleShowIframe("hashvaotRikuz.html");
-      actionTaken = true;
-      break;
-
-    case transcript.includes("מקצועי") || transcript.includes("מידע"):
-      loadPageByContent([
-        [["קרנות השתלמות"], "hishtalmotMikzoei.html"],
-        [["קרנות פנסיה"], "pensiaMikzoei.html"],
-        [["השקעה"], "hashkaaMikzoei.html"],
-        [["ילד"], "hisyeled.html"],
-        [["פוליסות"], "polisotMikzoei.html"],
-        [["גמל"], "kupatgemelmikzoei.html"],
-      ]) || simpleShowIframe("meidaMikzoei.html");
-      actionTaken = true;
-      break;
-
-    case transcript.includes("קרנות השתלמות"):
-      showKupaMeida('pHish');
-      hideMaBaatar();
-      maslulim(30, 'קרנות השתלמות', 0);
-      actionTaken = true;
-      break;
-
-    case transcript.includes("קרנות פנסיה"):
-      showKupaMeida('pPensia');
-      hideMaBaatar();
-      maslulimP(30, 'קרנות חדשות', 0);
-      actionTaken = true;
-      break;
-
-    case transcript.includes("השקעה"):
-      showKupaMeida('pHash');
-      hideMaBaatar();
-      maslulim(30, 'קופת גמל להשקעה', 0);
-      actionTaken = true;
-      break;
-
-    case transcript.includes("ילד"):
-      showKupaMeida('pYeled');
-      hideMaBaatar();
-      maslulim(30, 'קופת גמל להשקעה - חסכון לילד', 0);
-      actionTaken = true;
-      break;
-
-    case transcript.includes("פוליסות"):
-      showKupaMeida('pPolisa');
-      hideMaBaatar();
-      maslulim(30, 'פוליסות חסכון', 0);
-      actionTaken = true;
-      break;
-
-    case transcript.includes("גמל"):
-      showKupaMeida('pGemel');
-      hideMaBaatar();
-      maslulim(30, 'תגמולים ואישית לפיצויים', 0);
-      actionTaken = true;
-      break;
-
-    case (transcript.includes("דף") || transcript.includes("חזור") || transcript.includes("הבית")) && !transcript.includes("ראש"):
-      hideframe();
-      showAllimages();
-      actionTaken = true;
-      break;
-
-    case transcript.includes("שימוש") || transcript.includes("תנאי"):
-      simpleShowIframe('tnaiyShimosh.html');
-      actionTaken = true;
-      break;
-
-    case transcript.includes("סיכון"):
-      simpleShowIframe('riskQuest.html');
-      actionTaken = true;
-      break;
-
-    case transcript.includes("עצור") || transcript.includes("הפסק") || transcript.includes("צליל"):
-      startStop = 1;
-      actionTaken = true;
-      break;
-
-    case transcript.includes("הסבר") || transcript.includes("הוראות קוליות") || transcript.includes("הוראות"):
-      simpleShowIframe('koliHes.html');
-      actionTaken = true;
-      break;
-
-    case transcript.includes("תקרות"):
-      simpleShowIframe('tikrot.html');
-      actionTaken = true;
-      break;
-
-    case transcript.includes("מסלול"):
-      searchMaslul();
-      actionTaken = true;
-      break;
-
-    case transcript.includes("גלול למטה"):
-      handleScroll('down');
-      actionTaken = true;
-      break;
-
-    case transcript.includes("גלול למעלה"):
-      handleScroll('up');
-      actionTaken = true;
-      break;
-  }
-
-  // אם לא בוצעה פעולה, הראה הודעת שגיאה
-  if (!actionTaken) {
-    alert("הבקשה אינה ברורה - לחץ שוב");
-  }
+} 
+else {
+		ifrmValue =0;
 }
 
+if(!transcript){return};
+ 	if (transcript.includes("ראש")  && ifrmValue===1) {iframeCont.scrollTo(0, 0);
+	}
+	else if (transcript.includes("ראש")  && ifrmValue===0) {window.scrollTo(0, 0);
+	}
+	
+  else if ((transcript.includes("הלוואות") || transcript.includes("הלוואה") || transcript.includes("שפיצר")) && ifrmValue === 0) {
+    hideformic();
+    showIframe("loan.html");
+
+    
+    iframe.onload = function() {
+        handleLoan(transcript);
+    };
+}
+  else if (transcript.includes("דריבית") || transcript.includes("ערך עתידי")) {
+	
+    hideformic(); showIframe("ribitderibit.html");
+	
+    iframe.onload = function() {
+        handleCompoundInterest(transcript);
+    };
+  }
+  else if ((transcript.includes("דמי ניהול") || transcript.includes("ניהול")) && ifrmValue===0) {
+    hideformic(); showIframe("hashDmeyNihul.html");
+  }
+  else if ((transcript.includes("הפקדה חודשית") || transcript.includes("יעד") 
+  || transcript.includes("סכום יעד")) && ifrmValue===0) {
+    hideformic(); showIframe("hafkada.html");
+  }
+  else if (transcript.includes("מחשבונים") || transcript.includes("פיננסיים")) {
+    hideformic(); showIframe("Machshevonim.html");
+  }
+  else if (transcript.includes("השוואה") || transcript.includes("חברות")) {
+    if (transcript.includes("מנהלות") || transcript.includes("מנהלת")) {
+      hideformic(); showIframe("hashMenahalot.html");
+    }
+    else if (transcript.includes("חשיפות")) {
+      hideformic(); showIframe("hasifotMeshulav.html");
+    }
+    else if (transcript.includes("שארפ") || transcript.includes("שרפ")) {
+      hideIframe(); toggleMenu(); hideAllimages(); createForm(0);
+    }
+    else if (transcript.includes("משולב") || transcript.includes("תיק")) {
+      hideformic(); showIframe("VirtualInvest.html");
+    }
+    else {
+      hideformic(); showIframe("hashvaotRikuz.html");
+    }
+  }
+  else if(transcript.includes("מנהלות") || transcript.includes("מנהלת")) {
+      hideformic(); showIframe("hashMenahalot.html");
+    }
+    else if(transcript.includes("חשיפות")) {
+      hideformic(); showIframe("hasifotMeshulav.html");
+    }
+    else if(transcript.includes("שארפ") || transcript.includes("שרפ")) {
+		hideformic(); toggleMenu();  createForm(0);
+    }
+    else if(transcript.includes("משולב") || transcript.includes("תיק")) {
+      hideformic(); showIframe("VirtualInvest.html");
+    }
+  else if(transcript.includes("מקצועי") || transcript.includes("מידע")) {
+    if (transcript.includes("קרנות השתלמות")) {
+      hideformic(); showIframe("hishtalmotMikzoei.html");
+    }
+    else if (transcript.includes("קרנות פנסיה")) {
+      hideformic(); showIframe("pensiaMikzoei.html");
+    }
+    else if (transcript.includes("השקעה")) {
+      hideformic(); showIframe("hashkaaMikzoei.html");
+    }
+    else if (transcript.includes("ילד")) {
+      hideformic(); showIframe("hisyeled.html");
+    }
+    else if (transcript.includes("פוליסות")) {
+      hideformic(); showIframe("polisotMikzoei.html");
+    }
+    else if (transcript.includes("גמל") && !transcript.includes("השקעה")) {
+      hideformic(); showIframe("kupatgemelmikzoei.html");
+    }
+    else {
+      hideformic(); showIframe("meidaMikzoei.html");
+    }
+  }
+  else if (transcript.includes("קרנות השתלמות") && !transcript.includes("מקצועי")) {
+    showKupaMeida('pHish'); hideMaBaatar(); maslulim(30,'קרנות השתלמות',0);
+  }
+  else if (transcript.includes("קרנות פנסיה") && !transcript.includes("מקצועי")) {
+    showKupaMeida('pPensia'); hideMaBaatar(); maslulimP(30,'קרנות חדשות',0);
+  }
+  else if (transcript.includes("השקעה") && !transcript.includes("מקצועי")) {
+    showKupaMeida('pHash'); hideMaBaatar(); maslulim(30,'קופת גמל להשקעה',0);
+  }
+  else if (transcript.includes("ילד") && !transcript.includes("מקצועי")) {
+    showKupaMeida('pYeled'); hideMaBaatar(); maslulim(30,'קופת גמל להשקעה - חסכון לילד',0);
+  }
+  else if (transcript.includes("פוליסות") && !transcript.includes("מקצועי")) {
+    showKupaMeida('pPolisa'); hideMaBaatar(); maslulim(30,'פוליסות חסכון',0);
+  }
+  else if (transcript.includes("גמל") && !transcript.includes("השקעה") && !transcript.includes("מקצועי")) {
+    showKupaMeida('pGemel'); hideMaBaatar(); maslulim(30,'תגמולים ואישית לפיצויים',0);
+  }
+  else if (((transcript.includes("דף") || transcript.includes("חזור") || transcript.includes("הבית"))) 
+&& !transcript.includes("ראש")) {
+    hideframe(); showAllimages(); 
+  }
+  else if (transcript.includes("שימוש") || transcript.includes("תנאי")) {
+    showIframe('tnaiyShimosh.html');
+  }
+  else if (transcript.includes("סיכון") || transcript.includes("סיכון")) {
+    showIframe('riskQuest.html');
+  }
+  else if (transcript.includes("עצור") || transcript.includes("הפסק") || transcript.includes("צליל")) {
+	startStop=1;
+	  
+    }
+	else if (transcript.includes("הסבר") || transcript.includes("הוראות קוליות") || transcript.includes("הוראות")) {
+		showIframe('koliHes.html');
+	  
+    }
+	else if (transcript.includes("תקרות") || transcript.includes("תקרות הפקדה")) {
+		showIframe('tikrot.html');
+	  
+    }
+	else if (transcript.includes("מסלול") ) {
+		const match = transcript.match(/מסלול\s+(\S+)/);
+			if (match) {
+				searchMh(match[1]); 
+		}
+
+		else{alert("אמור מסלול + מספר מסלול")}	  
+    }
+
+	
+
+
+	else if ((transcript.includes("גלול למטה") || transcript.includes('למטה')) &&
+	ifrmValue===1) {
+		tvach=getTvach(transcript);
+    
+    	if (iframeCont.scrollY + tvach > iframeCont.document.body.scrollHeight - iframeCont.innerHeight) {
+       	 iframeCont.scrollTo(0, iframeCont.document.body.scrollHeight - iframeCont.innerHeight);
+    	} else {
+        	iframeCont.scrollBy(0, tvach);
+    	}
+	}
+
+	else if ((transcript.includes("גלול למעלה") || transcript.includes('למעלה')) &&
+	ifrmValue===1) {
+		tvach=getTvach(transcript);
+		if (iframeCont.scrollY - tvach < 0) {
+			iframeCont.scrollTo(0, 0);
+		} else {
+			iframeCont.scrollBy(0, minustvach);
+		}
+	}
+
+	else if (transcript.includes("גלול למטה") || transcript.includes('למטה')) {
+	tvach=getTvach(transcript);
+	if(window.scrollY+tvach>document.scrollHeight-window.innerHeight){
+		window.scrollBy(0,document.scrollHeight-window.innerHeight)
+	}	
+	else{window.scrollBy(0,tvach)}
+	  
+    }
+	else if (transcript.includes("גלול למעלה") || transcript.includes('למעלה')) {
+		tvach=getTvach(transcript);
+		if(window.scrollY-tvach<0){
+		window.scrollTo(0,0)
+	}	
+	else{window.scrollBy(0,minustvach)}
+	  
+    }
+  	else {
+    	alert("הבקשה אינה ברורה - לחץ שוב");
+ 	 }
+	
+}
 function getTvach(transcript) {
     if (transcript.includes("הרבה")) return 400;
     if (transcript.includes("קצת")) return 100;
@@ -312,10 +298,8 @@ function getTvach(transcript) {
 }
 function handleLoan(transcript) {
 	console.log("🔍 טקסט שזוהה:", transcript);
-	
-	const iframex = document.getElementById('ifrm');
-	const loanDoc = iframex.contentWindow.document;
-	const loanWindow = iframex.contentWindow;
+	const loanDoc = iframe.contentWindow.document;
+	const loanWindow = iframe.contentWindow;
 	const loanAmountInput = loanDoc.getElementById('loan-amount');
 	const termfor = loanDoc.getElementById('loan-term');
 	const interestfor = loanDoc.getElementById('interest-rate');
@@ -373,9 +357,8 @@ function handleLoan(transcript) {
 }
 function handleCompoundInterest(transcript) {
   console.log("🔍 טקסט שזוהה:", transcript);
-  const iframex = document.getElementById('ifrm');
-  const compoundDoc = iframex.contentWindow.document;
-  const compoundWindow = iframex.contentWindow;
+  const compoundDoc = iframe.contentWindow.document;
+  const compoundWindow = iframe.contentWindow;
   const initialAmountInput = compoundDoc.getElementById('hadpeami');
   const monthlyDepositInput = compoundDoc.getElementById('hodshi');
   const termInput = compoundDoc.getElementById('txttkofa1');
