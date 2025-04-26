@@ -140,11 +140,11 @@ if(!transcript){return};
         handleCompoundInterest(transcript);
     };
   }
-  else if (transcript.includes("דמי ניהול") || transcript.includes("ניהול")) {
+  else if ((transcript.includes("דמי ניהול") || transcript.includes("ניהול")) && ifrmValue===0) {
     hideformic(); showIframe("hashDmeyNihul.html");
   }
-  else if (transcript.includes("הפקדה חודשית") || transcript.includes("יעד") 
-  || transcript.includes("סכום יעד")) {
+  else if ((transcript.includes("הפקדה חודשית") || transcript.includes("יעד") 
+  || transcript.includes("סכום יעד")) && ifrmValue===0) {
     hideformic(); showIframe("hafkada.html");
   }
   else if (transcript.includes("מחשבונים") || transcript.includes("פיננסיים")) {
