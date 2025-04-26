@@ -339,10 +339,14 @@ if(!transcript){return};
 		if(document.getElementById('ifrm').src.includes("loan")){
 		handleLoan(transcript);return
 		}
+		else if(document.getElementById('ifrm').src.includes("ribitderibit")){
+			handleCompoundInterest(transcript);return;	
+		}
 	}	
-  else {
-    alert("הבקשה אינה ברורה - לחץ שוב");
-  }
+  	else {
+    	alert("הבקשה אינה ברורה - לחץ שוב");
+ 	 }
+	
 }
 function handleLoan(transcript) {
 	console.log("🔍 טקסט שזוהה:", transcript);
@@ -411,10 +415,11 @@ function handleCompoundInterest(transcript) {
   const iframex = document.getElementById('ifrm');
   const compoundDoc = iframex.contentWindow.document;
   const compoundWindow = iframex.contentWindow;
-  const initialAmountInput = compoundDoc.getElementById('initial-amount');
-  const monthlyDepositInput = compoundDoc.getElementById('monthly-deposit');
-  const termInput = compoundDoc.getElementById('investment-term');
-  const interestRateInput = compoundDoc.getElementById('annual-interest-rate');
+  const initialAmountInput = compoundDoc.getElementById('hadpeami');
+  const monthlyDepositInput = compoundDoc.getElementById('hodshi');
+  const termInput = compoundDoc.getElementById('txttkofa1');
+  const interestRateInput = compoundDoc.getElementById('selecttoz');
+  const DmeyNihulInput= compoundDoc.getElementById('txttkofa2');
 
   // סכום התחלתי
   const lumpSumMatch = transcript.match(/סכום (התחלתי|חד פעמי)\s*(של)?\s*([\d,\.]+)/);
@@ -453,6 +458,12 @@ function handleCompoundInterest(transcript) {
     const interestValue = interestMatch[2] || interestMatch[1];
     interestRateInput.value = parseFloat(interestValue.replace(/,/g, ''));
     console.log("📌 ריבית זוהתה:", interestRateInput.value + "%");
+  }
+  const dmeynihulMatch = transcript.match(/ניהול\s*(של)?\s*([\d,\.]+)/) || transcript.match(/([\d,\.]+)\s*(אחוז|אחוזים|%)/);
+  if (dmeynihulMatch) {
+    const dmeynihulValue = dmeynihulMatch[2] || dmeynihulMatch[1];
+    DmeyNihulInput.value = parseFloat(dmeynihulValue.replace(/,/g, ''));
+    console.log("📌 ריבית זוהתה:", DmeyNihulInput.value + "%");
   }
 
   // הפעלת חישוב אם כל השדות מולאו
