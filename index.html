@@ -36,16 +36,15 @@
 </script> -->
 
 <script>
-var startStop;var tvach;
-const iframe = document.getElementById('ifrm');
+var startStop;		
 function showmehasifot(x){
   createForm(x)
 }
 function hideframe(){
-  if(iframe)	{
-  if(iframe.style.display==='flex'){
-	iframe.src='';
-	iframe.style.display='none';
+  if(document.getElementById('ifrm'))	{
+  if(document.getElementById('ifrm').style.display==='flex'){
+	document.getElementById('ifrm').src='';
+	document.getElementById('ifrm').style.display='none';
 	
 }
 }
@@ -70,11 +69,6 @@ recognition.interimResults = false;
 recognition.maxAlternatives = 1;
 recognition.continuous = false;
 
-function getTvach(transcript) {
-    if (transcript.includes("הרבה")) return 400;
-    if (transcript.includes("קצת")) return 100;
-    return 225;
-}
 function micClick() {
    startStop=0;
   console.log("האזנה התחילה");
@@ -106,6 +100,7 @@ function hideformic() {
 
 function handleSearchFromVoice(transcript) {
 var ifrmValue;
+const iframe = document.getElementById('ifrm');
 
 
 if(iframe){
@@ -132,7 +127,7 @@ if(!transcript){return};
     hideformic();
     showIframe("loan.html");
 
-   
+    const iframe = document.getElementById("ifrm");
     iframe.onload = function() {
         handleLoan(transcript);
     };
@@ -140,7 +135,7 @@ if(!transcript){return};
   else if (transcript.includes("דריבית") || transcript.includes("ערך עתידי")) {
 	
     hideformic(); showIframe("ribitderibit.html");
-	
+	const iframe = document.getElementById("ifrm");
     iframe.onload = function() {
         handleCompoundInterest(transcript);
     };
@@ -261,8 +256,19 @@ if(!transcript){return};
 
 	else if ((transcript.includes("גלול למטה") || transcript.includes('למטה')) &&
 	ifrmValue===1) {
-		 tvach=getTvach(transcript);
-		 
+		if(transcript.includes("הרבה")){
+			var tvach=400;
+			var minustvach=-400;
+		}
+		else if(transcript.includes("קצת")){
+			var tvach=100;
+			var minustvach=-100;
+		}	
+		else{
+			var tvach=225
+			var minustvach=-225
+		}
+    
     	if (iframeCont.scrollY + tvach > iframeCont.document.body.scrollHeight - iframeCont.innerHeight) {
        	 iframeCont.scrollTo(0, iframeCont.document.body.scrollHeight - iframeCont.innerHeight);
     	} else {
@@ -272,7 +278,18 @@ if(!transcript){return};
 
 	else if ((transcript.includes("גלול למעלה") || transcript.includes('למעלה')) &&
 	ifrmValue===1) {
-		 tvach=getTvach(transcript);
+		if(transcript.includes("הרבה")){
+			var tvach=400;
+			var minustvach=-400;
+		}
+		else if(transcript.includes("קצת")){
+			var tvach=100;
+			var minustvach=-100;
+		}
+		else{
+			var tvach=225
+			var minustvach=-225
+		}
 		if (iframeCont.scrollY - tvach < 0) {
 			iframeCont.scrollTo(0, 0);
 		} else {
@@ -281,7 +298,18 @@ if(!transcript){return};
 	}
 
 	else if (transcript.includes("גלול למטה") || transcript.includes('למטה')) {
-		 tvach=getTvach(transcript);
+		if(transcript.includes("הרבה")){
+			var tvach=400;
+			var minustvach=-400;
+		}
+		else if(transcript.includes("קצת")){
+			var tvach=100;
+			var minustvach=-100;
+		}
+		else{
+			var tvach=225
+			var minustvach=-225
+		}
 	if(window.scrollY+tvach>document.scrollHeight-window.innerHeight){
 		window.scrollBy(0,document.scrollHeight-window.innerHeight)
 	}	
@@ -289,18 +317,29 @@ if(!transcript){return};
 	  
     }
 	else if (transcript.includes("גלול למעלה") || transcript.includes('למעלה')) {
-		 tvach=getTvach(transcript);
+		if(transcript.includes("הרבה")){
+			var tvach=400;
+			var minustvach=-400;
+		}
+		else if(transcript.includes("קצת")){
+			var tvach=100;
+			var minustvach=-100;
+		}
+		else{
+			var tvach=200
+			var minustvach=-200
+		}
 		if(window.scrollY-tvach<0){
 		window.scrollTo(0,0)
 	}	
 	else{window.scrollBy(0,minustvach)}
 	  
     }
-	else if(iframe){
-		if(iframe.src.includes("loan")){
+	else if(document.getElementById('ifrm')){
+		if(document.getElementById('ifrm').src.includes("loan")){
 		handleLoan(transcript);return
 		}
-		else if(iframe.src.includes("ribitderibit")){
+		else if(document.getElementById('ifrm').src.includes("ribitderibit")){
 			handleCompoundInterest(transcript);return;	
 		}
 	}	
@@ -312,9 +351,9 @@ if(!transcript){return};
 function handleLoan(transcript) {
 	console.log("🔍 טקסט שזוהה:", transcript);
 	
-	
-	const loanDoc = iframe.contentWindow.document;
-	const loanWindow = iframe.contentWindow;
+	const iframex = document.getElementById('ifrm');
+	const loanDoc = iframex.contentWindow.document;
+	const loanWindow = iframex.contentWindow;
 	const loanAmountInput = loanDoc.getElementById('loan-amount');
 	const termfor = loanDoc.getElementById('loan-term');
 	const interestfor = loanDoc.getElementById('interest-rate');
@@ -329,67 +368,27 @@ function handleLoan(transcript) {
 
 	// גרייס
 	if ((transcript.includes("חודשי") || transcript.includes("שנה") || transcript.includes("חודש")) &&
-    transcript.includes("גרייס")) {
-
-  const termMatch = transcript.match(/(\d{1,2}|אחד|שניים|שלושה|ארבעה|חמישה|שישה|שבעה|שמונה|תשעה|עשרה|\d+)\s*(שנה|שנים|חודש|חודשים)/);
-
-  if (termMatch) {
-    let value;
-    const unit = termMatch[2];
-
-    // המרת מילים למספרים
-    switch (termMatch[1]) {
-      case "אחד": value = 1; break;
-      case "שניים": value = 2; break;
-      case "שלושה": value = 3; break;
-      case "ארבעה": value = 4; break;
-      case "חמישה": value = 5; break;
-      case "שישה": value = 6; break;
-      case "שבעה": value = 7; break;
-      case "שמונה": value = 8; break;
-      case "תשעה": value = 9; break;
-      case "עשרה": value = 10; break;
-      default: value = parseInt(termMatch[1]); break;  // טיפול במספרים רגילים (11 ומעלה)
-    }
-
-    delayfor.value = /חודש/.test(unit) ? value : value * 12;
-    console.log("📌 גרייס זוהה:", delayfor.value, "חודשים");
-  }
-}
-
+		transcript.includes("גרייס")) {
+		const termMatch = transcript.match(/(\d{1,2})\s*(שנה|שנים|חודש|חודשים)/);
+		if (termMatch) {
+			const value = parseInt(termMatch[1]);
+			const unit = termMatch[2];
+			delayfor.value = /חודש/.test(unit) ? value : value * 12;
+			console.log("📌 גרייס זוהה:", delayfor.value, "חודשים");
+		}
+	}
 
 	// תקופה (ללא גרייס)
-	
-  if ((transcript.includes("חודשי") || transcript.includes("שנה") || transcript.includes("חודש")) &&
-      !transcript.includes("גרייס")) {
-
-    const termMatch = transcript.match(/(\d{1,2}|אחד|שניים|שלושה|ארבעה|חמישה|שישה|שבעה|שמונה|תשעה|עשרה|\d+)\s*(שנה|שנים|חודש|חודשים)/);
-
-    if (termMatch) {
-      let value;
-      const unit = termMatch[2];
-
-      // המרת מילים למספרים
-      switch (termMatch[1]) {
-        case "אחד": value = 1; break;
-        case "שניים": value = 2; break;
-        case "שלושה": value = 3; break;
-        case "ארבעה": value = 4; break;
-        case "חמישה": value = 5; break;
-        case "שישה": value = 6; break;
-        case "שבעה": value = 7; break;
-        case "שמונה": value = 8; break;
-        case "תשעה": value = 9; break;
-        case "עשרה": value = 10; break;
-        default: value = parseInt(termMatch[1]); break;  // טיפול במספרים רגילים
-      }
-
-      termfor.value = /חודש/.test(unit) ? value : value * 12;
-      console.log("📌 תקופה זוהתה:", termfor.value, "חודשים");
-    }
-  }
-
-
+	if ((transcript.includes("חודשי") || transcript.includes("שנה") || transcript.includes("חודש")) &&
+		!transcript.includes("גרייס")) {
+		const termMatch = transcript.match(/(\d{1,2})\s*(שנה|שנים|חודש|חודשים)/);
+		if (termMatch) {
+			const value = parseInt(termMatch[1]);
+			const unit = termMatch[2];
+			termfor.value = /חודש/.test(unit) ? value : value * 12;
+			console.log("📌 תקופה זוהתה:", termfor.value, "חודשים");
+		}
+	}
 
 	// ריבית
 	if (transcript.includes("ריבית") || transcript.includes("אחוז") || transcript.includes("%")) {
@@ -412,8 +411,10 @@ function handleLoan(transcript) {
 }
 function handleCompoundInterest(transcript) {
   console.log("🔍 טקסט שזוהה:", transcript);
-  const compoundDoc = iframe.contentWindow.document;
-  const compoundWindow = iframe.contentWindow;
+
+  const iframex = document.getElementById('ifrm');
+  const compoundDoc = iframex.contentWindow.document;
+  const compoundWindow = iframex.contentWindow;
   const initialAmountInput = compoundDoc.getElementById('hadpeami');
   const monthlyDepositInput = compoundDoc.getElementById('hodshi');
   const termInput = compoundDoc.getElementById('txttkofa1');
@@ -462,7 +463,7 @@ function handleCompoundInterest(transcript) {
   if (dmeynihulMatch) {
     const dmeynihulValue = dmeynihulMatch[2] || dmeynihulMatch[1];
     DmeyNihulInput.value = parseFloat(dmeynihulValue.replace(/,/g, ''));
-    console.log("📌 דמי ניהול זוהו:", DmeyNihulInput.value + "%");
+    console.log("📌 ריבית זוהתה:", DmeyNihulInput.value + "%");
   }
 
   // הפעלת חישוב אם כל השדות מולאו
@@ -477,7 +478,18 @@ function handleCompoundInterest(transcript) {
   }
 }
 
-   
+    /*
+    if (amount && term && interest) {
+        console.log("✅ כל הנתונים זוהו. מבצע עדכון");
+		console.log(amount, term, interest);
+        updateLoanSimulator(amount, term, interest);
+    } else {
+        
+        if (!amount) alert("אנא אמור לי את סכום ההלוואה");
+       else if (!term) alert("אנא אמור לי את תקופת ההלוואה");
+        else if (!interest) alert("אנא אמור לי את הריבית");
+    }
+}*/
 function extractAmount(text) {
     let total = 0;
 
