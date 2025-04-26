@@ -36,7 +36,7 @@
 </script> -->
 
 <script>
-var startStop;		
+var startStop;var tvach;		
 function showmehasifot(x){
   createForm(x)
 }
@@ -256,20 +256,8 @@ if(!transcript){return};
 
 	else if ((transcript.includes("גלול למטה") || transcript.includes('למטה')) &&
 	ifrmValue===1) {
-		if(transcript.includes("הרבה")){
-			var tvach=400;
-			var minustvach=-400;
-		}
-		else if(transcript.includes("קצת")){
-			var tvach=100;
-			var minustvach=-100;
-		}	
-		else{
-			var tvach=225
-			var minustvach=-225
-		}
-    
-    	if (iframeCont.scrollY + tvach > iframeCont.document.body.scrollHeight - iframeCont.innerHeight) {
+	tvach=getTvach(transcript);
+   	if (iframeCont.scrollY + tvach > iframeCont.document.body.scrollHeight - iframeCont.innerHeight) {
        	 iframeCont.scrollTo(0, iframeCont.document.body.scrollHeight - iframeCont.innerHeight);
     	} else {
         	iframeCont.scrollBy(0, tvach);
@@ -278,18 +266,7 @@ if(!transcript){return};
 
 	else if ((transcript.includes("גלול למעלה") || transcript.includes('למעלה')) &&
 	ifrmValue===1) {
-		if(transcript.includes("הרבה")){
-			var tvach=400;
-			var minustvach=-400;
-		}
-		else if(transcript.includes("קצת")){
-			var tvach=100;
-			var minustvach=-100;
-		}
-		else{
-			var tvach=225
-			var minustvach=-225
-		}
+		tvach=getTvach(transcript);
 		if (iframeCont.scrollY - tvach < 0) {
 			iframeCont.scrollTo(0, 0);
 		} else {
@@ -298,18 +275,7 @@ if(!transcript){return};
 	}
 
 	else if (transcript.includes("גלול למטה") || transcript.includes('למטה')) {
-		if(transcript.includes("הרבה")){
-			var tvach=400;
-			var minustvach=-400;
-		}
-		else if(transcript.includes("קצת")){
-			var tvach=100;
-			var minustvach=-100;
-		}
-		else{
-			var tvach=225
-			var minustvach=-225
-		}
+		tvach=getTvach(transcript);
 	if(window.scrollY+tvach>document.scrollHeight-window.innerHeight){
 		window.scrollBy(0,document.scrollHeight-window.innerHeight)
 	}	
@@ -317,18 +283,7 @@ if(!transcript){return};
 	  
     }
 	else if (transcript.includes("גלול למעלה") || transcript.includes('למעלה')) {
-		if(transcript.includes("הרבה")){
-			var tvach=400;
-			var minustvach=-400;
-		}
-		else if(transcript.includes("קצת")){
-			var tvach=100;
-			var minustvach=-100;
-		}
-		else{
-			var tvach=200
-			var minustvach=-200
-		}
+		tvach=getTvach(transcript);
 		if(window.scrollY-tvach<0){
 		window.scrollTo(0,0)
 	}	
@@ -467,18 +422,6 @@ function handleCompoundInterest(transcript) {
   }
 }
 
-    /*
-    if (amount && term && interest) {
-        console.log("✅ כל הנתונים זוהו. מבצע עדכון");
-		console.log(amount, term, interest);
-        updateLoanSimulator(amount, term, interest);
-    } else {
-        
-        if (!amount) alert("אנא אמור לי את סכום ההלוואה");
-       else if (!term) alert("אנא אמור לי את תקופת ההלוואה");
-        else if (!interest) alert("אנא אמור לי את הריבית");
-    }
-}*/
 function extractAmount(text) {
     let total = 0;
 
@@ -548,6 +491,11 @@ function extractInterestRate(text) {
   }
 
   return null; // לא זוהתה ריבית
+}
+function getTvach(transcript) {
+    if (transcript.includes("הרבה")) return 400;
+    if (transcript.includes("קצת")) return 100;
+    return 225;
 }
 
 
