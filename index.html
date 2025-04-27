@@ -70,10 +70,15 @@ recognition.maxAlternatives = 1;
 recognition.continuous = false;
 
 function micClick() {
-   startStop=0;
-  console.log("האזנה התחילה");
+   startStop=0;	
+const mictext=document.getElementById('resultMic').textContent;
+  if(mictext.includes("עצור")){
+	startStop=1;  
+  }
+else{
+console.log("האזנה התחילה");
   document.getElementById('resultMic').textContent = " מאזין קבוע - לעצירה אמור עצור או הפסק";
-  recognition.start();
+  recognition.start();}
 }
 
 recognition.onresult = (event) => {
