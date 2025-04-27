@@ -31,9 +31,9 @@
 	<link rel="stylesheet" href="mainstyle.css">
 	<link rel="stylesheet" href="hasifotHesber.css">
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script>    
+<!--<script>    
 	eruda.init();
-</script> 
+</script> -->
 
 <script>
 var startStop;		
@@ -547,36 +547,61 @@ if (bothAmountsMatch) {
     }
 }*/
 function extractAmount(text) {
-    let total = 0;
+  const units = {
+    "אחד": 1, "שתיים": 2, "שניים": 2, "שלוש": 3, "שלושה": 3, "ארבע": 4, "ארבעה": 4,
+    "חמש": 5, "חמישה": 5, "שש": 6, "שישה": 6, "שבע": 7, "שבעה": 7,
+    "שמונה": 8, "תשע": 9, "תשעה": 9, "עשר": 10, "עשרה": 10,
+    "אחת עשרה": 11, "שתים עשרה": 12, "שלוש עשרה": 13, "ארבע עשרה": 14,
+    "חמש עשרה": 15, "שש עשרה": 16, "שבע עשרה": 17, "שמונה עשרה": 18, "תשע עשרה": 19
+  };
 
-    // נבדוק אם יש "מיליון"
-    const millionMatch = text.match(/(?:מיליון)/);
-    if (millionMatch) {
-        total += 1_000_000;
+  const tens = {
+    "עשרים": 20, "שלושים": 30, "ארבעים": 40, "חמישים": 50,
+    "שישים": 60, "שבעים": 70, "שמונים": 80, "תשעים": 90
+  };
+
+  const hundreds = {
+    "מאה": 100, "מאתיים": 200
+  };
+
+  const bigNumbers = {
+    "אלף": 1000,
+    "מיליון": 1000000
+  };
+
+  let total = 0;
+  let current = 0;
+
+  const cleanedText = text
+    .replace(/[,\s]+/g, ' ')   // להוריד כפילויות רווחים ופסיקים
+    .trim();
+
+  const words = cleanedText.split(' ');
+
+  for (let word of words) {
+    if (!word) continue; // לדלג על מילה ריקה
+
+    if (units[word]) {
+      current += units[word];
+    } else if (tens[word]) {
+      current += tens[word];
+    } else if (hundreds[word]) {
+      current += hundreds[word];
+    } else if (bigNumbers[word]) {
+      if (current === 0) current = 1; // "אלף" לבד => אלף
+      current *= bigNumbers[word];
+      total += current;
+      current = 0;
+    } else if (/^\d+$/.test(word)) {
+      current += parseInt(word, 10);
     }
+  }
 
-    // זיהוי "X אלף"
-    const thousandMatch = text.match(/(\d+)\s*אלף/);
-    if (thousandMatch) {
-        total += parseInt(thousandMatch[1]) * 1000;
-    }
+  total += current;
 
-    // ננקה את מה שכבר תפסנו
-    const cleanedText = text
-        .replace(/(?:מיליון)/g, '')
-        .replace(/(\d+)\s*אלף/g, '');
-
-    // תופס את כל המספרים שנותרו
-    const remainingNumbers = cleanedText.match(/\d+/g);
-
-    if (remainingNumbers) {
-        for (const num of remainingNumbers) {
-            total += parseInt(num);
-        }
-    }
-
-    return total || null;
+  return total || null;
 }
+
 function extractInterestRate(text) {
   text = text.replaceAll("אחוזים", "אחוז").replaceAll("%", "אחוז").trim();
 
@@ -615,6 +640,55 @@ function extractInterestRate(text) {
   }
 
   return null; // לא זוהתה ריבית
+}
+function wordsToNumber(text) {
+  const units = {
+    "אחד": 1, "שתיים": 2, "שניים": 2, "שלוש": 3, "שלושה": 3, "ארבע": 4, "ארבעה": 4,
+    "חמש": 5, "חמישה": 5, "שש": 6, "שישה": 6, "שבע": 7, "שבעה": 7,
+    "שמונה": 8, "תשע": 9, "תשעה": 9, "עשר": 10, "עשרה": 10,
+    "אחת עשרה": 11, "שתים עשרה": 12, "שלוש עשרה": 13, "ארבע עשרה": 14,
+    "חמש עשרה": 15, "שש עשרה": 16, "שבע עשרה": 17, "שמונה עשרה": 18, "תשע עשרה": 19
+  };
+
+  const tens = {
+    "עשרים": 20, "שלושים": 30, "ארבעים": 40, "חמישים": 50,
+    "שישים": 60, "שבעים": 70, "שמונים": 80, "תשעים": 90
+  };
+
+  const hundreds = {
+    "מאה": 100, "מאתיים": 200
+  };
+
+  const bigNumbers = {
+    "אלף": 1000,
+    "מיליון": 1000000
+  };
+
+  let total = 0;
+  let current = 0;
+
+  const words = text.split(/\s+/);
+
+  for (let word of words) {
+    if (units[word]) {
+      current += units[word];
+    } else if (tens[word]) {
+      current += tens[word];
+    } else if (hundreds[word]) {
+      current += hundreds[word];
+    } else if (bigNumbers[word]) {
+      if (current === 0) current = 1; // נגיד "מיליון" לבד זה 1 מיליון
+      current *= bigNumbers[word];
+      total += current;
+      current = 0;
+    } else if (/^\d+$/.test(word)) {
+      current += parseInt(word, 10);
+    }
+  }
+
+  total += current;
+
+  return total || null;
 }
 
 
