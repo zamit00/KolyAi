@@ -546,22 +546,46 @@ if (bothAmountsMatch) {
         else if (!interest) alert("אנא אמור לי את הריבית");
     }
 }*/
-function extractAmount(text) {
+  function extractAmount(text) {
   const units = {
-    "אחד": 1, "שתיים": 2, "שניים": 2, "שלוש": 3, "שלושה": 3, "ארבע": 4, "ארבעה": 4,
-    "חמש": 5, "חמישה": 5, "שש": 6, "שישה": 6, "שבע": 7, "שבעה": 7,
-    "שמונה": 8, "תשע": 9, "תשעה": 9, "עשר": 10, "עשרה": 10,
-    "אחת עשרה": 11, "שתים עשרה": 12, "שלוש עשרה": 13, "ארבע עשרה": 14,
-    "חמש עשרה": 15, "שש עשרה": 16, "שבע עשרה": 17, "שמונה עשרה": 18, "תשע עשרה": 19
+    "אחד": 1, "אחת": 1,
+    "שתיים": 2, "שניים": 2, "שתי": 2,
+    "שלוש": 3, "שלושה": 3,
+    "ארבע": 4, "ארבעה": 4,
+    "חמש": 5, "חמישה": 5,
+    "שש": 6, "שישה": 6,
+    "שבע": 7, "שבעה": 7,
+    "שמונה": 8,
+    "תשע": 9, "תשעה": 9,
+    "עשר": 10, "עשרה": 10
+  };
+
+  const teens = {
+    "אחת עשרה": 11, "אחד עשר": 11,
+    "שתים עשרה": 12, "שניים עשר": 12,
+    "שלוש עשרה": 13, "שלושה עשר": 13,
+    "ארבע עשרה": 14, "ארבעה עשר": 14,
+    "חמש עשרה": 15, "חמישה עשר": 15,
+    "שש עשרה": 16, "שישה עשר": 16,
+    "שבע עשרה": 17, "שבעה עשר": 17,
+    "שמונה עשרה": 18, "שמונה עשר": 18,
+    "תשע עשרה": 19, "תשעה עשר": 19
   };
 
   const tens = {
-    "עשרים": 20, "שלושים": 30, "ארבעים": 40, "חמישים": 50,
-    "שישים": 60, "שבעים": 70, "שמונים": 80, "תשעים": 90
+    "עשרים": 20,
+    "שלושים": 30,
+    "ארבעים": 40,
+    "חמישים": 50,
+    "שישים": 60,
+    "שבעים": 70,
+    "שמונים": 80,
+    "תשעים": 90
   };
 
   const hundreds = {
-    "מאה": 100, "מאתיים": 200
+    "מאה": 100,
+    "מאתיים": 200
   };
 
   const bigNumbers = {
@@ -573,13 +597,31 @@ function extractAmount(text) {
   let current = 0;
 
   const cleanedText = text
-    .replace(/[,\s]+/g, ' ')   // להוריד כפילויות רווחים ופסיקים
+    .replace(/[,\-]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .replace(/(^ו)|(\sו)/g, ' ')
     .trim();
 
   const words = cleanedText.split(' ');
 
-  for (let word of words) {
-    if (!word) continue; // לדלג על מילה ריקה
+  for (let i = 0; i < words.length; i++) {
+    let word = words[i].trim();
+    if (!word) continue;
+
+    if (/^\d+$/.test(word)) {
+      current += parseInt(word, 10);
+      continue;
+    }
+
+    // לבדוק אם יש רצף של שתי מילים שמרכיבות מספר 11-19
+    if (i + 1 < words.length) {
+      const twoWords = word + ' ' + words[i + 1];
+      if (teens[twoWords]) {
+        current += teens[twoWords];
+        i++;
+        continue;
+      }
+    }
 
     if (units[word]) {
       current += units[word];
@@ -588,12 +630,10 @@ function extractAmount(text) {
     } else if (hundreds[word]) {
       current += hundreds[word];
     } else if (bigNumbers[word]) {
-      if (current === 0) current = 1; // "אלף" לבד => אלף
-      current *= bigNumbers[word];
+      if (current === 0) current = 1;
+      current *= bigNumbers[word;
       total += current;
       current = 0;
-    } else if (/^\d+$/.test(word)) {
-      current += parseInt(word, 10);
     }
   }
 
