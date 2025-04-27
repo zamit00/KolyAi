@@ -361,7 +361,7 @@ function handleLoan(transcript) {
 
 	// סכום
 	if (transcript.includes("סכום") || transcript.includes("מיליון") || 
-		transcript.includes("אלף") || transcript.includes("מאות")) {  
+		transcript.includes("אלף") || transcript.includes("מאות") || transcript.includes("מאה") ) {  
 		loanAmountInput.value = extractAmount(transcript);
 		console.log("📌 סכום זוהה:", loanAmountInput.value);
 	}
