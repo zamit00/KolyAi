@@ -36,15 +36,17 @@
 </script> -->
 
 <script>
-var startStop;		
+var startStop;
+const iframe = document.getElementById('ifrm');
+
 function showmehasifot(x){
   createForm(x)
 }
 function hideframe(){
-  if(document.getElementById('ifrm'))	{
-  if(document.getElementById('ifrm').style.display==='flex'){
-	document.getElementById('ifrm').src='';
-	document.getElementById('ifrm').style.display='none';
+  if(iframe)	{
+  if(iframe.style.display==='flex'){
+	iframe.src='';
+	iframe.style.display='none';
 	
 }
 }
@@ -105,7 +107,6 @@ function hideformic() {
 
 function handleSearchFromVoice(transcript) {
 var ifrmValue;var tvach;var minustvach;
-const iframe = document.getElementById('ifrm');
 
 
 if(iframe){
@@ -261,7 +262,8 @@ if(!transcript){return};
 
 	else if ((transcript.includes("גלול למטה") || transcript.includes('למטה')) &&
 	ifrmValue===1) {
-	tvach=getTvach(transcript);
+	getTvach(transcript);
+		
     	if (iframeCont.scrollY + tvach > iframeCont.document.body.scrollHeight - iframeCont.innerHeight) {
        	 iframeCont.scrollTo(0, iframeCont.document.body.scrollHeight - iframeCont.innerHeight);
     	} else {
@@ -271,7 +273,7 @@ if(!transcript){return};
 
 	else if ((transcript.includes("גלול למעלה") || transcript.includes('למעלה')) &&
 	ifrmValue===1) {
-		tvach=getTvach(transcript);
+		getTvach(transcript);
 		if (iframeCont.scrollY - tvach < 0) {
 			iframeCont.scrollTo(0, 0);
 		} else {
@@ -280,7 +282,7 @@ if(!transcript){return};
 	}
 
 	else if (transcript.includes("גלול למטה") || transcript.includes('למטה')) {
-		tvach=getTvach(transcript);
+		getTvach(transcript);
 	if(window.scrollY+tvach>document.scrollHeight-window.innerHeight){
 		window.scrollBy(0,document.scrollHeight-window.innerHeight)
 	}	
@@ -288,7 +290,7 @@ if(!transcript){return};
 	  
     }
 	else if (transcript.includes("גלול למעלה") || transcript.includes('למעלה')) {
-		tvach=getTvach(transcript);
+		getTvach(transcript);
 		if(window.scrollY-tvach<0){
 		window.scrollTo(0,0)
 	}	
@@ -311,9 +313,8 @@ if(!transcript){return};
 function handleLoan(transcript) {
 	console.log("🔍 טקסט שזוהה:", transcript);
 	
-	const iframex = document.getElementById('ifrm');
-	const loanDoc = iframex.contentWindow.document;
-	const loanWindow = iframex.contentWindow;
+        const loanDoc = iframe.contentWindow.document;
+	const loanWindow = iframe.contentWindow;
 	const loanAmountInput = loanDoc.getElementById('loan-amount');
 	const termfor = loanDoc.getElementById('loan-term');
 	const interestfor = loanDoc.getElementById('interest-rate');
@@ -410,9 +411,8 @@ function handleLoan(transcript) {
 function handleCompoundInterest(transcript) {
   console.log("🔍 טקסט שזוהה:", transcript);
 
-  const iframex = document.getElementById('ifrm');
-  const compoundDoc = iframex.contentWindow.document;
-  const compoundWindow = iframex.contentWindow;
+  const compoundDoc = iframe.contentWindow.document;
+  const compoundWindow = iframe.contentWindow;
   const initialAmountInput = compoundDoc.getElementById('hadpeami');
   const monthlyDepositInput = compoundDoc.getElementById('hodshi');
   const termInput = compoundDoc.getElementById('txttkofa1');
@@ -627,10 +627,10 @@ function extractAmount(text) {
   return total || null;
 }
 function getTvach(transcript) {
-    if (transcript.includes("הרבה")) return 800;
-    if (transcript.includes("קצת")) return 150;
-    return 400;
-	}
+    if (transcript.includes("הרבה")) {tvach=800;minustvach=-800;};
+    if (transcript.includes("קצת")){tvach=150;minustvach=-150;};
+    else{tvach=400;minustvach=-400;};
+}
 
 </script>
 <style>
