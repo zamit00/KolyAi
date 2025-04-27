@@ -460,26 +460,44 @@ function handleCompoundInterest(transcript) {
   const DmeyNihulInput= compoundDoc.getElementById('txttkofa2');
 
   // סכום התחלתי
-  const lumpSumMatch = transcript.match(/סכום (התחלתי|חד פעמי)\s*(של)?\s*([\d,\.]+)/);
-  if (lumpSumMatch) {
-    initialAmountInput.value = parseFloat(lumpSumMatch[3].replace(/,/g, ''));
+  const lumpSumMatch = transcript.match(/סכום (התחלתי|חד פעמי)\s*(של)?\s*([\d,\.]+|.*?מיליון|.*?אלף)/);
+if (lumpSumMatch) {
+  const amountText = lumpSumMatch[3];
+  const amount = extractAmount(amountText);
+
+  if (amount !== null) {
+    initialAmountInput.value = amount;
     console.log("📌 סכום התחלתי זוהה:", initialAmountInput.value);
   }
+}
 
   // סכום חודשי
-  const monthlyContributionMatch = transcript.match(/(סכום חודשי|הפקדה חודשית|כל חודש)\s*(של)?\s*([\d,\.]+)/);
-  if (monthlyContributionMatch) {
-    monthlyDepositInput.value = parseFloat(monthlyContributionMatch[3].replace(/,/g, ''));
+  const monthlyContributionMatch = transcript.match(/(סכום חודשי|הפקדה חודשית|כל חודש)\s*(של)?\s*([\d,\.]+|.*?מיליון|.*?אלף)/);
+if (monthlyContributionMatch) {
+  const amountText = monthlyContributionMatch[3];
+  const amount = extractAmount(amountText);
+
+  if (amount !== null) {
+    monthlyDepositInput.value = amount;
     console.log("📌 סכום חודשי זוהה:", monthlyDepositInput.value);
   }
+}
 
   // חיפוש גם כאשר מופיע סכום התחלתי ואז סכום חודשי באותו משפט
-  const bothAmountsMatch = transcript.match(/סכום (התחלתי|חד פעמי)\s*(של)?\s*([\d,\.]+).*?(סכום חודשי|הפקדה חודשית|כל חודש)\s*(של)?\s*([\d,\.]+)/);
-  if (bothAmountsMatch) {
-    initialAmountInput.value = parseFloat(bothAmountsMatch[3].replace(/,/g, ''));
-    monthlyDepositInput.value = parseFloat(bothAmountsMatch[6].replace(/,/g, ''));
+  const bothAmountsMatch = transcript.match(/סכום (התחלתי|חד פעמי)\s*(של)?\s*([\d,\.]+|.*?מיליון|.*?אלף).*?(סכום חודשי|הפקדה חודשית|כל חודש)\s*(של)?\s*([\d,\.]+|.*?מיליון|.*?אלף)/);
+if (bothAmountsMatch) {
+  const initialAmountText = bothAmountsMatch[3];
+  const monthlyAmountText = bothAmountsMatch[6];
+
+  const initialAmount = extractAmount(initialAmountText);
+  const monthlyAmount = extractAmount(monthlyAmountText);
+
+  if (initialAmount !== null && monthlyAmount !== null) {
+    initialAmountInput.value = initialAmount;
+    monthlyDepositInput.value = monthlyAmount;
     console.log("📌 סכום התחלתי + סכום חודשי זוהו יחד:", initialAmountInput.value, monthlyDepositInput.value);
   }
+}
 
   // תקופה
   const termMatch = transcript.match(/(\d{1,2})\s*(שנה|שנים|חודש|חודשים)/);
