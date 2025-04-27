@@ -104,7 +104,7 @@ function hideformic() {
 }
 
 function handleSearchFromVoice(transcript) {
-var ifrmValue;
+var ifrmValue;var tvach;var minustvach;
 const iframe = document.getElementById('ifrm');
 
 
@@ -261,19 +261,7 @@ if(!transcript){return};
 
 	else if ((transcript.includes("גלול למטה") || transcript.includes('למטה')) &&
 	ifrmValue===1) {
-		if(transcript.includes("הרבה")){
-			var tvach=700;
-			var minustvach=-700;
-		}
-		else if(transcript.includes("קצת")){
-			var tvach=100;
-			var minustvach=-100;
-		}	
-		else{
-			var tvach=300
-			var minustvach=-300
-		}
-    
+	tvach=getTvach(transcript);
     	if (iframeCont.scrollY + tvach > iframeCont.document.body.scrollHeight - iframeCont.innerHeight) {
        	 iframeCont.scrollTo(0, iframeCont.document.body.scrollHeight - iframeCont.innerHeight);
     	} else {
@@ -283,18 +271,7 @@ if(!transcript){return};
 
 	else if ((transcript.includes("גלול למעלה") || transcript.includes('למעלה')) &&
 	ifrmValue===1) {
-		if(transcript.includes("הרבה")){
-			var tvach=700;
-			var minustvach=-700;
-		}
-		else if(transcript.includes("קצת")){
-			var tvach=100;
-			var minustvach=-100;
-		}
-		else{
-			var tvach=300
-			var minustvach=-300
-		}
+		tvach=getTvach(transcript);
 		if (iframeCont.scrollY - tvach < 0) {
 			iframeCont.scrollTo(0, 0);
 		} else {
@@ -303,18 +280,7 @@ if(!transcript){return};
 	}
 
 	else if (transcript.includes("גלול למטה") || transcript.includes('למטה')) {
-		if(transcript.includes("הרבה")){
-			var tvach=700;
-			var minustvach=-700;
-		}
-		else if(transcript.includes("קצת")){
-			var tvach=100;
-			var minustvach=-100;
-		}
-		else{
-			var tvach=300
-			var minustvach=-300
-		}
+		tvach=getTvach(transcript);
 	if(window.scrollY+tvach>document.scrollHeight-window.innerHeight){
 		window.scrollBy(0,document.scrollHeight-window.innerHeight)
 	}	
@@ -322,18 +288,7 @@ if(!transcript){return};
 	  
     }
 	else if (transcript.includes("גלול למעלה") || transcript.includes('למעלה')) {
-		if(transcript.includes("הרבה")){
-			var tvach=700;
-			var minustvach=-700;
-		}
-		else if(transcript.includes("קצת")){
-			var tvach=100;
-			var minustvach=-100;
-		}
-		else{
-			var tvach=300
-			var minustvach=-300
-		}
+		tvach=getTvach(transcript);
 		if(window.scrollY-tvach<0){
 		window.scrollTo(0,0)
 	}	
@@ -671,6 +626,11 @@ function extractAmount(text) {
 
   return total || null;
 }
+function getTvach(transcript) {
+    if (transcript.includes("הרבה")) return 800;
+    if (transcript.includes("קצת")) return 150;
+    return 400;
+	}
 
 </script>
 <style>
