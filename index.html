@@ -257,16 +257,16 @@ if(!transcript){return};
 	else if ((transcript.includes("גלול למטה") || transcript.includes('למטה')) &&
 	ifrmValue===1) {
 		if(transcript.includes("הרבה")){
-			var tvach=400;
-			var minustvach=-400;
+			var tvach=700;
+			var minustvach=-700;
 		}
 		else if(transcript.includes("קצת")){
 			var tvach=100;
 			var minustvach=-100;
 		}	
 		else{
-			var tvach=225
-			var minustvach=-225
+			var tvach=300
+			var minustvach=-300
 		}
     
     	if (iframeCont.scrollY + tvach > iframeCont.document.body.scrollHeight - iframeCont.innerHeight) {
@@ -279,16 +279,16 @@ if(!transcript){return};
 	else if ((transcript.includes("גלול למעלה") || transcript.includes('למעלה')) &&
 	ifrmValue===1) {
 		if(transcript.includes("הרבה")){
-			var tvach=400;
-			var minustvach=-400;
+			var tvach=700;
+			var minustvach=-700;
 		}
 		else if(transcript.includes("קצת")){
 			var tvach=100;
 			var minustvach=-100;
 		}
 		else{
-			var tvach=225
-			var minustvach=-225
+			var tvach=300
+			var minustvach=-300
 		}
 		if (iframeCont.scrollY - tvach < 0) {
 			iframeCont.scrollTo(0, 0);
@@ -299,16 +299,16 @@ if(!transcript){return};
 
 	else if (transcript.includes("גלול למטה") || transcript.includes('למטה')) {
 		if(transcript.includes("הרבה")){
-			var tvach=400;
-			var minustvach=-400;
+			var tvach=700;
+			var minustvach=-700;
 		}
 		else if(transcript.includes("קצת")){
 			var tvach=100;
 			var minustvach=-100;
 		}
 		else{
-			var tvach=225
-			var minustvach=-225
+			var tvach=300
+			var minustvach=-300
 		}
 	if(window.scrollY+tvach>document.scrollHeight-window.innerHeight){
 		window.scrollBy(0,document.scrollHeight-window.innerHeight)
@@ -318,16 +318,16 @@ if(!transcript){return};
     }
 	else if (transcript.includes("גלול למעלה") || transcript.includes('למעלה')) {
 		if(transcript.includes("הרבה")){
-			var tvach=400;
-			var minustvach=-400;
+			var tvach=700;
+			var minustvach=-700;
 		}
 		else if(transcript.includes("קצת")){
 			var tvach=100;
 			var minustvach=-100;
 		}
 		else{
-			var tvach=200
-			var minustvach=-200
+			var tvach=300
+			var minustvach=-300
 		}
 		if(window.scrollY-tvach<0){
 		window.scrollTo(0,0)
