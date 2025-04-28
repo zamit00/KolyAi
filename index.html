@@ -102,11 +102,10 @@ function hideformic() {
   hideAllimages();
   hideTkufa();
 }
-function searchMhx(x){
-	
+function searchMhx(x){	
    const trans=document.getElementById('searchBoxmh').value;	
-   if(trans){trans=''}
-    else{handleSearchFromVoice(trans);}
+    handleSearchFromVoice(trans);
+    trans=''
 }
 function handleSearchFromVoice(transcript) {
     if (!transcript) return;
