@@ -671,7 +671,11 @@ function extractAmount(text) {
 
   return total || null;
 }
-
+function searchMhx(x){	
+   let trans=document.getElementById('searchBoxmh').value;	
+    document.getElementById('searchBoxmh').value='';
+    handleSearchFromVoice(trans);
+}
 </script>
 <style>
     #mic { font-size: 2em; cursor: pointer; }
@@ -805,7 +809,7 @@ function extractAmount(text) {
 			<label  style="margin-left: 15px;">חפש לפי מ"ה</label>
 			<input type="text" id="searchBoxmh" placeholder="הקלד מספר..." style="max-height: 30px;
 			max-width: 100px;">
-			<input type="button"  value="חפש" onclick="searchMh(0)" style="max-height: 30px;
+			<input type="button"  value="חפש" onclick="searchMhx(0)" style="max-height: 30px;
 				background-color:aliceblue;color:rgb(0,154,255);
 				font-weight:bold;"></input>
 		</div>
