@@ -615,69 +615,54 @@ function extractAmount(text) {
     "כפול": true,
     "פי": true
   };
+function extractAmount(text) {
+  // הסרת רווחים מיותרים ופסיקים
+  text = text.replace(/[\s,]+/g, ' ').trim();
 
+  // חיפוש סכומים במספרים
+  const numberMatch = text.match(/(\d{1,3}(?:,\d{3})*(?:\.\d+)?)/);
+  if (numberMatch) {
+    return parseInt(numberMatch[0].replace(/,/g, ''), 10);
+  }
+
+  // מילים למספרים
+  const wordsToNumbers = {
+    'אחד': 1, 'שתיים': 2, 'שלוש': 3, 'ארבע': 4, 'חמש': 5, 'שש': 6, 'שבע': 7,
+    'שמונה': 8, 'תשע': 9, 'עשר': 10, 'עשרים': 20, 'שלושים': 30, 'ארבעים': 40,
+    'חמישים': 50, 'שישים': 60, 'שבעים': 70, 'שמונים': 80, 'תשעים': 90,
+    'מאה': 100, 'אלף': 1000, 'מיליון': 1000000
+  };
+
+  // החלפת מילים למספרים
   let total = 0;
   let current = 0;
-  let multiplyNext = 1;
+  const parts = text.split(' ');
 
-  const cleanedText = text
-    .replace(/[,\-]/g, ' ')
-    .replace(/\s+/g, ' ')
-    .replace(/(^ו)|(\sו)/g, ' ')
-    .trim();
-
-  const words = cleanedText.split(' ');
-
-  for (let i = 0; i < words.length; i++) {
-    let word = words[i].trim();
-    if (!word) continue;
-
-    if (multipliers[word]) {
-      multiplyNext = current || 1;
-      current = 0;
-      continue;
-    }
-
-    if (/^\d+$/.test(word)) {
-      current += parseInt(word, 10);
-      continue;
-    }
-
-    // Teens (11-19)
-    if (i + 1 < words.length) {
-      const twoWords = word + ' ' + words[i + 1];
-      if (teens[twoWords]) {
-        current += teens[twoWords];
-        i++;
-        continue;
+  for (const part of parts) {
+    if (wordsToNumbers[part]) {
+      const value = wordsToNumbers[part];
+      
+      if (value === 1000 || value === 1000000) {
+        // כשיש אלף או מיליון, מכפילים את המספר הנוכחי
+        total += current * value;
+        current = 0;
+      } else {
+        current += value;
       }
-    }
-
-    if (units[word]) {
-      current += units[word];
-    } else if (tens[word]) {
-      current += tens[word];
-    } else if (hundreds[word]) {
-      current += hundreds[word];
-    } else if (bigNumbers[word]) {
-      if (current === 0) current = 1;
-      current *= bigNumbers[word];
-      total += current;
-      current = 0;
-    } else if (fractions[word]) {
-      if (current === 0) current = 1;
-      current *= fractions[word];
-      total += current;
-      current = 0;
+    } else {
+      // במקרה שאין מילת מספר, פשוט ממשיכים לבדוק
+      const numMatch = part.match(/\d+/);
+      if (numMatch) {
+        current += parseInt(numMatch[0], 10);
+      }
     }
   }
 
   total += current;
-  total *= multiplyNext;
 
-  return total || null;
+  // אם נמצא סכום, מחזירים אותו
+  return total > 0 ? total : null;
 }
-
 </script>
 <style>
     #mic { font-size: 2em; cursor: pointer; }
