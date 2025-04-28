@@ -551,30 +551,31 @@ if (bothAmountsMatch) {
         else if (!interest) alert("אנא אמור לי את הריבית");
     }
 }*/
+
 function extractAmount(text) {
   const units = {
     "אחד": 1, "אחת": 1,
-    "שתיים": 2, "שניים": 2, "שתי": 2,
-    "שלוש": 3, "שלושה": 3,
-    "ארבע": 4, "ארבעה": 4,
-    "חמש": 5, "חמישה": 5,
-    "שש": 6, "שישה": 6,
-    "שבע": 7, "שבעה": 7,
+    "שניים": 2, "שתיים": 2, "שתי": 2,
+    "שלושה": 3, "שלוש": 3,
+    "ארבעה": 4, "ארבע": 4,
+    "חמישה": 5, "חמש": 5,
+    "שישה": 6, "שש": 6,
+    "שבעה": 7, "שבע": 7,
     "שמונה": 8,
-    "תשע": 9, "תשעה": 9,
-    "עשר": 10, "עשרה": 10
+    "תשעה": 9, "תשע": 9,
+    "עשרה": 10, "עשר": 10
   };
 
   const teens = {
-    "אחת עשרה": 11, "אחד עשר": 11,
-    "שתים עשרה": 12, "שניים עשר": 12,
-    "שלוש עשרה": 13, "שלושה עשר": 13,
-    "ארבע עשרה": 14, "ארבעה עשר": 14,
-    "חמש עשרה": 15, "חמישה עשר": 15,
-    "שש עשרה": 16, "שישה עשר": 16,
-    "שבע עשרה": 17, "שבעה עשר": 17,
-    "שמונה עשרה": 18, "שמונה עשר": 18,
-    "תשע עשרה": 19, "תשעה עשר": 19
+    "אחד עשר": 11, "אחת עשרה": 11,
+    "שניים עשר": 12, "שתים עשרה": 12,
+    "שלושה עשר": 13, "שלוש עשרה": 13,
+    "ארבעה עשר": 14, "ארבע עשרה": 14,
+    "חמישה עשר": 15, "חמש עשרה": 15,
+    "שישה עשר": 16, "שש עשרה": 16,
+    "שבעה עשר": 17, "שבע עשרה": 17,
+    "שמונה עשר": 18, "שמונה עשרה": 18,
+    "תשעה עשר": 19, "תשע עשרה": 19
   };
 
   const tens = {
@@ -601,8 +602,8 @@ function extractAmount(text) {
   const fractions = {
     "חצי": 0.5,
     "שליש": 1/3,
-    "שלושת רבעי": 0.75,
-    "רבע": 0.25
+    "רבע": 0.25,
+    "שלושת רבעי": 0.75
   };
 
   const multipliers = {
@@ -610,24 +611,26 @@ function extractAmount(text) {
     "פי": true
   };
 
+  function clean(text) {
+    return text
+      .replace(/[,\-]/g, ' ')
+      .replace(/\s+/g, ' ')
+      .replace(/(^ו)|(\sו)/g, ' ')
+      .trim();
+  }
+
+  const words = clean(text).split(' ');
+
   let total = 0;
   let current = 0;
-  let multiplyNext = 1;
-
-  const cleanedText = text
-    .replace(/[,\-]/g, ' ')
-    .replace(/\s+/g, ' ')
-    .replace(/(^ו)|(\sו)/g, ' ')
-    .trim();
-
-  const words = cleanedText.split(' ');
+  let lastMultiplier = 1;
 
   for (let i = 0; i < words.length; i++) {
-    let word = words[i].trim();
+    let word = words[i];
     if (!word) continue;
 
     if (multipliers[word]) {
-      multiplyNext = current || 1;
+      lastMultiplier = current || 1;
       current = 0;
       continue;
     }
@@ -637,7 +640,7 @@ function extractAmount(text) {
       continue;
     }
 
-    // Teens (11-19)
+    // Check two-word combinations for teens and bigger numbers
     if (i + 1 < words.length) {
       const twoWords = word + ' ' + words[i + 1];
       if (teens[twoWords]) {
@@ -667,10 +670,13 @@ function extractAmount(text) {
   }
 
   total += current;
-  total *= multiplyNext;
+  total *= lastMultiplier;
 
   return total || null;
 }
+  
+
+    
 
 </script>
 <style>
