@@ -103,8 +103,10 @@ function hideformic() {
   hideTkufa();
 }
 function searchMhx(x){
+	
    const trans=document.getElementById('searchBoxmh').value;	
-   handleSearchFromVoice(trans);
+   if(trans){trans=''}
+    else{handleSearchFromVoice(trans);}
 }
 function handleSearchFromVoice(transcript) {
     if (!transcript) return;
