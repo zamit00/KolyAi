@@ -36,7 +36,13 @@
 </script>
 
 <script>
-var startStop;		
+var startStop;	
+function searchMhx(x){	
+   let trans=document.getElementById('searchBoxmh').value;	
+    document.getElementById('searchBoxmh').value='';
+    handleSearchFromVoice(trans);
+}
+	
 function showmehasifot(x){
   createForm(x)
 }
@@ -682,7 +688,7 @@ function extractAmount(text) {
 <body>
 <header class="header">
  	<img src="logoxnew.png" class="logo" id="logo" onclick='hideframe();showAllimages();' >
-	<span onclick="showSearch()" class="search-icon"><svg class="svg" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+	<span onclick="showSearchx()" class="search-icon"><svg class="svg" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
 		<circle cx="20" cy="20" r="12" stroke="black" stroke-width="1" fill="none" />
 		<line x1="27" y1="27" x2="40" y2="40" stroke="black" stroke-width="1" stroke-linecap="round" />
 	  </svg>
