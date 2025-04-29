@@ -70,11 +70,17 @@ recognition.maxAlternatives = 1;
 recognition.continuous = false;
 
 function micClick() {
-   startStop=0;
-  console.log("האזנה התחילה");
-  document.getElementById('resultMic').textContent = " מאזין קבוע - לעצירה אמור עצור או הפסק";
-  recognition.start();
+   startStop=0;	
+const mictext=document.getElementById('resultMic').textContent;
+  if(mictext.includes("עצור")){
+	startStop=1;  recognition.stop();
+  }
+else{
+console.log("האזנה התחילה");
+  document.getElementById('resultMic').textContent = " מאזין קבוע - לעצירה אמור עצור או לחץ שוב";
+  recognition.start();}
 }
+
 
 recognition.onresult = (event) => {
   const transcript = event.results[0][0].transcript;
