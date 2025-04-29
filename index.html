@@ -603,7 +603,92 @@ function extractInterestRate(text) {
 
   return null; // לא זוהתה ריבית
 }
+function handleCompoundInterest(transcript) {
+  console.log("🔍 טקסט שזוהה:", transcript);
 
+  const iframex = document.getElementById('ifrm');
+  const compoundDoc = iframex.contentWindow.document;
+  const compoundWindow = iframex.contentWindow;
+  const initialAmountInput = compoundDoc.getElementById('hadpeami');
+  const monthlyDepositInput = compoundDoc.getElementById('hodshi');
+  const termInput = compoundDoc.getElementById('txttkofa1');
+  const interestRateInput = compoundDoc.getElementById('selecttoz');
+  const DmeyNihulInput= compoundDoc.getElementById('txttkofa2');
+
+  // סכום התחלתי
+  const lumpSumMatch = transcript.match(/סכום (התחלתי|חד פעמי)\s*(של)?\s*([\d,\.]+|.*?מיליון|.*?אלף)/);
+if (lumpSumMatch) {
+  const amountText = lumpSumMatch[3];
+  const amount = extractAmount(amountText);
+
+  if (amount !== null) {
+    initialAmountInput.value = amount;
+    console.log("📌 סכום התחלתי זוהה:", initialAmountInput.value);
+  }
+}
+
+  // סכום חודשי
+  const monthlyContributionMatch = transcript.match(/(סכום חודשי|הפקדה חודשית|כל חודש)\s*(של)?\s*([\d,\.]+|.*?מיליון|.*?אלף)/);
+if (monthlyContributionMatch) {
+  const amountText = monthlyContributionMatch[3];
+  const amount = extractAmount(amountText);
+
+  if (amount !== null) {
+    monthlyDepositInput.value = amount;
+    console.log("📌 סכום חודשי זוהה:", monthlyDepositInput.value);
+  }
+}
+
+  // חיפוש גם כאשר מופיע סכום התחלתי ואז סכום חודשי באותו משפט
+  const bothAmountsMatch = transcript.match(/סכום (התחלתי|חד פעמי)\s*(של)?\s*([\d,\.]+|.*?מיליון|.*?אלף).*?(סכום חודשי|הפקדה חודשית|כל חודש)\s*(של)?\s*([\d,\.]+|.*?מיליון|.*?אלף)/);
+if (bothAmountsMatch) {
+  const initialAmountText = bothAmountsMatch[3];
+  const monthlyAmountText = bothAmountsMatch[6];
+
+  const initialAmount = extractAmount(initialAmountText);
+  const monthlyAmount = extractAmount(monthlyAmountText);
+
+  if (initialAmount !== null && monthlyAmount !== null) {
+    initialAmountInput.value = initialAmount;
+    monthlyDepositInput.value = monthlyAmount;
+    console.log("📌 סכום התחלתי + סכום חודשי זוהו יחד:", initialAmountInput.value, monthlyDepositInput.value);
+  }
+}
+
+  // תקופה
+  const termMatch = transcript.match(/(\d{1,2})\s*(שנה|שנים|חודש|חודשים)/);
+  if (termMatch) {
+    const value = parseInt(termMatch[1]);
+    const unit = termMatch[2];
+    termInput.value = /חודש/.test(unit) ? (value / 12).toFixed(2) : value;
+    console.log("📌 תקופה זוהתה:", termInput.value, "שנים");
+  }
+
+  // ריבית
+  const interestMatch = transcript.match(/ריבית\s*(של)?\s*([\d,\.]+)/) || transcript.match(/([\d,\.]+)\s*(אחוז|אחוזים|%)/);
+  if (interestMatch) {
+    const interestValue = interestMatch[2] || interestMatch[1];
+    interestRateInput.value = parseFloat(interestValue.replace(/,/g, ''));
+    console.log("📌 ריבית זוהתה:", interestRateInput.value + "%");
+  }
+  const dmeynihulMatch = transcript.match(/ניהול\s*(של)?\s*([\d,\.]+)/) || transcript.match(/([\d,\.]+)\s*(אחוז|אחוזים|%)/);
+  if (dmeynihulMatch) {
+    const dmeynihulValue = dmeynihulMatch[2] || dmeynihulMatch[1];
+    DmeyNihulInput.value = parseFloat(dmeynihulValue.replace(/,/g, ''));
+    console.log("📌 ריבית זוהתה:", DmeyNihulInput.value + "%");
+  }
+
+  // הפעלת חישוב אם כל השדות מולאו
+  if (initialAmountInput.value && monthlyDepositInput.value && termInput.value) {
+    if (interestRateInput.value) {
+      compoundWindow.hashev(interestRateInput.value / 100);
+      console.log("✅ הופעל בריבית:", interestRateInput.value / 100);
+    } else {
+      compoundWindow.hashev(0.04);
+      console.log("✅ הופעל hashev(0.04) כברירת מחדל");
+    }
+  }
+}
 
 </script>
 <style>
