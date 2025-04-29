@@ -80,6 +80,11 @@ console.log("האזנה התחילה");
   document.getElementById('resultMic').textContent = " מאזין קבוע - לעצירה אמור עצור או לחץ שוב";
   recognition.start();}
 }
+function searchMhx(x){	
+   let trans=document.getElementById('searchBoxmh').value;	
+    document.getElementById('searchBoxmh').value='';
+    handleSearchFromVoice(trans);
+}
 
 
 recognition.onresult = (event) => {
@@ -625,7 +630,7 @@ function extractInterestRate(text) {
 			<label  style="margin-left: 15px;">חפש לפי מ"ה</label>
 			<input type="text" id="searchBoxmh" placeholder="הקלד מספר..." style="max-height: 30px;
 			max-width: 100px;">
-			<input type="button"  value="חפש" onclick="searchMh(0)" style="max-height: 30px;
+			<input type="button"  value="חפש" onclick="searchMhx(0)" style="max-height: 30px;
 				background-color:aliceblue;color:rgb(0,154,255);
 				font-weight:bold;"></input>
 		</div>
