@@ -31,9 +31,9 @@
 	<link rel="stylesheet" href="mainstyle.css">
 	<link rel="stylesheet" href="hasifotHesber.css">
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script>    
+<!--<script>    
 	eruda.init();
-</script> 
+</script> -->
 
 <script>
 var startStop;		
@@ -70,15 +70,10 @@ recognition.maxAlternatives = 1;
 recognition.continuous = false;
 
 function micClick() {
-   startStop=0;	
-const mictext=document.getElementById('resultMic').textContent;
-  if(mictext.includes("עצור")){
-	startStop=1;  recognition.stop();
-  }
-else{
-console.log("האזנה התחילה");
-  document.getElementById('resultMic').textContent = " מאזין קבוע - לעצירה אמור עצור או לחץ שוב";
-  recognition.start();}
+   startStop=0;
+  console.log("האזנה התחילה");
+  document.getElementById('resultMic').textContent = " מאזין קבוע - לעצירה אמור עצור או הפסק";
+  recognition.start();
 }
 
 recognition.onresult = (event) => {
@@ -262,16 +257,16 @@ if(!transcript){return};
 	else if ((transcript.includes("גלול למטה") || transcript.includes('למטה')) &&
 	ifrmValue===1) {
 		if(transcript.includes("הרבה")){
-			var tvach=700;
-			var minustvach=-700;
+			var tvach=400;
+			var minustvach=-400;
 		}
 		else if(transcript.includes("קצת")){
 			var tvach=100;
 			var minustvach=-100;
 		}	
 		else{
-			var tvach=300
-			var minustvach=-300
+			var tvach=225
+			var minustvach=-225
 		}
     
     	if (iframeCont.scrollY + tvach > iframeCont.document.body.scrollHeight - iframeCont.innerHeight) {
@@ -284,16 +279,16 @@ if(!transcript){return};
 	else if ((transcript.includes("גלול למעלה") || transcript.includes('למעלה')) &&
 	ifrmValue===1) {
 		if(transcript.includes("הרבה")){
-			var tvach=700;
-			var minustvach=-700;
+			var tvach=400;
+			var minustvach=-400;
 		}
 		else if(transcript.includes("קצת")){
 			var tvach=100;
 			var minustvach=-100;
 		}
 		else{
-			var tvach=300
-			var minustvach=-300
+			var tvach=225
+			var minustvach=-225
 		}
 		if (iframeCont.scrollY - tvach < 0) {
 			iframeCont.scrollTo(0, 0);
@@ -304,16 +299,16 @@ if(!transcript){return};
 
 	else if (transcript.includes("גלול למטה") || transcript.includes('למטה')) {
 		if(transcript.includes("הרבה")){
-			var tvach=700;
-			var minustvach=-700;
+			var tvach=400;
+			var minustvach=-400;
 		}
 		else if(transcript.includes("קצת")){
 			var tvach=100;
 			var minustvach=-100;
 		}
 		else{
-			var tvach=300
-			var minustvach=-300
+			var tvach=225
+			var minustvach=-225
 		}
 	if(window.scrollY+tvach>document.scrollHeight-window.innerHeight){
 		window.scrollBy(0,document.scrollHeight-window.innerHeight)
@@ -323,16 +318,16 @@ if(!transcript){return};
     }
 	else if (transcript.includes("גלול למעלה") || transcript.includes('למעלה')) {
 		if(transcript.includes("הרבה")){
-			var tvach=700;
-			var minustvach=-700;
+			var tvach=400;
+			var minustvach=-400;
 		}
 		else if(transcript.includes("קצת")){
 			var tvach=100;
 			var minustvach=-100;
 		}
 		else{
-			var tvach=300
-			var minustvach=-300
+			var tvach=200
+			var minustvach=-200
 		}
 		if(window.scrollY-tvach<0){
 		window.scrollTo(0,0)
@@ -366,72 +361,34 @@ function handleLoan(transcript) {
 
 	// סכום
 	if (transcript.includes("סכום") || transcript.includes("מיליון") || 
-		transcript.includes("אלף") || transcript.includes("מאות") || transcript.includes("מאה") ) {  
+		transcript.includes("אלף") || transcript.includes("מאות")) {  
 		loanAmountInput.value = extractAmount(transcript);
 		console.log("📌 סכום זוהה:", loanAmountInput.value);
 	}
 
 	// גרייס
 	if ((transcript.includes("חודשי") || transcript.includes("שנה") || transcript.includes("חודש")) &&
-    transcript.includes("גרייס")) {
-
-  const termMatch = transcript.match(/(\d{1,2}|אחד|שניים|שלושה|ארבעה|חמישה|שישה|שבעה|שמונה|תשעה|עשרה|\d+)\s*(שנה|שנים|חודש|חודשים)/);
-
-  if (termMatch) {
-    let value;
-    const unit = termMatch[2];
-
-    // המרת מילים למספרים
-    switch (termMatch[1]) {
-      case "אחד": value = 1; break;
-      case "שניים": value = 2; break;
-      case "שלושה": value = 3; break;
-      case "ארבעה": value = 4; break;
-      case "חמישה": value = 5; break;
-      case "שישה": value = 6; break;
-      case "שבעה": value = 7; break;
-      case "שמונה": value = 8; break;
-      case "תשעה": value = 9; break;
-      case "עשרה": value = 10; break;
-      default: value = parseInt(termMatch[1]); break;  // טיפול במספרים רגילים (11 ומעלה)
-    }
-
-    delayfor.value = /חודש/.test(unit) ? value : value * 12;
-    console.log("📌 גרייס זוהה:", delayfor.value, "חודשים");
-  }
-}
-
+		transcript.includes("גרייס")) {
+		const termMatch = transcript.match(/(\d{1,2})\s*(שנה|שנים|חודש|חודשים)/);
+		if (termMatch) {
+			const value = parseInt(termMatch[1]);
+			const unit = termMatch[2];
+			delayfor.value = /חודש/.test(unit) ? value : value * 12;
+			console.log("📌 גרייס זוהה:", delayfor.value, "חודשים");
+		}
+	}
 
 	// תקופה (ללא גרייס)
-	
-  if ((transcript.includes("חודשי") || transcript.includes("שנה") || transcript.includes("חודש")) &&
-      !transcript.includes("גרייס")) {
-
-    const termMatch = transcript.match(/(\d{1,2}|אחד|שניים|שלושה|ארבעה|חמישה|שישה|שבעה|שמונה|תשעה|עשרה|\d+)\s*(שנה|שנים|חודש|חודשים)/);
-
-    if (termMatch) {
-      let value;
-      const unit = termMatch[2];
-
-      // המרת מילים למספרים
-      switch (termMatch[1]) {
-        case "אחד": value = 1; break;
-        case "שניים": value = 2; break;
-        case "שלושה": value = 3; break;
-        case "ארבעה": value = 4; break;
-        case "חמישה": value = 5; break;
-        case "שישה": value = 6; break;
-        case "שבעה": value = 7; break;
-        case "שמונה": value = 8; break;
-        case "תשעה": value = 9; break;
-        case "עשרה": value = 10; break;
-        default: value = parseInt(termMatch[1]); break;  // טיפול במספרים רגילים
-      }
-
-      termfor.value = /חודש/.test(unit) ? value : value * 12;
-      console.log("📌 תקופה זוהתה:", termfor.value, "חודשים");
-    }
-  }
+	if ((transcript.includes("חודשי") || transcript.includes("שנה") || transcript.includes("חודש")) &&
+		!transcript.includes("גרייס")) {
+		const termMatch = transcript.match(/(\d{1,2})\s*(שנה|שנים|חודש|חודשים)/);
+		if (termMatch) {
+			const value = parseInt(termMatch[1]);
+			const unit = termMatch[2];
+			termfor.value = /חודש/.test(unit) ? value : value * 12;
+			console.log("📌 תקופה זוהתה:", termfor.value, "חודשים");
+		}
+	}
 
 	// ריבית
 	if (transcript.includes("ריבית") || transcript.includes("אחוז") || transcript.includes("%")) {
@@ -465,44 +422,26 @@ function handleCompoundInterest(transcript) {
   const DmeyNihulInput= compoundDoc.getElementById('txttkofa2');
 
   // סכום התחלתי
-  const lumpSumMatch = transcript.match(/סכום (התחלתי|חד פעמי)\s*(של)?\s*([\d,\.]+|.*?מיליון|.*?אלף)/);
-if (lumpSumMatch) {
-  const amountText = lumpSumMatch[3];
-  const amount = extractAmount(amountText);
-
-  if (amount !== null) {
-    initialAmountInput.value = amount;
+  const lumpSumMatch = transcript.match(/סכום (התחלתי|חד פעמי)\s*(של)?\s*([\d,\.]+)/);
+  if (lumpSumMatch) {
+    initialAmountInput.value = parseFloat(lumpSumMatch[3].replace(/,/g, ''));
     console.log("📌 סכום התחלתי זוהה:", initialAmountInput.value);
   }
-}
 
   // סכום חודשי
-  const monthlyContributionMatch = transcript.match(/(סכום חודשי|הפקדה חודשית|כל חודש)\s*(של)?\s*([\d,\.]+|.*?מיליון|.*?אלף)/);
-if (monthlyContributionMatch) {
-  const amountText = monthlyContributionMatch[3];
-  const amount = extractAmount(amountText);
-
-  if (amount !== null) {
-    monthlyDepositInput.value = amount;
+  const monthlyContributionMatch = transcript.match(/(סכום חודשי|הפקדה חודשית|כל חודש)\s*(של)?\s*([\d,\.]+)/);
+  if (monthlyContributionMatch) {
+    monthlyDepositInput.value = parseFloat(monthlyContributionMatch[3].replace(/,/g, ''));
     console.log("📌 סכום חודשי זוהה:", monthlyDepositInput.value);
   }
-}
 
   // חיפוש גם כאשר מופיע סכום התחלתי ואז סכום חודשי באותו משפט
-  const bothAmountsMatch = transcript.match(/סכום (התחלתי|חד פעמי)\s*(של)?\s*([\d,\.]+|.*?מיליון|.*?אלף).*?(סכום חודשי|הפקדה חודשית|כל חודש)\s*(של)?\s*([\d,\.]+|.*?מיליון|.*?אלף)/);
-if (bothAmountsMatch) {
-  const initialAmountText = bothAmountsMatch[3];
-  const monthlyAmountText = bothAmountsMatch[6];
-
-  const initialAmount = extractAmount(initialAmountText);
-  const monthlyAmount = extractAmount(monthlyAmountText);
-
-  if (initialAmount !== null && monthlyAmount !== null) {
-    initialAmountInput.value = initialAmount;
-    monthlyDepositInput.value = monthlyAmount;
+  const bothAmountsMatch = transcript.match(/סכום (התחלתי|חד פעמי)\s*(של)?\s*([\d,\.]+).*?(סכום חודשי|הפקדה חודשית|כל חודש)\s*(של)?\s*([\d,\.]+)/);
+  if (bothAmountsMatch) {
+    initialAmountInput.value = parseFloat(bothAmountsMatch[3].replace(/,/g, ''));
+    monthlyDepositInput.value = parseFloat(bothAmountsMatch[6].replace(/,/g, ''));
     console.log("📌 סכום התחלתי + סכום חודשי זוהו יחד:", initialAmountInput.value, monthlyDepositInput.value);
   }
-}
 
   // תקופה
   const termMatch = transcript.match(/(\d{1,2})\s*(שנה|שנים|חודש|חודשים)/);
@@ -552,235 +491,77 @@ if (bothAmountsMatch) {
     }
 }*/
 function extractAmount(text) {
-  const units = {
-    "אחד": 1, "אחת": 1,
-    "שתיים": 2, "שניים": 2, "שתי": 2,
-    "שלוש": 3, "שלושה": 3,
-    "ארבע": 4, "ארבעה": 4,
-    "חמש": 5, "חמישה": 5,
-    "שש": 6, "שישה": 6,
-    "שבע": 7, "שבעה": 7,
-    "שמונה": 8,
-    "תשע": 9, "תשעה": 9,
+    let total = 0;
+
+    // נבדוק אם יש "מיליון"
+    const millionMatch = text.match(/(?:מיליון)/);
+    if (millionMatch) {
+        total += 1_000_000;
+    }
+
+    // זיהוי "X אלף"
+    const thousandMatch = text.match(/(\d+)\s*אלף/);
+    if (thousandMatch) {
+        total += parseInt(thousandMatch[1]) * 1000;
+    }
+
+    // ננקה את מה שכבר תפסנו
+    const cleanedText = text
+        .replace(/(?:מיליון)/g, '')
+        .replace(/(\d+)\s*אלף/g, '');
+
+    // תופס את כל המספרים שנותרו
+    const remainingNumbers = cleanedText.match(/\d+/g);
+
+    if (remainingNumbers) {
+        for (const num of remainingNumbers) {
+            total += parseInt(num);
+        }
+    }
+
+    return total || null;
+}
+function extractInterestRate(text) {
+  text = text.replaceAll("אחוזים", "אחוז").replaceAll("%", "אחוז").trim();
+
+  // 1. חיפוש ביטוי כמו "5.5", "5.3" או "5"
+  const decimalMatch = text.match(/(\d+(?:\.\d+)?)\s*אחוז/);
+  if (decimalMatch) return parseFloat(decimalMatch[1]);
+
+  // 2. חיפוש מילולי כמו "חמש נקודה חמש אחוז"
+  const hebrewToNumber = {
+    "אחד": 1, "שתיים": 2, "שניים": 2, "שלוש": 3, "ארבע": 4, "חמש": 5, "חמישה": 5,
+    "שש": 6, "שישה": 6, "שבע": 7, "שבעה": 7, "שמונה": 8, "תשע": 9, "תשעה": 9,
     "עשר": 10, "עשרה": 10
   };
 
-  const teens = {
-    "אחת עשרה": 11, "אחד עשר": 11,
-    "שתים עשרה": 12, "שניים עשר": 12,
-    "שלוש עשרה": 13, "שלושה עשר": 13,
-    "ארבע עשרה": 14, "ארבעה עשר": 14,
-    "חמש עשרה": 15, "חמישה עשר": 15,
-    "שש עשרה": 16, "שישה עשר": 16,
-    "שבע עשרה": 17, "שבעה עשר": 17,
-    "שמונה עשרה": 18, "שמונה עשר": 18,
-    "תשע עשרה": 19, "תשעה עשר": 19
-  };
+  // תבנית "חמש נקודה חמש"
+  const matchWords = text.match(/(אחד|שתיים|שניים|שלוש|ארבע|חמשה?|שש(ה)?|שבע(ה)?|שמונה|תשע(ה)?|עשר(ה)?)\s*נקודה\s*(אחד|שתיים|שניים|שלוש|ארבע|חמשה?|שש(ה)?|שבע(ה)?|שמונה|תשע(ה)?)/);
+  if (matchWords) {
+    const integerPart = hebrewToNumber[matchWords[1].replace("ה", "")];
+    const decimalPart = hebrewToNumber[matchWords[3].replace("ה", "")];
+    return parseFloat(`${integerPart}.${decimalPart}`);
+  }
 
-  const tens = {
-    "עשרים": 20,
-    "שלושים": 30,
-    "ארבעים": 40,
-    "חמישים": 50,
-    "שישים": 60,
-    "שבעים": 70,
-    "שמונים": 80,
-    "תשעים": 90
-  };
-
-  const hundreds = {
-    "מאה": 100,
-    "מאתיים": 200
-  };
-
-  const bigNumbers = {
-    "אלף": 1000,
-    "מיליון": 1000000
-  };
-
-  const fractions = {
-    "חצי": 0.5,
-    "שליש": 1/3,
-    "שלושת רבעי": 0.75,
-    "רבע": 0.25
-  };
-
-  const multipliers = {
-    "כפול": true,
-    "פי": true
-  };
-
-  let total = 0;
-  let current = 0;
-  let multiplyNext = 1;
-
-  const cleanedText = text
-    .replace(/[,\-]/g, ' ')
-    .replace(/\s+/g, ' ')
-    .replace(/(^ו)|(\sו)/g, ' ')
-    .trim();
-
-  const words = cleanedText.split(' ');
-
-  for (let i = 0; i < words.length; i++) {
-    let word = words[i].trim();
-    if (!word) continue;
-
-    if (multipliers[word]) {
-      multiplyNext = current || 1;
-      current = 0;
-      continue;
-    }
-
-    if (/^\d+$/.test(word)) {
-      current += parseInt(word, 10);
-      continue;
-    }
-
-    // Teens (11-19)
-    if (i + 1 < words.length) {
-      const twoWords = word + ' ' + words[i + 1];
-      if (teens[twoWords]) {
-        current += teens[twoWords];
-        i++;
-        continue;
-      }
-    }
-function extractAmount(text) {
-  const units = {
-    "אחד": 1, "אחת": 1,
-    "שתיים": 2, "שניים": 2, "שתי": 2,
-    "שלוש": 3, "שלושה": 3,
-    "ארבע": 4, "ארבעה": 4,
-    "חמש": 5, "חמישה": 5,
-    "שש": 6, "שישה": 6,
-    "שבע": 7, "שבעה": 7,
-    "שמונה": 8,
-    "תשע": 9, "תשעה": 9,
-    "עשר": 10, "עשרה": 10
-  };
-
-  const teens = {
-    "אחת עשרה": 11, "אחד עשר": 11,
-    "שתים עשרה": 12, "שניים עשר": 12,
-    "שלוש עשרה": 13, "שלושה עשר": 13,
-    "ארבע עשרה": 14, "ארבעה עשר": 14,
-    "חמש עשרה": 15, "חמישה עשר": 15,
-    "שש עשרה": 16, "שישה עשר": 16,
-    "שבע עשרה": 17, "שבעה עשר": 17,
-    "שמונה עשרה": 18, "שמונה עשר": 18,
-    "תשע עשרה": 19, "תשעה עשר": 19
-  };
-
-  const tens = {
-    "עשרים": 20,
-    "שלושים": 30,
-    "ארבעים": 40,
-    "חמישים": 50,
-    "שישים": 60,
-    "שבעים": 70,
-    "שמונים": 80,
-    "תשעים": 90
-  };
-
-  const hundreds = {
-    "מאה": 100,
-    "מאתיים": 200,
-    "שלוש מאות": 300,
-    "ארבע מאות": 400,
-    "חמש מאות": 500,
-    "שש מאות": 600,
-    "שבע מאות": 700,
-    "שמונה מאות": 800,
-    "תשע מאות": 900
-  };
-
-  const bigNumbers = {
-    "אלף": 1000,
-    "מיליון": 1000000
-  };
-
-  const fractions = {
-    "חצי": 0.5,
-    "שליש": 1/3,
-    "שלושת רבעי": 0.75,
-    "רבע": 0.25
-  };
-
-  const multipliers = {
-    "כפול": true,
-    "פי": true
-  };
-
-  let total = 0;
-  let currentGroup = 0;
-  let multiplyNext = 1;
-
-  const cleanedText = text
-    .replace(/[,\-]/g, ' ')
-    .replace(/\s+/g, ' ')
-    .replace(/(^ו)|(\sו)/g, ' ')
-    .trim();
-
-  const words = cleanedText.split(' ');
-
-  for (let i = 0; i < words.length; i++) {
-    let word = words[i].trim();
-    if (!word) continue;
-
-    if (multipliers[word]) {
-      multiplyNext = currentGroup || 1;
-      currentGroup = 0;
-      continue;
-    }
-
-    if (/^\d+$/.test(word)) {
-      currentGroup += parseInt(word, 10);
-      continue;
-    }
-
-    // Teens (11-19) - לבדוק שני מילים
-    if (i + 1 < words.length) {
-      const twoWords = word + ' ' + words[i + 1];
-      if (teens[twoWords]) {
-        currentGroup += teens[twoWords];
-        i++;
-        continue;
-      }
-      if (hundreds[twoWords]) {
-        currentGroup += hundreds[twoWords];
-        i++;
-        continue;
-      }
-    }
-
-    if (units[word]) {
-      currentGroup += units[word];
-    } else if (tens[word]) {
-      currentGroup += tens[word];
-    } else if (hundreds[word]) {
-      currentGroup += hundreds[word];
-    } else if (bigNumbers[word]) {
-      if (currentGroup === 0) currentGroup = 1;
-      total += currentGroup * bigNumbers[word];
-      currentGroup = 0;
-    } else if (fractions[word]) {
-      if (currentGroup === 0) currentGroup = 1;
-      total += currentGroup * fractions[word];
-      currentGroup = 0;
+  // תבנית "חמש וחצי", "חמישה וחצי"
+  if (text.includes("חצי")) {
+    const matchHalf = text.match(/(אחד|שתיים|שניים|שלוש|ארבע|חמשה?|שש(ה)?|שבע(ה)?|שמונה|תשע(ה)?|עשר(ה)?)\s*ו\s*חצי/);
+    if (matchHalf) {
+      const integerPart = hebrewToNumber[matchHalf[1].replace("ה", "")];
+      return integerPart + 0.5;
     }
   }
 
-  total += currentGroup;
-  total *= multiplyNext;
+  // תבנית שלמה כמו "חמשה אחוז", "שבע אחוז"
+  const matchFullWord = text.match(/(אחד|שתיים|שניים|שלוש|ארבע|חמשה?|שש(ה)?|שבע(ה)?|שמונה|תשע(ה)?|עשר(ה)?)\s*אחוז/);
+  if (matchFullWord) {
+    return hebrewToNumber[matchFullWord[1].replace("ה", "")];
+  }
 
-  return total || null;
+  return null; // לא זוהתה ריבית
 }
-function searchMhx(x){	
-   let trans=document.getElementById('searchBoxmh').value;	
-    document.getElementById('searchBoxmh').value='';
-    handleSearchFromVoice(trans);
-}
+
+
 </script>
 <style>
     #mic { font-size: 2em; cursor: pointer; }
@@ -914,9 +695,9 @@ function searchMhx(x){
 			<label  style="margin-left: 15px;">חפש לפי מ"ה</label>
 			<input type="text" id="searchBoxmh" placeholder="הקלד מספר..." style="max-height: 30px;
 			max-width: 100px;">
-			<input type="button"  value="חפש" onclick="searchMhx(0)" style="max-height: 30px;
+			<input type="button"  value="חפש" onclick="searchMh(0)" style="max-height: 30px;
 				background-color:aliceblue;color:rgb(0,154,255);
-				font-weight:bold;">
+				font-weight:bold;"></input>
 		</div>
 	</div>
 	<h1 id="kothasifot" style="width: 100%;text-align: center;">⚖️ חשיפות מרכזיות בהשקעות</h1>
