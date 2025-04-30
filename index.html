@@ -266,8 +266,8 @@ if(!transcript){return};
 			var minustvach=-700;
 		}
 		else if(transcript.includes("קצת")){
-			var tvach=100;
-			var minustvach=-100;
+			var tvach=150;
+			var minustvach=-150;
 		}	
 		else{
 			var tvach=300
@@ -288,8 +288,8 @@ if(!transcript){return};
 			var minustvach=-700;
 		}
 		else if(transcript.includes("קצת")){
-			var tvach=100;
-			var minustvach=-100;
+			var tvach=150;
+			var minustvach=-150;
 		}
 		else{
 			var tvach=300
@@ -308,8 +308,8 @@ if(!transcript){return};
 			var minustvach=-700;
 		}
 		else if(transcript.includes("קצת")){
-			var tvach=100;
-			var minustvach=-100;
+			var tvach=150;
+			var minustvach=-150;
 		}
 		else{
 			var tvach=300
@@ -327,8 +327,8 @@ if(!transcript){return};
 			var minustvach=-700;
 		}
 		else if(transcript.includes("קצת")){
-			var tvach=100;
-			var minustvach=-100;
+			var tvach=150;
+			var minustvach=-150;
 		}
 		else{
 			var tvach=300
@@ -431,7 +431,7 @@ function handleCompoundInterest(transcript) {
   const DmeyNihulInput= compoundDoc.getElementById('txttkofa2');
 
   const pianoach=handleInput(transcript);
-	console.log(pianoach);
+	
 
 
 	// סכום
@@ -455,11 +455,10 @@ function handleCompoundInterest(transcript) {
 			console.log("📌 ריבית זוהתה:", interestRateInput.value + "%");	
 	}
 
-  const dmeynihulMatch = transcript.match(/ניהול\s*(של)?\s*([\d,\.]+)/) || transcript.match(/([\d,\.]+)\s*(אחוז|אחוזים|%)/);
-  if (dmeynihulMatch) {
-    const dmeynihulValue = dmeynihulMatch[2] || dmeynihulMatch[1];
-    DmeyNihulInput.value = parseFloat(dmeynihulValue.replace(/,/g, ''));
-    console.log("📌 דמי ניהול שזוהו:", DmeyNihulInput.value + "%");
+  if (pianoach.dmey) {
+    
+    DmeyNihulInput.value = pianoach.dmey;
+    console.log("📌 דמי ניהול שזוהו:", pianoach.dmey + "%");
   }
 
   // הפעלת חישוב אם כל השדות מולאו
@@ -471,6 +470,7 @@ function handleCompoundInterest(transcript) {
       compoundWindow.hashev(0.04);
       console.log("✅ הופעל hashev(0.04) כברירת מחדל");
     }
+	
   }
 }
 
@@ -845,16 +845,16 @@ function handleInput(text) {
   const hadMatch = text.match(/(?:סכום\s+)?חד\s*פעמי\s+(.*?)(?=(סכום|חודשי|ריבית|תקופה|גרייס|$))/);
   const hodshiMatch = text.match(/(?:סכום\s+)?חודשי\s+(.*?)(?=(סכום|חד\s*פעמי|ריבית|תקופה|גרייס|$))/);
   const amountMatch = text.match(/(?:סכום\s+)(?!חודשי)(?!חד\s*פעמי)(.*?)(?=(חד\s*פעמי|חודשי|ריבית|תקופה|גרייס|$))/);
-  
   const interestMatch = text.match(/(?:ריבית\s*(של)?\s*)(.*?)(?=(סכום|תקופה|גרייס|$))/);
   const termMatch = text.match(/(?:תקופה\s*(של)?\s*)(.*?)(?=(ריבית|סכום|גרייס|$))/);
   const graceMatch = text.match(/(?:גרייס\s*(של)?\s*)(.*?)(?=(ריבית|תקופה|סכום|$))/);
-
+  const dmeyMatch = text.match(/(?:ניהול\s*(של)?\s*)(.*?)(?=(ריבית|תקופה|סכום|$))/);
   // טקסטים
   const hadText = hadMatch ? hadMatch[1] : '';
   const hodshiText = hodshiMatch ? hodshiMatch[1] : '';
   const amountText = amountMatch ? amountMatch[1] : '';
   const interestText = interestMatch ? interestMatch[2] : '';
+  const dmeyText = dmeyMatch ? dmeyMatch[2] : '';
   const termText = termMatch ? termMatch[2] : '';
   const graceText = graceMatch ? graceMatch[2] : '';
 
@@ -865,13 +865,15 @@ function handleInput(text) {
   const interest = extractInterestRatea(interestText);
   const term = extractAmounta(termText);
   const grace = extractAmounta(graceText);
+  const dmey = extractInterestRatea(dmeyText);
 return {
 	had: had,
 	hodshi: hodshi,
 	amount: amount,
 	interest: interest,
 	term: term,
-	grace: grace
+	grace: grace,
+	dmey: dmey
   };
   
   
