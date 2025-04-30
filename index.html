@@ -382,7 +382,10 @@ function handleLoan(transcript) {
 			delayfor.value = pianoach.grace;
 			console.log("📌 גרייס זוהה:", pianoach.grace, "חודשים");	
 	}
-
+	else if (transcript.includes("גרייס") ) {		
+		delayfor.value = '';
+		console.log("📌 גרייס זוהה:", "ללא גרייס");
+	}
 	// תקופה (ללא גרייס)
 	if (pianoach.term) {		
 			termfor.value = pianoach.term;
@@ -431,7 +434,9 @@ function handleCompoundInterest(transcript) {
   const DmeyNihulInput= compoundDoc.getElementById('txttkofa2');
 
   const pianoach=handleInput(transcript);
-	
+console.log(pianoach);
+
+  	
 
 
 	// סכום
@@ -744,6 +749,7 @@ function handleCompoundInterest(transcript) {
 <script>
     function extractAmounta(text) {
       const units = {
+		"אפס": 0, "אפסים": 0,
         "אחד": 1, "אחת": 1,
         "שתיים": 2, "שניים": 2, "שתי": 2,
         "שלוש": 3, "שלושה": 3, "שלושת": 3,
