@@ -823,33 +823,43 @@ console.log(pianoach);
       return total || null;
     }
 
-    function extractInterestRatea(text) {
-      text = text.replaceAll("אחוזים", "אחוז").replaceAll("%", "אחוז").trim();
-      const wordMap = {
-        "אחת": 1, "אחד": 1, "שתיים": 2, "שניים": 2,
-        "שלוש": 3, "שלושה": 3, "ארבע": 4, "ארבעה": 4,
-        "חמש": 5, "חמישה": 5, "שש": 6, "שישה": 6,
-        "שבע": 7, "שבעה": 7, "שמונה": 8,
-        "תשע": 9, "תשעה": 9
-      };
+function extractInterestRatea(text) {
+    text = text.replaceAll("אחוזים", "אחוז").replaceAll("%", "אחוז").trim();
 
-      function getDecimalWord(word) {
-        return wordMap[word] !== undefined ? wordMap[word] : null;
-      }
+  const wordMap = {
+    "אחת": 1, "אחד": 1, "שתיים": 2, "שניים": 2,
+    "שלוש": 3, "שלושה": 3, "ארבע": 4, "ארבעה": 4,
+    "חמש": 5, "חמישה": 5, "שש": 6, "שישה": 6,
+    "שבע": 7, "שבעה": 7, "שמונה": 8,
+    "תשע": 9, "תשעה": 9
+  };
 
-      const match = text.match(/(אחת|אחד|שתיים|שניים|שלוש|שלושה|ארבע|ארבעה|חמש|חמישה|שש|שישה|שבע|שבעה|שמונה|תשע|תשעה)\s*נקודה\s*(אחת|אחד|שתיים|שניים|שלוש|שלושה|ארבע|ארבעה|חמש|חמישה|שש|שישה|שבע|שבעה|שמונה|תשע|תשעה)/);
-      if (match) {
-        const intPart = getDecimalWord(match[1]);
-        const decimalPart = getDecimalWord(match[2]);
-        if (intPart != null && decimalPart != null) {
-          return parseFloat(`${intPart}.${decimalPart}`);
-        }
-      }
+  function getDecimalWord(word) {
+    return wordMap[word] ?? null;
+  }
 
-      const digitMatch = text.match(/(\d+(?:\.\d+)?)\s*אחוז/);
-      if (digitMatch) return parseFloat(digitMatch[1]);
+  // תבנית: "שלושה נקודה חמש"
+  const match = text.match(/(אחת|אחד|שתיים|שניים|שלוש|שלושה|ארבע|ארבעה|חמש|חמישה|שש|שישה|שבע|שבעה|שמונה|תשע|תשעה)\s*נקודה\s*(אחת|אחד|שתיים|שניים|שלוש|שלושה|ארבע|ארבעה|חמש|חמישה|שש|שישה|שבע|שבעה|שמונה|תשע|תשעה)/);
+  if (match) {
+    const intPart = getDecimalWord(match[1]);
+    const decimalPart = getDecimalWord(match[2]);
+    if (intPart != null && decimalPart != null) {
+      return parseFloat(`${intPart}.${decimalPart}`);
+    }
+  }
 
-      return null;
+  // תבנית: מספר ספרתי רגיל
+  const digitMatch = text.match(/(\d+(?:\.\d+)?)\s*אחוז/);
+  if (digitMatch) return parseFloat(digitMatch[1]);
+
+  // תבנית: "שישה אחוז"
+  const wordOnlyMatch = text.match(/(אחת|אחד|שתיים|שניים|שלוש|שלושה|ארבע|ארבעה|חמש|חמישה|שש|שישה|שבע|שבעה|שמונה|תשע|תשעה)\s*אחוז/);
+  if (wordOnlyMatch) {
+    const val = getDecimalWord(wordOnlyMatch[1]);
+    if (val != null) return val;
+  }
+
+  return null;
     }
 
 function handleInput(text) {
