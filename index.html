@@ -432,6 +432,7 @@ function handleCompoundInterest(transcript) {
   const termInput = compoundDoc.getElementById('txttkofa1');
   const interestRateInput = compoundDoc.getElementById('selecttoz');
   const DmeyNihulInput= compoundDoc.getElementById('txttkofa2');
+const tesuaInput= compoundDoc.getElementById('selectoz');
 
   const pianoach=handleInput(transcript);
 console.log(pianoach);
@@ -465,6 +466,12 @@ console.log(pianoach);
     DmeyNihulInput.value = pianoach.dmey;
     console.log("📌 דמי ניהול שזוהו:", pianoach.dmey + "%");
   }
+ if (pianoach.tesua) {
+    
+    tesuaInput.value = pianoach.tesua;
+    console.log("📌תשואה  שזוהתה:", pianoach.tesua + "%");
+  }
+
 
   // הפעלת חישוב אם כל השדות מולאו
   if (initialAmountInput.value && monthlyDepositInput.value && termInput.value) {
