@@ -855,7 +855,9 @@ function handleInput(text) {
   const termMatch = text.match(/(?:תקופה\s*(של)?\s*)(.*?)(?=(ריבית|סכום|גרייס|$))/);
   const graceMatch = text.match(/(?:גרייס\s*(של)?\s*)(.*?)(?=(ריבית|תקופה|סכום|$))/);
   const dmeyMatch = text.match(/(?:ניהול\s*(של)?\s*)(.*?)(?=(ריבית|תקופה|סכום|$))/);
-  // טקסטים
+ const tesuaMatch = text.match(/(?:תשואה\s*(של)?\s*)(.*?)(?=(ריבית|תקופה|סכום|$))/);
+
+	// טקסטים
   const hadText = hadMatch ? hadMatch[1] : '';
   const hodshiText = hodshiMatch ? hodshiMatch[1] : '';
   const amountText = amountMatch ? amountMatch[1] : '';
@@ -863,6 +865,7 @@ function handleInput(text) {
   const dmeyText = dmeyMatch ? dmeyMatch[2] : '';
   const termText = termMatch ? termMatch[2] : '';
   const graceText = graceMatch ? graceMatch[2] : '';
+  const tesuaText = tesuaMatch ? tesuaMatch[2] : '';
 
   // המרות
   const had = extractAmounta(hadText);
@@ -872,14 +875,18 @@ function handleInput(text) {
   const term = extractAmounta(termText);
   const grace = extractAmounta(graceText);
   const dmey = extractInterestRatea(dmeyText);
-return {
+  const tesua = extractInterestRatea(tesuaText);
+
+	return {
 	had: had,
 	hodshi: hodshi,
 	amount: amount,
 	interest: interest,
 	term: term,
 	grace: grace,
-	dmey: dmey
+	dmey: dmey,
+	tesua:tesua
+		
   };
   
   
