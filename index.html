@@ -872,7 +872,7 @@ function handleInput(text) {
   const termMatch = text.match(/(?:תקופה\s*(של)?\s*)(.*?)(?=(ריבית|סכום|גרייס|$))/);
   const graceMatch = text.match(/(?:גרייס\s*(של)?\s*)(.*?)(?=(ריבית|תקופה|סכום|$))/);
   const dmeyMatch = text.match(/(?:ניהול\s*(של)?\s*)(.*?)(?=(ריבית|תקופה|סכום|$))/);
- const tesuaMatch = text.match(/(?:תשואה\s*(של)?\s*)(.*?)(?=(ריבית|תקופה|סכום|$))/);
+  const tesuaMatch = text.match(/(?:תשוא[אה]?|תשועה)\s*(של)?\s*(.*?)(?=(ריבית|תקופה|סכום|$))/);
 
 	// טקסטים
   const hadText = hadMatch ? hadMatch[1] : '';
