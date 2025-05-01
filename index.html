@@ -89,11 +89,7 @@ recognition.onresult = (event) => {
 
 recognition.onend = () => {
   console.log("האזנה הסתיימה – מתחיל מחדש");
- if(startStop===0) {recognition.start();	
-setTimeout(() => {
-  recognition.stop();  
-  20000); 	   
-		   }
+ if(startStop===0) {recognition.start();}
 else{document.getElementById('resultMic').textContent ="לא מאזין"}
 };
 
