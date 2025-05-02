@@ -148,6 +148,10 @@ if(!transcript){return};
   else if ((transcript.includes("דמי ניהול") || transcript.includes("ניהול")) && ifrmValue===0) {
     hideformic(); showIframe("hashDmeyNihul.html");
   }
+  
+  else if ((transcript.includes("תשואה") || transcript.includes("תשואות")) && ifrmValue===1) {
+	const pianoach=handleInput(transcript);
+  }
   else if ((transcript.includes("הפקדה חודשית") || transcript.includes("יעד") 
   || transcript.includes("סכום יעד")) && ifrmValue===0) {
     hideformic(); showIframe("hafkada.html");
@@ -432,15 +436,12 @@ function handleCompoundInterest(transcript) {
   const termInput = compoundDoc.getElementById('txttkofa1');
   const interestRateInput = compoundDoc.getElementById('selecttoz');
   const DmeyNihulInput= compoundDoc.getElementById('txttkofa2');
-const tesuaInput= compoundDoc.getElementById('selectoz');
+  const tesuaInput= compoundDoc.getElementById('selectoz');
 
   const pianoach=handleInput(transcript);
-console.log(pianoach);
+  console.log(pianoach.tesua);
 
-  	
-
-
-	// סכום
+  	// סכום
 	if (pianoach.had) {  
 		initialAmountInput.value = pianoach.had;
 		console.log("📌 סכום חד פעמי:", pianoach.had);
@@ -457,7 +458,7 @@ console.log(pianoach);
 
 	// ריבית
 	if (pianoach.interest) {		
-		interestRateInput.value = pianoach.interest;
+		interestRateInput.value = pianoach.interest/100;
 			console.log("📌 ריבית זוהתה:", interestRateInput.value + "%");	
 	}
 
@@ -466,17 +467,12 @@ console.log(pianoach);
     DmeyNihulInput.value = pianoach.dmey;
     console.log("📌 דמי ניהול שזוהו:", pianoach.dmey + "%");
   }
-// if (pianoach.tesua) {
-    
-//    tesuaInput.value = pianoach.tesua;
-//    console.log("📌תשואה  שזוהתה:", pianoach.tesua + "%");
-//  }
-
+ 
 
   // הפעלת חישוב אם כל השדות מולאו
   if (initialAmountInput.value && monthlyDepositInput.value && termInput.value) {
     if (interestRateInput.value) {
-      compoundWindow.hashev(interestRateInput.value / 100);
+      compoundWindow.hashev(interestRateInput.value);
       console.log("✅ הופעל בריבית:", interestRateInput.value / 100);
     } else {
       compoundWindow.hashev(0.04);
@@ -872,7 +868,7 @@ function handleInput(text) {
   const termMatch = text.match(/(?:תקופה\s*(של)?\s*)(.*?)(?=(ריבית|סכום|גרייס|$))/);
   const graceMatch = text.match(/(?:גרייס\s*(של)?\s*)(.*?)(?=(ריבית|תקופה|סכום|$))/);
   const dmeyMatch = text.match(/(?:ניהול\s*(של)?\s*)(.*?)(?=(ריבית|תקופה|סכום|$))/);
- // const tesuaMatch = text.match(/(?:תשוא[אה]?|תשועה)\s*(של)?\s*(.*?)(?=(ריבית|תקופה|סכום|$))/);
+  //const tesuaMatch = text.match(/(?:תשוא[אה]?|תשועה)\s*(של)?\s*(.*?)(?=(ריבית|תקופה|סכום|$))/);
 
 	// טקסטים
   const hadText = hadMatch ? hadMatch[1] : '';
@@ -892,7 +888,7 @@ function handleInput(text) {
   const term = extractAmounta(termText);
   const grace = extractAmounta(graceText);
   const dmey = extractInterestRatea(dmeyText);
- // const tesua = extractInterestRatea(tesuaText);
+ // const tesua = extractInterestRatea(tesuaText)+"%";
 
 	return {
 	had: had,
