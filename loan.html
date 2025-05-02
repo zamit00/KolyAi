@@ -332,6 +332,10 @@
         </header>
 
         <div class="simulator-wrapper">
+            <div id="hechzer" style="width:clamp(200px,60vw,200px);height:70px;border:1px solid blue;
+                position:absolute;z-index: 10000;
+                background-color: azure;text-align: center;margin: 5vh auto;
+                display:none"></div>
             <section class="inputs-section">
                 <h2 style="text-align: center;">פרטי ההלוואה</h2>
                 
@@ -548,7 +552,16 @@
                 document.getElementById('monthly-payment').textContent = formatCurrency(monthlyPayment);
                 document.getElementById('total-payment').textContent = formatCurrency(totalPayment);
                 document.getElementById('total-interest').textContent = formatCurrency(totalInterest);
-                
+               
+                if(window.innerWidth<400){
+                    document.getElementById("hechzer").style.display="block";
+                    document.getElementById("hechzer").innerText=`החזר חודשי: ${monthlyPayment.toLocaleString('he-IL', { style: 'currency', currency: 'ILS' })}`;
+                    document.getElementById("hechzer").style.fontSize="20px";
+                    setTimeout(function() {
+                        document.getElementById("hechzer").style.display="none";
+                    }, 1500);
+                }
+
                 // עדכון הגרף
                 updateChart(loanAmount, totalInterest);
                 
