@@ -116,7 +116,12 @@ if(iframe){
 	else{ifrmValue=1;}	
 }
 
-
+if(iframe!==null){
+	if(iframe.src.includes('loan')){ifrmValue=1;}
+}
+else{
+	ifrmValue=0;
+}
 if(!transcript){return};
  	if (transcript.includes("ראש")  && ifrmValue===1) {iframeCont.scrollTo(0, 0);
 	}
