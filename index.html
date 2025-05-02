@@ -459,6 +459,7 @@ function handleCompoundInterest(transcript) {
 	// ריבית
 	if (pianoach.interest) {		
 		interestRateInput.value = pianoach.interest/100;
+		compoundDoc.getElementById("kottoz").textContent = `לפי ריבית ${pianoach.interest}% שנתי:`;
 			console.log("📌 ריבית זוהתה:", interestRateInput.value + "%");	
 	}
 
