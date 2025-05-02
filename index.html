@@ -127,6 +127,7 @@ if(!transcript){return};
     hideformic();
     showIframe("loan.html");
 
+    const iframe = document.getElementById("ifrm");
     iframe.onload = function() {
         handleLoan(transcript);
     };
@@ -134,9 +135,10 @@ if(!transcript){return};
   else if (transcript.includes("דריבית") || transcript.includes("ערך עתידי")) {
 	
     hideformic(); showIframe("ribitderibit.html");
-     iframe.onload = function() {
+	const iframe = document.getElementById("ifrm");
+    iframe.onload = function() {
         handleCompoundInterest(transcript);
-     };
+    };
   }
   else if ((transcript.includes("דמי ניהול") || transcript.includes("ניהול")) && ifrmValue===0) {
     hideformic(); showIframe("hashDmeyNihul.html");
