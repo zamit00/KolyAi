@@ -124,7 +124,9 @@ else{
 	ifrmValue=0;
 }
 if(!transcript){return};
- 	if (transcript.includes("ראש")  && ifrmValue===1) {iframeCont.scrollTo(0, 0);
+	if ((transcript.includes("קשר") || transcript.includes("סוכן"))  && ifrmValue===0) {yossi();
+	}
+ 	else if (transcript.includes("ראש")  && ifrmValue===1) {iframeCont.scrollTo(0, 0);
 	}
 	else if (transcript.includes("ראש")  && ifrmValue===0) {window.scrollTo(0, 0);
 	}
