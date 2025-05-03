@@ -124,7 +124,7 @@ else{
 	ifrmValue=0;
 }
 if(!transcript){return};
-	if ((transcript.includes("קשר") || transcript.includes("סוכן"))  && ifrmValue===0) {yossi();
+	if ((transcript.includes("קשר") || transcript.includes("סוכן"))) {yossi();
 	}
 	else if (Swal.isVisible()) {
 		if (transcript.includes("מאשר") && !transcript.includes("לא") ) {
@@ -563,11 +563,12 @@ function handleMenahalot(transcript) {
 		
 	}	
 	
-	if(transcript.includes("השווה") || transcript.includes("השוואה") || transcript.includes("בצע") ){
+	if(transcript.includes("השווה") || transcript.includes("השוואה") || transcript.includes("בצע")
+		||  transcript.includes("בצא")){
 		const iframe = document.getElementById('ifrm');
 		var iframeCont=iframe.contentWindow;
 		menahalotWindow.compare2();
-		iframeCont.scrollBy(0, 800);
+		iframeCont.scrollBy(0, window.innerHeight*0.8);
 			
 		}	
 }
