@@ -246,7 +246,7 @@ function createFormMen() {
 
 
 async function tablhasifot() {
-    event.preventDefault(); var datfilter;
+    var datfilter;
     var sugmM=document.getElementById('sugM').value;
     if(sugmM==='קופות גמל' ){
         sugmM='תגמולים ואישית לפיצויים'
