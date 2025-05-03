@@ -323,7 +323,7 @@ if(!transcript){return};
 		else if(document.getElementById('ifrm').src.includes("hashMenahalot")){
 			handleMenahalot(transcript);return;	
 		}
-        else if(document.getElementById('filter').style.display==='flex'){
+        else if(!filter.style.display==='none'){
 			handleSharp(transcript);return;	
 		}	
 		
