@@ -117,7 +117,8 @@ if(iframe){
 }
 
 if(iframe!==null){
-	if(iframe.src.includes('loan')){ifrmValue=1;}
+	if(iframe.src.includes('loan') || iframe.src.includes('ribit') || 
+	iframe.src.includes('hashMenahalot')){ifrmValue=1;}
 }
 else{
 	ifrmValue=0;
@@ -137,7 +138,8 @@ if(!transcript){return};
         handleLoan(transcript);
     };
 }
-  else if (transcript.includes("דריבית") || transcript.includes("ערך עתידי")) {
+  else if ((transcript.includes("דריבית") || transcript.includes("ערך עתידי"))
+  && ifrmValue === 0) {
 	
     hideformic(); showIframe("ribitderibit.html");
 	const iframe = document.getElementById("ifrm");
@@ -159,9 +161,15 @@ if(!transcript){return};
   else if (transcript.includes("מחשבונים") || transcript.includes("פיננסיים")) {
     hideformic(); showIframe("Machshevonim.html");
   }
-  else if (transcript.includes("השוואה") || transcript.includes("חברות")) {
+  else if ((transcript.includes("השוואה") || transcript.includes("חברות"))
+  && ifrmValue===0) {
     if (transcript.includes("מנהלות") || transcript.includes("מנהלת")) {
       hideformic(); showIframe("hashMenahalot.html");
+	  const iframe = document.getElementById("ifrm");
+    	iframe.onload = function() {
+        handleMenahalot(transcript);
+    };
+
     }
     else if (transcript.includes("חשיפות")) {
       hideformic(); showIframe("hasifotMeshulav.html");
@@ -351,6 +359,10 @@ if(!transcript){return};
 		else if(document.getElementById('ifrm').src.includes("ribitderibit")){
 			handleCompoundInterest(transcript);return;	
 		}
+		else if(document.getElementById('ifrm').src.includes("hashMenahalot")){
+			handleMenahalot(transcript);return;	
+		}	
+		
 	}	
   	else {
     	alert("הבקשה אינה ברורה - לחץ שוב");
@@ -482,8 +494,63 @@ function handleCompoundInterest(transcript) {
 	
   }
 }
+function handleMenahalot(transcript) {
 
-</script>
+  
+
+  const iframex = document.getElementById('ifrm');
+  const menahalotDoc = iframex.contentWindow.document;
+  const menahalotWindow = iframex.contentWindow;
+  const rd1=menahalotDoc.getElementById('radio1');
+  const rd2=menahalotDoc.getElementById('radio2'); 
+  const selmenu1 = menahalotDoc.getElementById('selmen1');
+  const selmenu2 = menahalotDoc.getElementById('selmen2'); 
+	var input='';
+  if (transcript.includes("שתי") || rd2.checked) {
+	rd2.checked=true;menahalotWindow.selchange()
+
+	if (transcript.includes("מגדל")) {input = "מגדל";}
+	else if (transcript.includes("הראל")) {input = "הראל";}
+	else if (transcript.includes("כלל")) {input = "כלל";}
+	else if (transcript.includes("מנורה")) {input = "מנורה";}
+	else if (transcript.includes("אלטשולר")) {input = "אלטשולר";}
+	else if (transcript.includes("פניקס")) {input = "פניקס";}
+	else if (transcript.includes("מור")) {input = "מור";}
+	else if (transcript.includes("ילין")) {input = "ילין";}
+	else if (transcript.includes("אנליסט")) {input = "אנליסט";}
+	else if (transcript.includes("מיטב")) {input = "מיטב";}
+	else if (transcript.includes("אינפי") || transcript.includes("אנפי")) {input = "אינפיניטי";}
+		
+		
+	
+	if(input!==''){
+		const match = gufmosdixA.find(name => name.includes(input));
+		if(transcript.includes("מובילה")){
+			selmenu1.value = match;
+		}
+		if(transcript.includes("מול")){
+			selmenu2.value = match;
+		}
+		
+		console.log(match);
+		
+	}
+	if(transcript.includes("השווה")){
+			console.log("השווה");
+			menahalotWindow.compare2();
+			handleSearchFromVoice("הרבה למטה");
+		}	
+}
+	
+
+
+	if (transcript.includes("מרובה")) {
+		rd1.checked=true;menahalotWindow.selchange()}
+	
+	}
+
+  
+	</script>
 <style>
     #mic { font-size: 2em; cursor: pointer; }
     #result { margin-top: 2em; white-space: pre-line; direction: rtl; }
@@ -866,7 +933,8 @@ function handleInput(text) {
   const hodshiMatch = text.match(/(?:סכום\s+)?חודשי\s+(.*?)(?=(סכום|חד\s*פעמי|ריבית|תקופה|גרייס|$))/);
   const amountMatch = text.match(/(?:סכום\s+)(?!חודשי)(?!חד\s*פעמי)(.*?)(?=(חד\s*פעמי|חודשי|ריבית|תקופה|גרייס|$))/);
   const interestMatch = text.match(/(?:ריבית\s*(של)?\s*)(.*?)(?=(סכום|תקופה|גרייס|$))/);
-  const termMatch = text.match(/(?:תקופ[ה|ת]\s*(של)?\s*)(.*?)(?=(ריבית|סכום|גרייס|$))/);  const graceMatch = text.match(/(?:גרייס\s*(של)?\s*)(.*?)(?=(ריבית|תקופה|סכום|$))/);
+  const termMatch = text.match(/(?:תקופ[ה|ת]\s*(של)?\s*)(.*?)(?=(ריבית|סכום|גרייס|$))/);
+  const graceMatch = text.match(/(?:גרייס\s*(של)?\s*)(.*?)(?=(ריבית|תקופה|סכום|$))/);
   const dmeyMatch = text.match(/(?:ניהול\s*(של)?\s*)(.*?)(?=(ריבית|תקופה|סכום|$))/);
   //const tesuaMatch = text.match(/(?:תשוא[אה]?|תשועה)\s*(של)?\s*(.*?)(?=(ריבית|תקופה|סכום|$))/);
 
