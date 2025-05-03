@@ -126,6 +126,25 @@ else{
 if(!transcript){return};
 	if ((transcript.includes("קשר") || transcript.includes("סוכן"))  && ifrmValue===0) {yossi();
 	}
+	else if (Swal.isVisible()) {
+		if (transcript.includes("מאשר") && !transcript.includes("לא") ) {
+			const checkbox = document.getElementById("swal-checkbox");
+			if (checkbox && !checkbox.checked) {
+				checkbox.checked = true;
+			}
+
+			const confirmBtn = document.querySelector(".swal2-confirm");
+			if (confirmBtn) {
+				confirmBtn.click();
+			}
+		} else if (transcript.includes("לא מאשר") || transcript.includes("לא")) {
+			const cancelBtn = document.querySelector(".swal2-cancel");
+			if (cancelBtn) {
+				cancelBtn.click();
+			}
+		}
+	}
+
  	else if (transcript.includes("ראש")  && ifrmValue===1) {iframeCont.scrollTo(0, 0);
 	}
 	else if (transcript.includes("ראש")  && ifrmValue===0) {window.scrollTo(0, 0);
