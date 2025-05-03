@@ -36,7 +36,7 @@
 </script>
 
 <script>
-var startStop;		
+var startStop;	
 function showmehasifot(x){
   createForm(x)
 }
@@ -72,7 +72,7 @@ recognition.continuous = false;
 function micClick() {
    startStop=0;	
 const mictext=document.getElementById('resultMic').textContent;
-  if(mictext.includes("עצור")){
+  if(mictext.includes("עצור") ){
 	startStop=1;  recognition.stop();
   }
 else{
@@ -88,8 +88,8 @@ recognition.onresult = (event) => {
 };
 
 recognition.onend = () => {
-  console.log("האזנה הסתיימה – מתחיל מחדש");
- if(startStop===0) {recognition.start();}
+console.log("האזנה הסתיימה – מתחיל מחדש");
+if(startStop===0) {recognition.start();}
 else{document.getElementById('resultMic').textContent ="לא מאזין"}
 };
 
@@ -161,7 +161,8 @@ if(!transcript){return};
   else if (transcript.includes("מחשבונים") || transcript.includes("פיננסיים")) {
     hideformic(); showIframe("Machshevonim.html");
   }
-  else if ((transcript.includes("השוואה") || transcript.includes("חברות"))
+  else if ((transcript.includes("השוואה") || transcript.includes("השוואת")
+	)
   && ifrmValue===0) {
     if (transcript.includes("מנהלות") || transcript.includes("מנהלת")) {
       hideformic(); showIframe("hashMenahalot.html");
@@ -496,8 +497,6 @@ function handleCompoundInterest(transcript) {
 }
 function handleMenahalot(transcript) {
 
-  
-
   const iframex = document.getElementById('ifrm');
   const menahalotDoc = iframex.contentWindow.document;
   const menahalotWindow = iframex.contentWindow;
@@ -506,49 +505,71 @@ function handleMenahalot(transcript) {
   const selmenu1 = menahalotDoc.getElementById('selmen1');
   const selmenu2 = menahalotDoc.getElementById('selmen2'); 
 	var input='';
-  if (transcript.includes("שתי") || rd2.checked) {
-	rd2.checked=true;menahalotWindow.selchange()
+  if (transcript.includes("שתי") || rd2.checked===true) {
+	console.log("שתי חברות נבחרו");
+	rd2.checked=true;
+	menahalotDoc.getElementById('form2').style.display='flex';
+	menahalotDoc.getElementById('form1').style.display='none';
 
-	if (transcript.includes("מגדל")) {input = "מגדל";}
-	else if (transcript.includes("הראל")) {input = "הראל";}
-	else if (transcript.includes("כלל")) {input = "כלל";}
-	else if (transcript.includes("מנורה")) {input = "מנורה";}
-	else if (transcript.includes("אלטשולר")) {input = "אלטשולר";}
-	else if (transcript.includes("פניקס")) {input = "פניקס";}
-	else if (transcript.includes("מור")) {input = "מור";}
-	else if (transcript.includes("ילין")) {input = "ילין";}
-	else if (transcript.includes("אנליסט")) {input = "אנליסט";}
-	else if (transcript.includes("מיטב")) {input = "מיטב";}
-	else if (transcript.includes("אינפי") || transcript.includes("אנפי")) {input = "אינפיניטי";}
-		
-		
 	
-	if(input!==''){
-		const match = gufmosdixA.find(name => name.includes(input));
-		if(transcript.includes("מובילה")){
+
+
+	if (transcript.includes("מובילה") || transcript.includes("מול")) {
+		if (transcript.includes("מובילה") && transcript.includes("מול")){
+			const matchtext=transcript.split("מול");
+			input=matchHevra(matchtext[0].trim());
+			var match = gufmosdixA.find(name => name.includes(input));
+			selmenu1.value = match;
+			console.log("מובילה",match);
+			input=matchHevra(matchtext[1].trim());
+			var match = gufmosdixA.find(name => name.includes(input));
+			selmenu2.value = match;
+			console.log("מול",match);
+			
+		}
+		
+		else if(transcript.includes("מובילה")){
+			input=matchHevra(transcript);
+			var match = gufmosdixA.find(name => name.includes(input));
 			selmenu1.value = match;
 		}
-		if(transcript.includes("מול")){
+		else if(transcript.includes("מול")){
+			input=matchHevra(transcript);
+			var match = gufmosdixA.find(name => name.includes(input));
 			selmenu2.value = match;
 		}
 		
-		console.log(match);
 		
-	}
-	if(transcript.includes("השווה") || transcript.includes("בצע") ){
-			console.log("השווה");
-			menahalotWindow.compare2();
-			handleSearchFromVoice("הרבה למטה");
+	}	
+	
+	if(transcript.includes("השווה") || transcript.includes("השוואה") || transcript.includes("בצע") ){
+		const iframe = document.getElementById('ifrm');
+		var iframeCont=iframe.contentWindow;
+		menahalotWindow.compare2();
+		iframeCont.scrollBy(0, iframeCont.innerHeight);
+			
 		}	
 }
 	
 
-
 	if (transcript.includes("מרובה")) {
-		rd1.checked=true;menahalotWindow.selchange()}
+		rd1.checked=true;
+		menahalotWindow.selchange()}
 	
 	}
-
+function matchHevra(transcript){
+	if (transcript.includes("מגדל")) {return "מגדל";}
+	else if (transcript.includes("הראל")) {return  "הראל";}
+	else if (transcript.includes("כלל")) {return  "כלל";}
+	else if (transcript.includes("מנורה")) {return  "מנורה";}
+	else if (transcript.includes("אלטשולר")) {return "אלטשולר";}
+	else if (transcript.includes("פניקס")) {return  "פניקס";}
+	else if (transcript.includes("מור")) {return  "מור";}
+	else if (transcript.includes("ילין")) {return  "ילין";}
+	else if (transcript.includes("אנליסט")) {return  "אנליסט";}
+	else if (transcript.includes("מיטב")) {return  "מיטב";}
+	else if (transcript.includes("אינפי") || transcript.includes("אנפי")) {return "אינפיניטי";}
+}
   
 	</script>
 <style>
