@@ -1,4 +1,4 @@
-const filter = document.getElementById('filter');
+
 const recognition = new webkitSpeechRecognition() || new SpeechRecognition(); 
 recognition.lang = "he-IL";
 recognition.interimResults = false;
@@ -42,7 +42,7 @@ function hideformic() {
 function handleSearchFromVoice(transcript) {
 var ifrmValue;
 const iframe = document.getElementById('ifrm');
-
+const filter = document.getElementById('filter');
 
 if(iframe){
 	var iframeHref = iframe.contentWindow.location.href;
