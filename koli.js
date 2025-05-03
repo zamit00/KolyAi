@@ -1,3 +1,4 @@
+const filter = document.getElementById('filter');
 const recognition = new webkitSpeechRecognition() || new SpeechRecognition(); 
 recognition.lang = "he-IL";
 recognition.interimResults = false;
@@ -176,13 +177,15 @@ if(!transcript){return};
       hideformic(); showIframe("meidaMikzoei.html");
     }
   }
-  else if (transcript.includes("קרנות השתלמות") && !transcript.includes("מקצועי")) {
+  else if (transcript.includes("קרנות השתלמות") && !transcript.includes("מקצועי")
+	  && filter.style.display==='none') {
     showKupaMeida('pHish'); hideMaBaatar(); maslulim(30,'קרנות השתלמות',0);
   }
-  else if (transcript.includes("קרנות פנסיה") && !transcript.includes("מקצועי")) {
+  else if (transcript.includes("קרנות פנסיה") && !transcript.includes("מקצועי")  && filter.style.display==='none' ) {
     showKupaMeida('pPensia'); hideMaBaatar(); maslulimP(30,'קרנות חדשות',0);
   }
-  else if (transcript.includes("השקעה") && !transcript.includes("מקצועי")) {
+  else if (transcript.includes("השקעה") && !transcript.includes("מקצועי")
+	  && filter.style.display==='none') {
     showKupaMeida('pHash'); hideMaBaatar(); maslulim(30,'קופת גמל להשקעה',0);
   }
   else if (transcript.includes("ילד") && !transcript.includes("מקצועי")) {
@@ -191,7 +194,8 @@ if(!transcript){return};
   else if (transcript.includes("פוליסות") && !transcript.includes("מקצועי")) {
     showKupaMeida('pPolisa'); hideMaBaatar(); maslulim(30,'פוליסות חסכון',0);
   }
-  else if (transcript.includes("גמל") && !transcript.includes("השקעה") && !transcript.includes("מקצועי")) {
+  else if (transcript.includes("גמל") && !transcript.includes("השקעה") && !transcript.includes("מקצועי")
+	   && filter.style.display==='none' ) {
     showKupaMeida('pGemel'); hideMaBaatar(); maslulim(30,'תגמולים ואישית לפיצויים',0);
   }
   else if (((transcript.includes("דף") || transcript.includes("חזור") || transcript.includes("הבית"))) 
