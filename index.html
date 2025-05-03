@@ -571,6 +571,13 @@ function handleMenahalot(transcript) {
 		iframeCont.scrollBy(0, window.innerHeight*0.8);
 			
 		}	
+		if(transcript.includes("הדפס") || transcript.includes("pdf")){
+		const iframe = document.getElementById('ifrm');
+		var iframeCont=iframe.contentWindow;
+		menahalotWindow.pdfDo();
+			
+		}	
+		
 }
 	
 
