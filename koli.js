@@ -16,6 +16,11 @@ console.log("האזנה התחילה");
   document.getElementById('resultMic').textContent = " מאזין קבוע - לעצירה אמור עצור או לחץ שוב";
   recognition.start();}
 }
+recognition.onstart = function () {
+  setTimeout(() => {
+    recognition.stop();
+  }, 25000); // עוצר אחרי 25 שניות
+};
 
 recognition.onresult = (event) => {
   const transcript = event.results[0][0].transcript;
