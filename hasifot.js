@@ -179,7 +179,7 @@ function createForm(x) {
     
     hidkot()
     document.getElementById('sanenMosdy').style.display='none';
-    chng(document.getElementById('tafrit'));
+   // chng(document.getElementById('tafrit'));
     
     const allTheTables=document.getElementById('allTheTables');
     allTheTables.style.display='none';
@@ -246,7 +246,7 @@ function createFormMen() {
 
 
 async function tablhasifot() {
-    var datfilter;
+    event.preventDefault(); var datfilter;
     var sugmM=document.getElementById('sugM').value;
     if(sugmM==='קופות גמל' ){
         sugmM='תגמולים ואישית לפיצויים'
