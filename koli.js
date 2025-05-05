@@ -138,7 +138,7 @@ if(!transcript){return};
       hideformic(); showIframe("hasifotMeshulav.html");
     }
     else if (transcript.includes("שארפ") || transcript.includes("שרפ")) {
-      hideIframe(); toggleMenu(); hideAllimages(); createForm(0);handleSharp(transcript)
+      hideIframe();  hideAllimages(); createForm(0);handleSharp(transcript)
     }
     else if (transcript.includes("משולב") || transcript.includes("תיק")) {
       hideformic(); showIframe("VirtualInvest.html");
@@ -546,15 +546,24 @@ function handleSharp(transcript) {
 
         if (transcript.includes("השתלמות")) {
             sugmM.value='קרנות השתלמות';
+	    sugM.textContent="קרנות השתלמות";	
         }
         else if (transcript.includes("פנסיה")) {
-            sugmM.value='קרנות פנסיה - מקיפה';}
+            sugmM.value='קרנות פנסיה - מקיפה';
+	    sugM.textContent="קרנות פנסיה";
+	}
         else if (transcript.includes("גמל") && !transcript.includes("השקעה")) {
-            sugmM.value='קופות גמל';}
+            sugmM.value='תגמולים ואישית לפיצויים';
+	     sugM.textContent="קופות גמל"}
         else if (transcript.includes("השקעה")) {
-            sugmM.value='קופת גמל להשקעה';}
+            sugmM.value='קופת גמל להשקעה';
+          sugmM.textContent='קופת גמל להשקעה';
+
+}
         else if (transcript.includes("חסכון") || transcript.includes("חיסכון")) {
-            sugmM.value='פוליסות חסכון';}  
+            sugmM.value='פוליסות חסכון';
+             sugmM.textContent='פוליסות חסכון';
+}  
         
           if(transcript.includes("השווה") || transcript.includes("השוואה") || transcript.includes("בצע")
               ||  transcript.includes("בצא")){  
