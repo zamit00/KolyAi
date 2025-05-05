@@ -117,9 +117,9 @@ if (existingChart) {
     document.getElementById('ramatsikon').innerHTML='<span style="color: orangered;">'
                 +'רמת סיכון: '+ '</span>'+ramatsikon +" ,חשיפה למניות - "+shiurmenayut+"%"
     document.getElementById('baaretz').innerHTML='<span style="color: orangered;">'
-                +'נכסים בארץ: '+shiurbaaretz+"%"
+                +'נכסים בארץ: '+ '</span>'+shiurbaaretz+"%"
      document.getElementById('behul').innerHTML='<span style="color: orangered;">'
-                +'נכסים במטח: '+ shiurbehul+"%"
+                +'נכסים במטח: '+ '</span>'+ shiurbehul+"%"
     existingChart = Chart.getChart("myChart"); // מחפש אם יש גרף קיים
         if (existingChart) {
                     existingChart.destroy(); // הורס את הגרף הקודם
