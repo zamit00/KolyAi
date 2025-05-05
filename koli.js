@@ -359,28 +359,33 @@ function handleLoan(transcript) {
 	// סכום
 	if (pianoach.amount) {  
 		loanAmountInput.value = pianoach.amount;
+		 compoundWindow.initInputSync('loan-amount', 'loan-amount-range');
 		console.log("📌 סכום זוהה:", pianoach.amount);
 	}
 
 	// גרייס
 	if (pianoach.grace) {		
-			delayfor.value = pianoach.grace;
-			console.log("📌 גרייס זוהה:", pianoach.grace, "חודשים");	
+	         delayfor.value = pianoach.grace;
+		compoundWindow.initInputSync('payment-delay', 'payment-delay-range');
+		console.log("📌 גרייס זוהה:", pianoach.grace, "חודשים");	
 	}
 	else if (transcript.includes("גרייס") ) {		
 		delayfor.value = '';
+		compoundWindow.initInputSync('payment-delay', 'payment-delay-range');
 		console.log("📌 גרייס זוהה:", "ללא גרייס");
 	}
-	// תקופה (ללא גרייס)
+	// תקופה 
 	if (pianoach.term) {		
-			termfor.value = pianoach.term;
-			console.log("📌 תקופה זוהתה:", pianoach.term, "חודשים");		
+		termfor.value = pianoach.term;
+		compoundWindow.initInputSync('loan-term', 'loan-term-range');
+		console.log("📌 תקופה זוהתה:", pianoach.term, "חודשים");		
 	}
 
 	// ריבית
 	if (pianoach.interest) {		
-			interestfor.value = pianoach.interest;
-			console.log("📌 ריבית זוהתה:", pianoach.interest + "%");	
+		interestfor.value = pianoach.interest;
+		compoundWindow.initInputSync('interest-rate', 'interest-rate-range');
+		console.log("📌 ריבית זוהתה:", pianoach.interest + "%");	
 	}
 
 	// הפעלת מחשבון רק אם כל השדות מולאו
@@ -430,6 +435,7 @@ function handleCompoundInterest(transcript) {
 	if (pianoach.hodshi) {  
 		monthlyDepositInput.value = pianoach.hodshi;
 		console.log("📌 סכום חודשי:", pianoach.hodshi);
+		
 	}
 
 	if (pianoach.term) {	
