@@ -19,7 +19,7 @@ console.log("האזנה התחילה");
 recognition.onstart = function () {
   setTimeout(() => {
     recognition.stop();
-  }, 25000); // עוצר אחרי 25 שניות
+  }, 17000); // עוצר אחרי 17 שניות
 };
 
 recognition.onresult = (event) => {
