@@ -115,11 +115,13 @@ if (existingChart) {
         }
     });
     document.getElementById('ramatsikon').innerHTML='<span style="color: orangered;">'
-                +'רמת סיכון: '+ '</span>'+ramatsikon +" ,חשיפה למניות - "+shiurmenayut+"%"
+                +'רמת סיכון: '+ '</span>'+ramatsikon ;
+    document.getElementById('menayot').innerHTML='<span style="color: orangered;">'
+                +'חשיפה למניות: '+ '</span>'+shiurmenayut+"%";
+   document.getElementById('behul').innerHTML='<span style="color: orangered;">'
+                +'חשיפה למטח: ' + '</span>'+ shiurbehul+"%";
     document.getElementById('baaretz').innerHTML='<span style="color: orangered;">'
-                +'נכסים בארץ: '+ '</span>'+shiurbaaretz+"%"
-     document.getElementById('behul').innerHTML='<span style="color: orangered;">'
-                +'חשיפה למטח: '+ '</span>'+ shiurbehul+"%"
+                +'שיעור נכסים בארץ: '+ '</span>'+shiurbaaretz+"%";
     existingChart = Chart.getChart("myChart"); // מחפש אם יש גרף קיים
         if (existingChart) {
                     existingChart.destroy(); // הורס את הגרף הקודם
