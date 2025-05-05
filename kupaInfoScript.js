@@ -27,6 +27,8 @@ async function bring(data,mikom) {
     document.title =shemkupa+mhkupa;
     let tesuaMitchilatshana=data[0].tesuaMitchilatshana;
     let ramatsikon= data[0].ramatsikon; let shiurmenayut= data[0].kvutzaAhuz4751;
+     let baaretz= data[0].kvutzaSug4731; let shiurbaaretz= data[0].kvutzaAhuz4731;
+     let behul= data[0].kvutzaSug4761; let shiurbehul= data[0].kvutzaAhuz4761;
     document.getElementById('stiya36').innerHTML='<span style="color: orangered;">'
       +'סטיית תקן ל - 3 שנים: '+ '</span>'+stiya36;
     var tchilatshana=1;
@@ -114,6 +116,10 @@ if (existingChart) {
     });
     document.getElementById('ramatsikon').innerHTML='<span style="color: orangered;">'
                 +'רמת סיכון: '+ '</span>'+ramatsikon +" ,חשיפה למניות - "+shiurmenayut+"%"
+    document.getElementById('baaretz').innerHTML='<span style="color: orangered;">'
+                +'נכסים בארץ: '+ '</span>'+baaretz +" ,חשיפה למניות - "+shiubaaretz+"%"
+     document.getElementById('behul').innerHTML='<span style="color: orangered;">'
+                +'נכסים במטח: '+ '</span>'+behul +" ,חשיפה למניות - "+shiurbehul+"%"
     existingChart = Chart.getChart("myChart"); // מחפש אם יש גרף קיים
         if (existingChart) {
                     existingChart.destroy(); // הורס את הגרף הקודם
