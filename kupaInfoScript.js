@@ -117,7 +117,7 @@ if (existingChart) {
     document.getElementById('ramatsikon').innerHTML='<span style="color: orangered;">'
                 +'רמת סיכון: '+ '</span>'+ramatsikon +" ,חשיפה למניות - "+shiurmenayut+"%"
     document.getElementById('baaretz').innerHTML='<span style="color: orangered;">'
-                +'נכסים בארץ: '+ '</span>'+baaretz +" ,חשיפה למניות - "+shiubaaretz+"%"
+                +'נכסים בארץ: '+ '</span>'+baaretz +" ,חשיפה למניות - "+shiurbaaretz+"%"
      document.getElementById('behul').innerHTML='<span style="color: orangered;">'
                 +'נכסים במטח: '+ '</span>'+behul +" ,חשיפה למניות - "+shiurbehul+"%"
     existingChart = Chart.getChart("myChart"); // מחפש אם יש גרף קיים
