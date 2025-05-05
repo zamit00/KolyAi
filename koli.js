@@ -359,32 +359,32 @@ function handleLoan(transcript) {
 	// סכום
 	if (pianoach.amount) {  
 		loanAmountInput.value = pianoach.amount;
-		 compoundWindow.initInputSync('loan-amount', 'loan-amount-range');
+		loanDoc.getElementById('loan-amount-range').value=pianoach.amount;
 		console.log("📌 סכום זוהה:", pianoach.amount);
 	}
 
 	// גרייס
 	if (pianoach.grace) {		
 	         delayfor.value = pianoach.grace;
-		compoundWindow.initInputSync('payment-delay', 'payment-delay-range');
+		loanDoc.getElementById('payment-delay-range').value=pianoach.grace;
 		console.log("📌 גרייס זוהה:", pianoach.grace, "חודשים");	
 	}
 	else if (transcript.includes("גרייס") ) {		
 		delayfor.value = '';
-		compoundWindow.initInputSync('payment-delay', 'payment-delay-range');
+		loanDoc.getElementById('payment-delay-range').value=0;
 		console.log("📌 גרייס זוהה:", "ללא גרייס");
 	}
 	// תקופה 
 	if (pianoach.term) {		
 		termfor.value = pianoach.term;
-		compoundWindow.initInputSync('loan-term', 'loan-term-range');
+		loanDoc.getElementById('loan-term-range').value=pianoach.term;
 		console.log("📌 תקופה זוהתה:", pianoach.term, "חודשים");		
 	}
 
 	// ריבית
 	if (pianoach.interest) {		
 		interestfor.value = pianoach.interest;
-		compoundWindow.initInputSync('interest-rate', 'interest-rate-range');
+		loanDoc.getElementById('interest-rate').value=pianoach.interest;
 		console.log("📌 ריבית זוהתה:", pianoach.interest + "%");	
 	}
 
