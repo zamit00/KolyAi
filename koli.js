@@ -384,7 +384,7 @@ function handleLoan(transcript) {
 	// ריבית
 	if (pianoach.interest) {		
 		interestfor.value = pianoach.interest;
-		loanDoc.getElementById('interest-rate').value=pianoach.interest;
+		loanDoc.getElementById('interest-rate-range').value=pianoach.interest;
 		console.log("📌 ריבית זוהתה:", pianoach.interest + "%");	
 	}
 
