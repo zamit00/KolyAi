@@ -119,7 +119,7 @@ if (existingChart) {
     document.getElementById('baaretz').innerHTML='<span style="color: orangered;">'
                 +'נכסים בארץ: '+ '</span>'+shiurbaaretz+"%"
      document.getElementById('behul').innerHTML='<span style="color: orangered;">'
-                +'נכסים במטח: '+ '</span>'+ shiurbehul+"%"
+                +'חשיפה למטח: '+ '</span>'+ shiurbehul+"%"
     existingChart = Chart.getChart("myChart"); // מחפש אם יש גרף קיים
         if (existingChart) {
                     existingChart.destroy(); // הורס את הגרף הקודם
