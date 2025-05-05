@@ -9,7 +9,7 @@ const havarotMenahalot=['הראל פנסיה וגמל','כלל פנסיה וגמ
 
 
 function changehasifa(){
- createForm(1);	
+ tablhasifot();
 }
 
 function changehasifaMen(){
