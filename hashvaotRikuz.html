@@ -104,7 +104,7 @@
     <h4>השוואת נתוני חברות</h4>
     <div class="container">
       <div class="chart-container">
-        <!--<canvas id="barChart"></canvas></div> -->
+        <canvas id="barChart"></canvas></div>
         <div style='display: grid;
         grid-template-columns: repeat(2, 1fr); 
         grid-auto-rows: auto;
@@ -125,8 +125,8 @@
 function getRandomValue(min, max) {
     return Math.random() * (max - min) + min;
 }
-//const ctx = document.getElementById('barChart').getContext('2d');
-/*const chart = new Chart(ctx, {
+const ctx = document.getElementById('barChart').getContext('2d');
+const chart = new Chart(ctx, {
     type: 'bar',
     data: {
         labels: ['חברה א', 'חברה ב', 'חברה ג', 'חברה ד', 'חברה ה'],
@@ -183,7 +183,7 @@ function updateChart() {
 
 // יצירת אנימציה מתמשכת
 setInterval(updateChart, 2000);
-*/
+
         function navigate(page) {
             hideIframe();
             window.parent.hideAllimages();
@@ -193,7 +193,6 @@ setInterval(updateChart, 2000);
 
         function navigateWithMenu() {
             hideIframe();
-            window.parent.toggleMenu();
             window.parent.hideAllimages();
             window.parent.createForm();
         }
