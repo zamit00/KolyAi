@@ -145,7 +145,7 @@ if(!transcript){return};
     }
     else if (transcript.includes("שארפ") || transcript.includes("שרפ")) {
       hideIframe();  hideAllimages(); createForm(0);
-	   toggleMenux(); handleSharp(transcript)
+	    handleSharp(transcript)
     }
     else if (transcript.includes("משולב") || transcript.includes("תיק")) {
       hideformic(); showIframe("VirtualInvest.html");
@@ -547,6 +547,7 @@ function handleMenahalot(transcript) {
 	
 	}
 function handleSharp(transcript) {
+	toggleMenux();
         var sugmM=document.getElementById('sugM');        
         
           var input='';
