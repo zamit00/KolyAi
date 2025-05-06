@@ -88,8 +88,8 @@ async function searchMh(x){
      if(mhkupa.length===0){mhkupa=datanetunimKlaliXP.filter(item=>item.mh===mhSearch.trim())}
     if(mhkupa.length===0){
          Swal.fire({
-            title: "<span style='color: green; font-size: 16px;'> לא נמצא מסלול: </span>"+`<span style='color: green; font-size: 16px;'>${mhSearch}</span>` +" "+
-            "<span style='color: green; font-size: 16px;'>בהוראה קולית לנקוב בספרות בלבד</span>",
+            title: "<span style='color: green; font-size: 16px;'> לא נמצא מסלול במספר שנבחר</span>" +" "+
+            "<span style='color: green; font-size: 16px;'>בהוראה קולית יש לנקוב בספרות בלבד</span>",
             width: "90vw", 
             icon: "warning",
             timer: 2000, 
