@@ -86,17 +86,19 @@ async function searchMh(x){
      var mhkupa=datanetunimKlaliXM.filter(item=>item.mh===mhSearch.trim());
      if(mhkupa.length===0){mhkupa=datanetunimKlaliXB.filter(item=>item.mh===mhSearch.trim())}
      if(mhkupa.length===0){mhkupa=datanetunimKlaliXP.filter(item=>item.mh===mhSearch.trim())}
-     if(mhkupa.length===0){
+    if(mhkupa.length===0){
          Swal.fire({
-             title: "<span style='color: green; font-size: 16px;'> לא נמצא מסלול: </span>"+`<span style='color: green; font-size: 16px;'>${mhSearch}</span>` +" "+
-             "<span style='color: green; font-size: 16px;'>בהוראה קולית לנקוב בספרות בלבד</span>",
-             width: "90vw", 
-             icon: "warning",
-             showCancelButton: false,
-             confirmButtonText: "אישור",
-             cancelButtonText: "לא, בטל",
-             confirmButtonColor: "#3085d6",
-             cancelButtonColor: "#d33"
+            title: "<span style='color: green; font-size: 16px;'> לא נמצא מסלול: </span>"+`<span style='color: green; font-size: 16px;'>${mhSearch}</span>` +" "+
+            "<span style='color: green; font-size: 16px;'>בהוראה קולית לנקוב בספרות בלבד</span>",
+            width: "90vw", 
+            icon: "warning",
+            timer: 2000, 
+            showConfirmButton: false,
+            timerProgressBar: true, 
+            background: "#fff",
+            customClass: {
+            popup: 'swal2-center-custom'
+          }       
          });return;}
    document.getElementById('searchBoxmh').value='';
      hidefooter();hideAllimages();hideMabaatarSpecific();hideMaBaatar();
