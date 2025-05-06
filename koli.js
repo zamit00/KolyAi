@@ -38,6 +38,12 @@ recognition.onerror = (e) => {
   console.error("שגיאת זיהוי קולי:", e.error);
   document.getElementById("result").textContent = "שגיאה בזיהוי קולי: " + e.error;
 };
+function toggleMenux() {
+  if(document.getElementById("hamb").className.includes('open')){
+        document.getElementById("hamb").classList.remove("open");
+        document.querySelector(".menu-container").style.display='none';
+        document.getElementById("menu").classList.remove("open");
+  }}
 
 function hideformic() {
   hideAllimages();
@@ -139,7 +145,7 @@ if(!transcript){return};
     }
     else if (transcript.includes("שארפ") || transcript.includes("שרפ")) {
       hideIframe();  hideAllimages(); createForm(0);
-	   toggleMenu(); handleSharp(transcript)
+	   toggleMenux(); handleSharp(transcript)
     }
     else if (transcript.includes("משולב") || transcript.includes("תיק")) {
       hideformic(); showIframe("VirtualInvest.html");
