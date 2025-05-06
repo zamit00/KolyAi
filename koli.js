@@ -5,6 +5,8 @@ recognition.interimResults = false;
 recognition.maxAlternatives = 1;
 recognition.continuous = false;
 
+
+
 function micClick() {
    startStop=0;	
 const mictext=document.getElementById('resultMic').textContent;
@@ -376,7 +378,19 @@ if(!transcript){return};
 	}
   	else {
   	  if(!transcript.includes('קצר') && !transcript.includes('בינוני') &&!transcript.includes('ארוך')){
-    	alert("הבקשה אינה ברורה - לחץ שוב");}
+        Swal.fire({
+          html: "<span style='color: green; font-size: 16px;'>הבקשה אינה ברורה - אמור שוב</span>",
+          width: "clamp(300px, 90vw, 600px)",
+          position: "center", 
+          timer: 2000, 
+          showConfirmButton: false,
+          timerProgressBar: true, 
+          background: "#fff",
+          customClass: {
+            popup: 'swal2-center-custom'
+          }
+        });
+        }
     	
  	 }
 	
