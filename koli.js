@@ -375,7 +375,8 @@ if(!transcript){return};
 	  handleSharp(transcript);return;	
 	}
   	else {
-    	alert("הבקשה אינה ברורה - לחץ שוב");
+  	  if(!transcript.includes('קצר') && !transcript.includes('בינוני') &&!transcript.includes('ארוך')){
+    	alert("הבקשה אינה ברורה - לחץ שוב");}
     	
  	 }
 	
