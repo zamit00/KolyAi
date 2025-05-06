@@ -188,6 +188,8 @@ function createForm(x) {
     const filter=document.getElementById('filter');
     filter.style.display='flex';
     document.getElementById("productForm").scrollIntoView({ behavior: "smooth" });
+if(document.getElementById("menu").classList.includes
+   ('open')){document.getElementById("menu").classList.remove("open")};
 if(x!==0){
     tablhasifot()
   }
