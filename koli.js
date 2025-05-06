@@ -1,4 +1,4 @@
-var timeToListen=7000;var interval;
+var timeToListen=5000;var interval;
 const recognition = new webkitSpeechRecognition() || new SpeechRecognition(); 
 recognition.lang = "he-IL";
 recognition.interimResults = false;
@@ -69,9 +69,12 @@ function hideformic() {
 
 function handleSearchFromVoice(transcript) {
   
-  if (transcript.includes("קצר")) {timeToListen=7000;return;}
+  if (transcript.includes("קצר")) {timeToListen=5000;}
+  
+  if (transcript.includes("בינוני") || transcript.includes("בנוני"))
+  {timeToListen=10000;}
 
-if (transcript.includes("ארוך")) {timeToListen=17000;return;}
+if (transcript.includes("ארוך")) {timeToListen=17000;}
 
   
 var ifrmValue;
