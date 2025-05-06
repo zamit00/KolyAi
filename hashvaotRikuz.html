@@ -193,8 +193,8 @@ setInterval(updateChart, 2000);
 
         function navigateWithMenu() {
             hideIframe();
-            hideAllimages();
-            createForm();
+            window.parent.hideAllimages();
+            window.parent.createForm();
         }
 
         function hideIframe() {
@@ -204,4 +204,3 @@ setInterval(updateChart, 2000);
     </script>
 </body>
 </html>
-
