@@ -144,7 +144,7 @@ if(!transcript){return};
       hideformic(); showIframe("hasifotMeshulav.html");
     }
    else if (transcript.includes("שארפ") || transcript.includes("שרפ")) {
-     hideIframe();  
+     hideformic(); 
      hideAllimages(); 
      createForm(0);handleSharp(transcript)
     }
