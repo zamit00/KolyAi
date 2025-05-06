@@ -162,8 +162,8 @@ if(!transcript){return};
     else if(transcript.includes("חשיפות")) {
       hideformic(); showIframe("hasifotMeshulav.html");
     }
-    else if(transcript.includes("שארפ") || transcript.includes("שרפ")) {
-		hideformic(); toggleMenu();  createForm(0);handleSharp(transcript);
+    else if (transcript.includes("שארפ") || transcript.includes("שרפ")) {
+      hideIframe(); toggleMenu(); hideAllimages(); createForm(0);handleSharp(transcript)
     }
     else if(transcript.includes("משולב") || transcript.includes("תיק")) {
       hideformic(); showIframe("VirtualInvest.html");
