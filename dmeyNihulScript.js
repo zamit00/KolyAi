@@ -46,10 +46,16 @@ function updateFields() {
     const rd2check=document.getElementById('rd2')
     const divdeposit=document.getElementById('deposit')
     const divsaving=document.getElementById('saving')
+    const divdepositAmount=document.getElementById('depositAmount')
+    const divsavingAmount=document.getElementById('savingAmount')
     
-    if(rd1check.checked){divdeposit.style.display='none';divsaving.style.display='flex';}
+    if(rd1check.checked){divdeposit.style.display='none';divsaving.style.display='flex';
+        divdepositAmount.value=0; 
+    }
     else if(rd2check.checked){divdeposit.style.display='flex';divsaving.style.display='none';}
-    else{divdeposit.style.display='flex';divsaving.style.display='flex'}
+    else{divdeposit.style.display='flex';divsaving.style.display='flex';
+        divsavingAmount.value=0; 
+    }
     
 }
 
@@ -286,12 +292,13 @@ function hatraaDmey(x){
     width: "clamp(250px,90vw,600px)", 
     icon: "warning",
     showCancelButton: false,
-    confirmButtonText: "אישור",
-    cancelButtonText: "לא, בטל",
-    confirmButtonColor: "#3085d6",
-    cancelButtonColor: "#d33",
+    showConfirmButton: false,
+    timer: 2000, 
+     showConfirmButton: false,
+    timerProgressBar: true, 
+    background: "#fff",
     customClass: {
-      confirmButton: "custom-confirm-button"
+    popup: 'swal2-center-custom'
       }
     }).then((result) => {
     });
