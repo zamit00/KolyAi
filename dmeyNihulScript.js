@@ -50,11 +50,11 @@ function updateFields() {
     const divsavingAmount=document.getElementById('savingAmount')
     
     if(rd1check.checked){divdeposit.style.display='none';divsaving.style.display='flex';
-        divdepositAmount.value=0; 
+        divdepositAmount.value=0; othribit();
     }
     else if(rd2check.checked){divdeposit.style.display='flex';divsaving.style.display='none';}
     else{divdeposit.style.display='flex';divsaving.style.display='flex';
-        divsavingAmount.value=0; 
+        divsavingAmount.value=0;othribit(); 
     }
     
 }
