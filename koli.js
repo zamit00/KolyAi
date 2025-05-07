@@ -35,7 +35,7 @@ recognition.onstart = function () {
     }
   }, 1000);
 
-   // עוצר אחרי 17 שניות
+   
 };
 
 recognition.onresult = (event) => {
@@ -70,40 +70,25 @@ function hideformic() {
 
 
 function handleSearchFromVoice(transcript) {
+  var ifrmValue=0;
+  var iframe = document.getElementById('ifrm');
+  var filter = document.getElementById('filter');
   
   if (transcript.includes("קצר")) {timeToListen=5000;}
-  
-  if (transcript.includes("בינוני") || transcript.includes("בנוני"))
-  {timeToListen=10000;}
+  else if (transcript.includes("בינוני") || transcript.includes("בנוני"))
+    {timeToListen=10000;}
+  else if (transcript.includes("ארוך")) {timeToListen=17000;}
 
-if (transcript.includes("ארוך")) {timeToListen=17000;}
-
-  
-var ifrmValue;
-const iframe = document.getElementById('ifrm');
-const filter = document.getElementById('filter');
-
+ 
 if(iframe){
-	var iframeHref = iframe.contentWindow.location.href;
-	var iframeCont=iframe.contentWindow;
-	console.log(iframeCont);
-	if(iframeHref==='about:blank'){ifrmValue=0}
-	else{ifrmValue=1;}	
-}
-
-if(iframe!==null){
-if(iframe.src.includes('loan') || iframe.src.includes('ribit') || 
-	iframe.src.includes('hashMenahalot')){ifrmValue=1;}
-}
-else if( document.getElementById('filter').style.display==='flex'){
-ifrmValue=1;
   
-}
+	  var iframeCont=iframe.contentWindow;
+    if(iframe.style.display==='none'){ifrmValue=0;}
+    else {ifrmValue=1;}
 
-else{
-	ifrmValue=0;
-}
-if(!transcript){return};
+}	
+if(!transcript){return};	
+
 	if ((transcript.includes("קשר") || transcript.includes("סוכן"))) {yossi();
 	}
 	else if (Swal.isVisible()) {
@@ -135,7 +120,7 @@ if(!transcript){return};
     showIframe("loan.html");
 
     const iframe = document.getElementById("ifrm");
-    iframe.onload = function() {
+    document.getElementById('ifrm').onload = function() {
         handleLoan(transcript);
     };
 }
@@ -144,12 +129,15 @@ if(!transcript){return};
 	
     hideformic(); showIframe("ribitderibit.html");
 	const iframe = document.getElementById("ifrm");
-    iframe.onload = function() {
+      document.getElementById('ifrm').onload = function() {
         handleCompoundInterest(transcript);
     };
   }
   else if ((transcript.includes("דמי ניהול") || transcript.includes("ניהול")) && ifrmValue===0) {
     hideformic(); showIframe("hashDmeyNihul.html");
+       document.getElementById('ifrm').onload = function() {
+      handleHashDmeyNihul(transcript);
+    }
   }
   
   else if ((transcript.includes("תשואה") || transcript.includes("תשואות")) && ifrmValue===1) {
@@ -276,8 +264,6 @@ if(!transcript){return};
 		else{alert("אמור מסלול + מספר מסלול")}	  
     }
 
-	
-
 
 	else if ((transcript.includes("גלול למטה") || transcript.includes('למטה')) &&
 	ifrmValue===1) {
@@ -360,17 +346,21 @@ if(!transcript){return};
 	else{window.scrollBy(0,minustvach)}
 	  
     }
-	else if(document.getElementById('ifrm')  ){
+	else if(iframe  ){
 
-		if(document.getElementById('ifrm').src.includes("loan")){
+		if(iframe.src.includes("loan")){
 		handleLoan(transcript);return
 		}
-		else if(document.getElementById('ifrm').src.includes("ribitderibit")){
+		else if(iframe.src.includes("ribitderibit")){
 			handleCompoundInterest(transcript);return;	
 		}
-		else if(document.getElementById('ifrm').src.includes("hashMenahalot")){
+		else if(iframe.src.includes("hashMenahalot")){
 			handleMenahalot(transcript);return;	
 		}
+    else if(iframe.src.includes("hashDmeyNihul")){
+      handleHashDmeyNihul(transcript);return;	
+    }
+    
         
 	}	
 	else if(document.getElementById('filter').style.display==='flex'){
@@ -397,10 +387,7 @@ if(!transcript){return};
 }
 		
 function handleLoan(transcript) {
-
 	console.log("🔍 טקסט שזוהה:", transcript);
-
-	
 	const iframex = document.getElementById('ifrm');
 	const loanDoc = iframex.contentWindow.document;
 	const loanWindow = iframex.contentWindow;
@@ -456,18 +443,7 @@ function handleLoan(transcript) {
 	}
 }
 
-    /*
-    if (amount && term && interest) {
-        console.log("✅ כל הנתונים זוהו. מבצע עדכון");
-		console.log(amount, term, interest);
-        updateLoanSimulator(amount, term, interest);
-    } else {
-        
-        if (!amount) alert("אנא אמור לי את סכום ההלוואה");
-       else if (!term) alert("אנא אמור לי את תקופת ההלוואה");
-        else if (!interest) alert("אנא אמור לי את הריבית");
-    }
-}*/
+ 
 function handleCompoundInterest(transcript) {
   console.log("🔍 טקסט שזוהה:", transcript);
 
@@ -621,7 +597,89 @@ function handleSharp(transcript) {
                   
       }
           
+function handleHashDmeyNihul(transcript) {
+  const iframex = document.getElementById('ifrm');
+  const dmeyNihultDoc = iframex.contentWindow.document;
+  const dmeyNihulWindow = iframex.contentWindow;
+  const rd1=dmeyNihultDoc.getElementById('rd1');
+  const rd2=dmeyNihultDoc.getElementById('rd2'); 
+  const rd3=dmeyNihultDoc.getElementById('rd3');
+  const savingAmount=dmeyNihultDoc.getElementById('savingAmount');
+  const depositAmount=dmeyNihultDoc.getElementById('depositAmount');
+  const saving=dmeyNihultDoc.getElementById('saving');
+  const deposit=dmeyNihultDoc.getElementById('deposit');
+  const age=dmeyNihultDoc.getElementById('age');
+  const alltoz=dmeyNihultDoc.getElementById("alltoz");
+  const feeSaving1=dmeyNihultDoc.getElementById("feeSaving1");
+  const feeDeposit1=dmeyNihultDoc.getElementById("feeDeposit1");
+  const feeSaving2=dmeyNihultDoc.getElementById("feeSaving2");
+  const feeDeposit2=dmeyNihultDoc.getElementById("feeDeposit2");
+  const selecttoz=dmeyNihultDoc.getElementById("selecttoz");
+  
+  
+  if (transcript.includes("סוג")){
+    alltoz.style.display="none";
+    if (transcript.includes("צבירה") && !transcript.includes("חודשי")) {rd1.checked=true;}
+    else if (transcript.includes("חודשי") && !transcript.includes("צבירה")) {rd2.checked=true;}
+    else if (transcript.includes("חודשי") && transcript.includes("צבירה")) {rd3.checked=true;}
+    dmeyNihulWindow.updateFields();
+  }
+  if (transcript.includes("סכום")){
+    if (transcript.includes("חודשי") || transcript.includes("הפקדה") 
+    ) {
       
+        depositAmount.value = extractAmounta(transcript);
+        alltoz.style.display="none";
+    }
+    else if (transcript.includes("צבירה")) {
+     
+        savingAmount.value = extractAmounta(transcript);console.log("צבירה",savingAmount.value); 
+        alltoz.style.display="none";
+      }
+
+  }
+  if(transcript.includes("גיל")){
+    age.value = extractAmounta(transcript);
+    dmeyNihulWindow.onch();
+  }
+  if(transcript.includes("בצע") || transcript.includes("בצא") || transcript.includes("חשב")
+    || transcript.includes("חישוב")){
+    dmeyNihulWindow.hashev(0.04);dmeyNihulWindow.scrollBy(0, 300);
+  }
+  if(transcript.includes("דמי ניהול") && transcript.includes("צבירה")){
+    if(transcript.includes("קיים") ){
+      const match=handleInput(transcript)
+      feeSaving1.value = match.dmey;
+
+    }
+    if(transcript.includes("חדש") ){
+      const match=handleInput(transcript)
+      feeSaving2.value = match.dmey;
+
+    }
+    alltoz.style.display="none";
+   }
+   if(transcript.includes("דמי ניהול") && (transcript.includes("הפקדה") ||
+   transcript.includes("פרמיה"))){
+    if(transcript.includes("קיים") ){
+      const match=handleInput(transcript)
+      feeDeposit1.value = match.dmey;
+    }
+    if(transcript.includes("חדש")  ){
+      const match=handleInput(transcript)
+      feeDeposit2.value = match.dmey;
+    }
+    alltoz.style.display="none";
+    }
+    if(transcript.includes("ריבית") ){
+      const match=handleInput(transcript)
+      selecttoz.value = match.interest/100;
+      dmeyNihulWindow.hashev(match.interest/100);
+      dmeyNihultDoc.getElementById("kottoz").textContent = `לפי ריבית ${match.interest}% שנתי:`;
+      dmeyNihulWindow.scrollBy(0, 300);
+    }
+  
+}      
 
 function matchHevra(transcript){
 	if (transcript.includes("מגדל")) {return "מגדל";}
@@ -640,7 +698,7 @@ function extractAmounta(text) {
     const units = {
       "אפס": 0, "אפסים": 0,
       "אחד": 1, "אחת": 1,
-      "שתיים": 2, "שניים": 2, "שתי": 2,
+      "שתיים": 2, "שניים": 2, "שתי": 2,"שני": 2,"שניי": 2,
       "שלוש": 3, "שלושה": 3, "שלושת": 3,
       "ארבע": 4, "ארבעה": 4, "ארבעת": 4,
       "חמש": 5, "חמישה": 5, "חמשת": 5,
@@ -709,7 +767,7 @@ function extractInterestRatea(text) {
   text = text.replaceAll("אחוזים", "אחוז").replaceAll("%", "אחוז").trim();
 
 const wordMap = {
-  "אחת": 1, "אחד": 1, "שתיים": 2, "שניים": 2,
+  "אחת": 1, "אחד": 1, "שתיים": 2, "שניים": 2, "שני": 2, "שניי": 2,
   "שלוש": 3, "שלושה": 3, "ארבע": 4, "ארבעה": 4,
   "חמש": 5, "חמישה": 5, "שש": 6, "שישה": 6,
   "שבע": 7, "שבעה": 7, "שמונה": 8,
@@ -784,6 +842,7 @@ const dmey = extractInterestRatea(dmeyText);
   term: term,
   grace: grace,
   dmey: dmey,
+
   
       
 };
