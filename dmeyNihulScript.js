@@ -48,13 +48,19 @@ function updateFields() {
     const divsaving=document.getElementById('saving')
     const divdepositAmount=document.getElementById('depositAmount')
     const divsavingAmount=document.getElementById('savingAmount')
+    const tozaot=document.getElementById('tbltoz')
+    
     
     if(rd1check.checked){divdeposit.style.display='none';divsaving.style.display='flex';
-        divdepositAmount.value=0; othribit();
+        divdepositAmount.value=0;document.getElementById("alltoz").style.display="none"
+       
     }
-    else if(rd2check.checked){divdeposit.style.display='flex';divsaving.style.display='none';}
+    else if(rd2check.checked){divdeposit.style.display='flex';divsaving.style.display='none';
+        document.getElementById("alltoz").style.display="none";
+        divsavingAmount.value=0;
+    }
     else{divdeposit.style.display='flex';divsaving.style.display='flex';
-        divsavingAmount.value=0;othribit(); 
+       document.getElementById("alltoz").style.display="none";
     }
     
 }
@@ -269,8 +275,7 @@ if(hishuv1x && hishuv2x){
 
                     }  
                     if(i+1!==x3*12){
-                    hatraaDmey(`תקופת השקעה ${x3} שנים. קיימת נקודת החלפת עדיפות אחרי ${Math.round(((i+1)/12))} שנים`)
-                    }
+                    hatraaDmey(`תקופת השקעה ${x3}  קיימת נקודת החלפת במהלך התקופה.`) }
                             
         }
   
