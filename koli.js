@@ -713,21 +713,27 @@ function handleYaad(transcript) {
       const match=handleInput(transcript)
       managementFee.value = match.dmey;
       managementFeeSlider.value = match.dmey;
+      managementFeeSlider.scrollIntoView({ behavior: "smooth", block: "start" });
     }
     if((transcript.includes("יעד") || transcript.includes("יד")) && transcript.includes("סכום")){
       const match=handleInput(transcript)
       targetAmount.value = match.amount;
       targetAmountSlider.value = match.amount;
+      
     }
     if(transcript.includes("התחל")  && transcript.includes("סכום")){
       const match=handleInput(transcript)
       initialAmount.value = match.amount;
       initialAmountSlider.value = match.amount;
+      initialAmount.scrollIntoView({ behavior: "smooth", block: "start" });
+      
     }
     if(transcript.includes("ריבית") ){
       const match=handleInput(transcript);
       interestRate.value = match.interest;
       interestRateSlider.value = match.interest;
+      interestRateSlider.scrollIntoView({ behavior: "smooth", block: "start" });
+      
     }
     if(transcript.includes("תקופ")){
       const match=handleInput(transcript);
@@ -736,7 +742,8 @@ function handleYaad(transcript) {
     }
     if(transcript.includes("בצע") || transcript.includes("בצא") || transcript.includes("חשב")
       || transcript.includes("חישוב")){
-      yaadWindow.calculateMonthlyDeposit();dmeyNihulWindow.scrollBy(0, 600);
+      yaadWindow.calculateMonthlyDeposit();
+      yaadDoc.getElementById("result").scrollIntoView({ behavior: "smooth", block: "start" });
     }
 //yaadWindow.calculateMonthlyDeposit()
   
