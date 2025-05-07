@@ -67,9 +67,8 @@
         }
 
         .input-group {
-            margin-bottom: 5px;
             background-color: #f9f9f9;
-            padding: 20px;
+            padding: 5px 10px;
             border-radius: var(--border-radius);
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
         }
@@ -89,7 +88,7 @@
 
         input[type="number"] , input[type="text"] {
             width: 100%;
-            padding: 12px 15px;
+            padding: 5px 10px;
             border: 1px solid #ddd;
             border-radius: var(--border-radius);
             font-size: 16px;
@@ -296,7 +295,7 @@
         <div class="calculator">
             <div class='closewindow' onclick='window.parent.showMachshevonim();'><i class="fa-solid fa-rotate-left"></i>
             </div>
-            <h1 style="color:var(--main-color);">מחשבון הפקדה חודשית לסכום יעד</h1>
+            <h3 style="color:rgba(0,148,254);"> הפקדה חודשית לסכום יעד</h3>
             
             <div class="form-grid">
                 <div class="input-group">
@@ -323,9 +322,9 @@
                 <div class="input-group">
                     <label for="initialAmount" style="color:var(--main-color);">
                         <div class="tooltip" >
-                            <span class="tooltip-text">סכום ראשוני קיים</span>
+                            <span class="tooltip-text">סכום התחלתי קיים</span>
                         </div>
-                        סכום ראשוני קיים
+                        סכום התחלתי קיים
                     </label>
                     <div class="input-wrapper">
                         <input type="text" id="initialAmount"  value="" onchange="hideresult()">
@@ -343,9 +342,9 @@
                 <div class="input-group">
                     <label for="interestRate" style="color: var(--main-color);">
                         <div class="tooltip">
-                            <span class="tooltip-text">שיעור התשואה השנתית </span>
+                            <span class="tooltip-text">שיעור הריבית השנתית </span>
                         </div>
-                         תשואה שנתית   (%)
+                         ריבית שנתית   (%)
                     </label>
                     <div class="input-wrapper">
                         <input type="text" id="interestRate" onchange="hideresult()"  value="">
