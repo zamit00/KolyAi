@@ -292,7 +292,7 @@ function pie(nehasim) {
 }
 
 
-    function exportToPDF() {
+/*    function exportToPDF() {
         document.getElementById('closeinfo').style.display='none';
         const element = document.getElementById('kupaInfo');
         const originalDisplay = element.style.display;
@@ -301,5 +301,18 @@ function pie(nehasim) {
         window.print();
         element.style.display = originalDisplay;
         document.getElementById('closeinfo').style.display='block';
+}*/
+function exportToPDF() {
+    const element = document.getElementById('kupaInfo');
+    const kupa = document.getElementById('mhkupa');
+    const opt = {
+        margin:       0.5,
+        filename:     `${kupa.innerText}.pdf`,
+        image:        { type: 'jpeg', quality: 0.98 },
+        html2canvas:  { scale: 2 },
+        jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
+    };
+
+    html2pdf().set(opt).from(element).save();
 }
     
