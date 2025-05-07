@@ -685,7 +685,9 @@ function handleHashDmeyNihul(transcript) {
       if(!alltoz.style.display==="none"){
       dmeyNihulWindow.hashev(match.interest/100);
       dmeyNihultDoc.getElementById("kottoz").textContent = `לפי ריבית ${match.interest}% שנתי:`;
-      dmeyNihulWindow.scrollBy(0, 350);}
+      if(window.innerWidth<400){ dmeyNihulWindow.scrollBy(0, 350);}
+
+      }
     }
   
 }      
@@ -713,7 +715,8 @@ function handleYaad(transcript) {
       const match=handleInput(transcript)
       managementFee.value = match.dmey;
       managementFeeSlider.value = match.dmey;
-      managementFeeSlider.scrollIntoView({ behavior: "smooth", block: "start" });
+      if(window.innerWidth<400){
+        managementFeeSlider.scrollIntoView({ behavior: "smooth", block: "start" })};
     }
     if((transcript.includes("יעד") || transcript.includes("יד")) && transcript.includes("סכום")){
       const match=handleInput(transcript)
@@ -725,14 +728,16 @@ function handleYaad(transcript) {
       const match=handleInput(transcript)
       initialAmount.value = match.amount;
       initialAmountSlider.value = match.amount;
-      initialAmount.scrollIntoView({ behavior: "smooth", block: "start" });
+      if(window.innerWidth<400){
+        initialAmount.scrollIntoView({ behavior: "smooth", block: "start" })};
       
     }
     if(transcript.includes("ריבית") ){
       const match=handleInput(transcript);
       interestRate.value = match.interest;
       interestRateSlider.value = match.interest;
-      interestRateSlider.scrollIntoView({ behavior: "smooth", block: "start" });
+      if(window.innerWidth<400){
+        interestRateSlider.scrollIntoView({ behavior: "smooth", block: "start" })};
       
     }
     if(transcript.includes("תקופ")){
