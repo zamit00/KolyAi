@@ -146,6 +146,9 @@ if(!transcript){return};
   else if ((transcript.includes("הפקדה חודשית") || transcript.includes("יעד") 
   || transcript.includes("סכום יעד")) && ifrmValue===0) {
     hideformic(); showIframe("hafkada.html");
+    document.getElementById('ifrm').onload = function() {
+      handleYaad(transcript);
+    }
   }
   else if (transcript.includes("מחשבונים") || transcript.includes("פיננסיים")) {
     hideformic(); showIframe("Machshevonim.html");
@@ -359,6 +362,9 @@ if(!transcript){return};
 		}
     else if(iframe.src.includes("hashDmeyNihul")){
       handleHashDmeyNihul(transcript);return;	
+    }
+    else if(iframe.src.includes("hafkada")){
+      handleYaad(transcript);return;	
     }
     
         
@@ -683,7 +689,59 @@ function handleHashDmeyNihul(transcript) {
     }
   
 }      
+function handleYaad(transcript) {
+  const iframex = document.getElementById('ifrm');
+  const yaadDoc = iframex.contentWindow.document;
+  const yaadWindow = iframex.contentWindow;
+  const targetAmount=yaadDoc.getElementById('targetAmount');
+  const targetAmountSlider=yaadDoc.getElementById('targetAmount_slider'); 
+  
+  const initialAmount=yaadDoc.getElementById('initialAmount');
+  const initialAmountSlider=yaadDoc.getElementById('initialAmount_slider');
+  
+  const interestRate=yaadDoc.getElementById('interestRate');
+  const interestRateSlider=yaadDoc.getElementById('interestRate_slider');
 
+
+  const managementFee=yaadDoc.getElementById('managementFee');
+  const managementFeeSlider=yaadDoc.getElementById('managementFee_slider');
+
+  const years=yaadDoc.getElementById('years');
+  const yearsSlider=yaadDoc.getElementById('years_slider');
+
+  if(transcript.includes("דמי ניהול") || transcript.includes("ניהול")){
+      const match=handleInput(transcript)
+      managementFee.value = match.dmey;
+      managementFeeSlider.value = match.dmey;
+    }
+    if((transcript.includes("יעד") || transcript.includes("יד")) && transcript.includes("סכום")){
+      const match=handleInput(transcript)
+      targetAmount.value = match.amount;
+      targetAmountSlider.value = match.amount;
+    }
+    if(transcript.includes("התחל")  && transcript.includes("סכום")){
+      const match=handleInput(transcript)
+      initialAmount.value = match.amount;
+      initialAmountSlider.value = match.amount;
+    }
+    if(transcript.includes("ריבית") ){
+      const match=handleInput(transcript);
+      interestRate.value = match.interest;
+      interestRateSlider.value = match.interest;
+    }
+    if(transcript.includes("תקופ")){
+      const match=handleInput(transcript);
+      years.value = match.term;
+      yearsSlider.value = match.term;
+    }
+    if(transcript.includes("בצע") || transcript.includes("בצא") || transcript.includes("חשב")
+      || transcript.includes("חישוב")){
+      yaadWindow.calculateMonthlyDeposit();dmeyNihulWindow.scrollBy(0, 600);
+    }
+//yaadWindow.calculateMonthlyDeposit()
+  
+ 
+}
 function matchHevra(transcript){
 	if (transcript.includes("מגדל")) {return "מגדל";}
 	else if (transcript.includes("הראל")) {return  "הראל";}
