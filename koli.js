@@ -84,7 +84,7 @@ if(iframe){
   
 	  var iframeCont=iframe.contentWindow;
     if(iframe.style.display==='none'){ifrmValue=0;}
-    else {ifrmValue=1;}
+    else if(!iframe.src.includes("Machshevonim")) {ifrmValue=1;}
 
 }	
 if(!transcript){return};	
