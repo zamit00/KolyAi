@@ -366,6 +366,10 @@ if(!transcript){return};
 	else if(document.getElementById('filter').style.display==='flex'){
 	  handleSharp(transcript);return;	
 	}
+  else if(transcript.includes("הדפס") || transcript.includes("pdf")){ 	   
+    window.exportToPDF();   
+  
+  }	
   	else {
   	  if(!transcript.includes('קצר') && !transcript.includes('בינוני') &&!transcript.includes('ארוך')){
         Swal.fire({
@@ -557,15 +561,13 @@ function handleMenahalot(transcript) {
 		iframeCont.scrollBy(0, window.innerHeight*0.8);
 			
 		}	
-		if(transcript.includes("הדפס") || transcript.includes("pdf")){
-		const iframe = document.getElementById('ifrm');
-		var iframeCont=iframe.contentWindow;
-		menahalotWindow.pdfDo();
+		if(transcript.includes("הדפס") || transcript.includes("pdf")){ 	   
+        menahalotWindow.pdfDo();   
 			
 		}	
 		
 }
-	
+
 
 	if (transcript.includes("מרובה")) {
 		rd1.checked=true;
