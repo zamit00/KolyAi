@@ -70,7 +70,6 @@ function hideformic() {
 
 
 function handleSearchFromVoice(transcript) {
-  
   var ifrmValue=0;
   var iframe = document.getElementById('ifrm');
   var filter = document.getElementById('filter');
@@ -165,8 +164,7 @@ if(!transcript){return};
     };
 
     }
-    else if (transcript.includes("חשיפות" )) {
-      
+    else if (transcript.includes("חשיפות")) {
       hideformic(); showIframe("hasifotMeshulav.html");
     }
    else if (transcript.includes("שארפ") || transcript.includes("שרפ")) {
@@ -187,9 +185,6 @@ if(!transcript){return};
     }
     else if(transcript.includes("חשיפות")) {
       hideformic(); showIframe("hasifotMeshulav.html");
-      const iframe = document.getElementById("ifrm");
-    	iframe.onload = function() {
-        handleHasifot(transcript);}
     }
     else if (transcript.includes("שארפ") || transcript.includes("שרפ")) {
       hideAllimages(); createForm(0);handleSharp(transcript)
@@ -371,9 +366,7 @@ if(!transcript){return};
     else if(iframe.src.includes("hafkada")){
       handleYaad(transcript);return;	
     }
-    else if(iframe.src.includes("hasifotMeshulav")){
-      handleHasifot(transcript)
-    }
+    
         
 	}	
 	else if(document.getElementById('filter').style.display==='flex'){
@@ -761,93 +754,6 @@ function handleYaad(transcript) {
   
  
 }
-function handleHasifot(transcript){
-  
-  const iframex = document.getElementById('ifrm');
-  const hasifotDoc = iframex.contentWindow.document;
-  const hasifotWindow = iframex.contentWindow;
-  var sugmM=hasifotDoc.getElementById('product'); 
-  const stocks=hasifotDoc.getElementById('stocks');
-  const abroad=hasifotDoc.getElementById('abroad');
-  const currency=hasifotDoc.getElementById('currency');
-  
- if(transcript.includes('מוצר')){
-        
-        if (transcript.includes("השתלמות")) {
-            sugmM.selectedIndex=1;	
-        }
-        else if (transcript.includes("פנסיה")) {
-            sugmM.selectedIndex=3	;
-	}
-        else if (transcript.includes("גמל") && !transcript.includes("השקעה")) {sugmM.selectedIndex=2;	
-        }
-        else if (transcript.includes("השקעה")) {
-            sugmM.selectedIndex=5;	
-
-}
-        else if ((transcript.includes("חסכון") || transcript.includes("חיסכון")) && !transcript.includes('ילד') ) {
-            sugmM.selectedIndex=4;	
-  }
-  else if (transcript.includes("ילד")) {
-            sugmM.selectedIndex=6;	
-  }
-  if(sugmM.value!==''){
-    hasifotWindow.submitForm(sugmM);
-  }
-  
-  }
-  if(transcript.includes('מניות' ) && sugmM.value!==''){
-    if(transcript.includes('עד חמש עשרה')){
-      
-      stocks.selectedIndex=1;}
-    else if(transcript.includes('עד שלושים')){
-      stocks.selectedIndex=2;}
-     else if(transcript.includes('עד חמישים')){
-      stocks.selectedIndex=3;}
-    else  if(transcript.includes('עד שיבעים' || transcript.includes('עד שבעים'))){
-      stocks.selectedIndex=4;}
-     else if(transcript.includes('מעל')){
-      stocks.selectedIndex=5;}
-    }
- if(stocks.value!==''){
- hasifotWindow.doTheCircle(stocks)
-  }
-  if(transcript.includes('חול') && sugmM.value!==''){
-   
-    if(transcript.includes('עד חמש עשרה')){
-      
-      abroad.selectedIndex=1;}
-    else if(transcript.includes('עד שלושים')){
-      abroad.selectedIndex=2;}
-     else if(transcript.includes('עד חמישים')){
-      abroad.selectedIndex=3;}
-    else  if(transcript.includes('עד שיבעים' || transcript.includes('עד שבעים'))){
-      abroad.selectedIndex=4;}
-     else if(transcript.includes('מעל')){
-      abroad.selectedIndex=5;}
-    }
- if(abroad.value!==''){
- hasifotWindow.doTheCircle(abroad)
-  }
-  
-  if(transcript.includes('חוץ') && sugmM.value!==''){
-   
-    if(transcript.includes('עד חמש עשרה')){
-      
-      currency.selectedIndex=1;}
-    else if(transcript.includes('עד שלושים')){
-      currency.selectedIndex=2;}
-     else if(transcript.includes('עד חמישים')){
-      currency.selectedIndex=3;}
-    else  if(transcript.includes('עד שיבעים' || transcript.includes('עד שבעים'))){
-      currency.selectedIndex=4;}
-     else if(transcript.includes('מעל')){
-      abroad.selectedIndex=5;}
-    }
- if(currency.value!==''){
- hasifotWindow.doTheCircle(currency)
-  }
-}
 function matchHevra(transcript){
 	if (transcript.includes("מגדל")) {return "מגדל";}
 	else if (transcript.includes("הראל")) {return  "הראל";}
@@ -861,7 +767,6 @@ function matchHevra(transcript){
 	else if (transcript.includes("מיטב")) {return  "מיטב";}
 	else if (transcript.includes("אינפי") || transcript.includes("אנפי")) {return "אינפיניטי";}
 }
-
 function extractAmounta(text) {
     const units = {
       "אפס": 0, "אפסים": 0,
@@ -1015,5 +920,4 @@ const dmey = extractInterestRatea(dmeyText);
       
 };
 }
-
 
