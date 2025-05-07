@@ -674,9 +674,10 @@ function handleHashDmeyNihul(transcript) {
     if(transcript.includes("ריבית") ){
       const match=handleInput(transcript)
       selecttoz.value = match.interest/100;
+      if(!alltoz.style.display==="none"){
       dmeyNihulWindow.hashev(match.interest/100);
       dmeyNihultDoc.getElementById("kottoz").textContent = `לפי ריבית ${match.interest}% שנתי:`;
-      dmeyNihulWindow.scrollBy(0, 300);
+      dmeyNihulWindow.scrollBy(0, 350);}
     }
   
 }      
@@ -765,7 +766,7 @@ function extractAmounta(text) {
 
 function extractInterestRatea(text) {
   text = text.replaceAll("אחוזים", "אחוז").replaceAll("%", "אחוז").trim();
-
+console.log("🔍 טקסט שזוהה:", text);
 const wordMap = {
   "אחת": 1, "אחד": 1, "שתיים": 2, "שניים": 2, "שני": 2, "שניי": 2,
   "שלוש": 3, "שלושה": 3, "ארבע": 4, "ארבעה": 4,
@@ -793,7 +794,7 @@ const digitMatch = text.match(/(\d+(?:\.\d+)?)\s*אחוז/);
 if (digitMatch) return parseFloat(digitMatch[1]);
 
 // תבנית: "שישה אחוז"
-const wordOnlyMatch = text.match(/(אחת|אחד|שתיים|שניים|שלוש|שלושה|ארבע|ארבעה|חמש|חמישה|שש|שישה|שבע|שבעה|שמונה|תשע|תשעה)\s*אחוז/);
+const wordOnlyMatch = text.match(/(אחת|אחד|שתיים|שניים|שני|שלוש|שלושה|ארבע|ארבעה|חמש|חמישה|שש|שישה|שבע|שבעה|שמונה|תשע|תשעה)\s*אחוז/);
 if (wordOnlyMatch) {
   const val = getDecimalWord(wordOnlyMatch[1]);
   if (val != null) return val;
@@ -822,7 +823,7 @@ const interestText = interestMatch ? interestMatch[2] : '';
 const dmeyText = dmeyMatch ? dmeyMatch[2] : '';
 const termText = termMatch ? termMatch[2] : '';
 const graceText = graceMatch ? graceMatch[2] : '';
-//const tesuaText = tesuaMatch ? tesuaMatch[2] : '';
+
 
 // המרות
 const had = extractAmounta(hadText);
@@ -832,7 +833,7 @@ const interest = extractInterestRatea(interestText);
 const term = extractAmounta(termText);
 const grace = extractAmounta(graceText);
 const dmey = extractInterestRatea(dmeyText);
-// const tesua = extractInterestRatea(tesuaText)+"%";
+
 
   return {
   had: had,
