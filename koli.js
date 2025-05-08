@@ -813,18 +813,23 @@ function handleHasifot(transcript) {
   // מניות
   if (transcript.includes('מניות') && sugmM.value !== '') {
     setSelectByPercentage(transcript, stocks);
+    hasifotWindow.hasifch(stocks);hasifotWindow.submitForm(stocks)
   }
 
   // חול
   if (transcript.includes('חול') && sugmM.value !== '') {
     setSelectByPercentage(transcript, abroad);
+    hasifotWindow.hasifch(abroad);hasifotWindow.submitForm(abroad)
   }
 
   // חוץ (מט"ח)
-  if ((transcript.includes('חוץ') || transcript.includes('מטח')) && sugmM.value !== '') {
+  if ((transcript.includes('חוץ')|| transcript.includes('מטח')) && sugmM.value !== '') {
     setSelectByPercentage(transcript, currency);
+    hasifotWindow.hasifch(currency);hasifotWindow.submitForm(currency)
+    
   }
 }
+
 
 function extractAmounta(text) {
     const units = {
