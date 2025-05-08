@@ -86,6 +86,7 @@ async function fetchdataJasonh(x) {
  async function submitForm(x) {
 const xid=x.id;
   const table = document.getElementById('tblHasifot');
+  
   table.innerHTML='';
   document.querySelectorAll('.slct').forEach(slc => {
     slc.disabled = false;
@@ -205,7 +206,25 @@ document.querySelectorAll('.tblHasifot tr').forEach(tr => {
   }
   z++;
 });
-        
+   if(table.rows.length) {
+     if(table.rows.length>1){
+     Swal.fire({
+    title: `<span style='color: green; font-size: 16px;'> נמצאו ${table.rows.length-1} מסלולים מתאימים</span>`,
+   
+    icon: "warning",
+    width: "clamp(300px, 90vw, 600px)",
+          position: "top", 
+          timer: 2000, 
+          showConfirmButton: false,
+          timerProgressBar: true, 
+          background: "#fff",
+          customClass: {
+            popup: 'swal2-center-custom'
+          }
+        });
+     }
+   
+   }    
  }  
  
   
