@@ -793,13 +793,13 @@ function handleHasifot(transcript) {
 
   // פונקציה עזר להצבת אחוזים
   function setSelectByPercentage(transcript, element) {
-    if (transcript.includes('עד חמש עשרה')) {
+    if (transcript.includes('עד חמש עשרה') || transcript.includes('15')) {
       element.selectedIndex = 1;
-    } else if (transcript.includes('עד שלושים')) {
+    } else if (transcript.includes('עד שלושים') || transcript.includes('30')) {
       element.selectedIndex = 2;
-    } else if (transcript.includes('עד חמישים')) {
+    } else if (transcript.includes('עד חמישים') || transcript.includes('50')) {
       element.selectedIndex = 3;
-    } else if (transcript.includes('עד שיבעים') || transcript.includes('עד שבעים')) {
+    } else if ((transcript.includes('עד שיבעים') || transcript.includes('עד שבעים') || transcript.includes('70')) && !transcript.includes('מעל')) {
       element.selectedIndex = 4;
     } else if (transcript.includes('מעל')) {
       element.selectedIndex = 5;
@@ -825,19 +825,7 @@ function handleHasifot(transcript) {
     setSelectByPercentage(transcript, currency);
   }
 }
-function matchHevra(transcript){
-	if (transcript.includes("מגדל")) {return "מגדל";}
-	else if (transcript.includes("הראל")) {return  "הראל";}
-	else if (transcript.includes("כלל")) {return  "כלל";}
-	else if (transcript.includes("מנורה")) {return  "מנורה";}
-	else if (transcript.includes("אלטשולר")) {return "אלטשולר";}
-	else if (transcript.includes("פניקס")) {return  "פניקס";}
-	else if (transcript.includes("מור")) {return  "מור";}
-	else if (transcript.includes("ילין")) {return  "ילין";}
-	else if (transcript.includes("אנליסט")) {return  "אנליסט";}
-	else if (transcript.includes("מיטב")) {return  "מיטב";}
-	else if (transcript.includes("אינפי") || transcript.includes("אנפי")) {return "אינפיניטי";}
-}
+
 function extractAmounta(text) {
     const units = {
       "אפס": 0, "אפסים": 0,
