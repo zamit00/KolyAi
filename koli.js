@@ -821,7 +821,7 @@ function handleHasifot(transcript) {
   }
 
   // חוץ (מט"ח)
-  if (transcript.includes('חוץ') && sugmM.value !== '') {
+  if ((transcript.includes('חוץ') || transcript.includes('מטח')) && sugmM.value !== '') {
     setSelectByPercentage(transcript, currency);
   }
 }
