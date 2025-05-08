@@ -185,6 +185,9 @@ if(!transcript){return};
     }
     else if(transcript.includes("חשיפות")) {
       hideformic(); showIframe("hasifotMeshulav.html");
+    const iframe = document.getElementById("ifrm");
+    	iframe.onload = function() {
+        handleHasifot(transcript);}
     }
     else if (transcript.includes("שארפ") || transcript.includes("שרפ")) {
       hideAllimages(); createForm(0);handleSharp(transcript)
@@ -366,10 +369,12 @@ if(!transcript){return};
     else if(iframe.src.includes("hafkada")){
       handleYaad(transcript);return;	
     }
-    
+    else if(iframe.src.includes("hasifotMeshulav")){
+      handleHasifot(transcript)
+    }
         
-	}	
-	else if(document.getElementById('filter').style.display==='flex'){
+   }	
+else if(document.getElementById('filter').style.display==='flex'){
 	  handleSharp(transcript);return;	
 	}
   else if(transcript.includes("הדפס") || transcript.includes("pdf")){ 	   
@@ -753,6 +758,72 @@ function handleYaad(transcript) {
 //yaadWindow.calculateMonthlyDeposit()
   
  
+}
+
+function handleHasifot(transcript) {
+  const iframex = document.getElementById('ifrm');
+  const hasifotDoc = iframex.contentWindow.document;
+  const hasifotWindow = iframex.contentWindow;
+
+  const sugmM = hasifotDoc.getElementById('product');
+  const stocks = hasifotDoc.getElementById('stocks');
+  const abroad = hasifotDoc.getElementById('abroad');
+  const currency = hasifotDoc.getElementById('currency');
+
+  // בחירת מוצר
+  if (transcript.includes('מוצר')) {
+    if (transcript.includes("השתלמות")) {
+      sugmM.selectedIndex = 1;
+    } else if (transcript.includes("פנסיה")) {
+      sugmM.selectedIndex = 3;
+    } else if (transcript.includes("גמל") && !transcript.includes("השקעה")) {
+      sugmM.selectedIndex = 2;
+    } else if (transcript.includes("השקעה")) {
+      sugmM.selectedIndex = 5;
+    } else if ((transcript.includes("חסכון") || transcript.includes("חיסכון")) && !transcript.includes("ילד")) {
+      sugmM.selectedIndex = 4;
+    } else if (transcript.includes("ילד")) {
+      sugmM.selectedIndex = 6;
+    }
+
+    if (sugmM.value !== '') {
+      hasifotWindow.submitForm(sugmM);
+    }
+  }
+
+  // פונקציה עזר להצבת אחוזים
+  function setSelectByPercentage(transcript, element) {
+    if (transcript.includes('עד חמש עשרה')) {
+      element.selectedIndex = 1;
+    } else if (transcript.includes('עד שלושים')) {
+      element.selectedIndex = 2;
+    } else if (transcript.includes('עד חמישים')) {
+      element.selectedIndex = 3;
+    } else if (transcript.includes('עד שיבעים') || transcript.includes('עד שבעים')) {
+      element.selectedIndex = 4;
+    } else if (transcript.includes('מעל')) {
+      element.selectedIndex = 5;
+    }
+
+    if (element.value !== '') {
+      hasifotWindow.doTheCircle(element);
+    }
+  }
+
+  // מניות
+  if (transcript.includes('מניות') && sugmM.value !== '') {
+    setSelectByPercentage(transcript, stocks);
+  }
+
+  // חול
+  if (transcript.includes('חול') && sugmM.value !== '') {
+    setSelectByPercentage(transcript, abroad);
+  }
+
+  // חוץ (מט"ח)
+  if (transcript.includes('חוץ') && sugmM.value !== '') {
+    setSelectByPercentage(transcript, currency);
+  }
 }
 function matchHevra(transcript){
 	if (transcript.includes("מגדל")) {return "מגדל";}
