@@ -114,8 +114,9 @@ if(!transcript){return};
 	}
 	else if (transcript.includes("ראש")  && ifrmValue===0) {window.scrollTo(0, 0);
 	}
-	else if (transcript.includes("תחתית")) {window.scrollBy(0, window.innerHeight);
-	}
+	else if (transcript.includes("תחתית")) {window.scrollTo({
+         top: document.body.scrollHeight,
+          behavior: 'smooth'});}
 	
   else if ((transcript.includes("הלוואות") || transcript.includes("הלוואה") || transcript.includes("שפיצר")) && ifrmValue === 0) {
     hideformic();
