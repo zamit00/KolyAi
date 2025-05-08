@@ -13,21 +13,18 @@ function notfind(x){
     })
   Swal.fire({
     title: "<span style='color: green; font-size: 16px;'>לא נמצאו מסלולים מתאימים</span>",
-    width: "90vw", 
+    
     icon: "warning",
-    showCancelButton: false,
-    confirmButtonText: "אישור",
-    cancelButtonText: "לא, בטל",
-    confirmButtonColor: "#3085d6",
-    cancelButtonColor: "#d33"
-}).then((result) => {
-    if (result) {
-        Array.from(expo).forEach(exp=>{
-          exp.style.display='flex';
-          submitForm(x);doTheCircle(x);
-        })
-    } 
-});
+    width: "clamp(300px, 90vw, 600px)",
+          position: "center", 
+          timer: 2000, 
+          showConfirmButton: false,
+          timerProgressBar: true, 
+          background: "#fff",
+          customClass: {
+            popup: 'swal2-center-custom'
+          }
+        });
     
    /* let ahuzStart='';
     let stocksValue = document.getElementById("stocks");
@@ -308,4 +305,5 @@ function doTheCircle(x) {
 
       
       
+
 
