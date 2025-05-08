@@ -114,6 +114,8 @@ if(!transcript){return};
 	}
 	else if (transcript.includes("ראש")  && ifrmValue===0) {window.scrollTo(0, 0);
 	}
+	else if (transcript.includes("תחתית")) {window.scrollBy(0, window.innerHeight);
+	}
 	
   else if ((transcript.includes("הלוואות") || transcript.includes("הלוואה") || transcript.includes("שפיצר")) && ifrmValue === 0) {
     hideformic();
@@ -272,7 +274,7 @@ if(!transcript){return};
 
 
 	else if ((transcript.includes("גלול למטה") || transcript.includes('למטה')) &&
-	ifrmValue===1) {
+	ifrmValue===1 ) {
 		if(transcript.includes("הרבה")){
 			var tvach=700;
 			var minustvach=-700;
@@ -983,5 +985,18 @@ const dmey = extractInterestRatea(dmeyText);
   
       
 };
+}
+function matchHevra(transcript){
+	if (transcript.includes("מגדל")) {return "מגדל";}
+	else if (transcript.includes("הראל")) {return  "הראל";}
+	else if (transcript.includes("כלל")) {return  "כלל";}
+	else if (transcript.includes("מנורה")) {return  "מנורה";}
+	else if (transcript.includes("אלטשולר")) {return "אלטשולר";}
+	else if (transcript.includes("פניקס")) {return  "פניקס";}
+	else if (transcript.includes("מור")) {return  "מור";}
+	else if (transcript.includes("ילין")) {return  "ילין";}
+	else if (transcript.includes("אנליסט")) {return  "אנליסט";}
+	else if (transcript.includes("מיטב")) {return  "מיטב";}
+	else if (transcript.includes("אינפי") || transcript.includes("אנפי")) {return "אינפיניטי";}
 }
 
