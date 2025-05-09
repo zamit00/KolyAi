@@ -1,3 +1,4 @@
+
 var timeToListen=5000;var interval;
 const recognition = new webkitSpeechRecognition() || new SpeechRecognition(); 
 recognition.lang = "he-IL";
@@ -110,7 +111,7 @@ if(!transcript){return};
 		}
 	}
 
- 	else if (transcript.includes("ראש")  && ifrmValue===1) {iframeCont.scrollTo(0, 0);
+ 	else if (transcript.includes("ראש")  && ifrmValue===1 && !iframe.src.includes('riskQuest')) {iframeCont.scrollTo(0, 0);
 	}
 	else if (transcript.includes("ראש")  && ifrmValue===0) {window.scrollTo(0, 0);
 	}
@@ -249,8 +250,16 @@ if(!transcript){return};
   else if (transcript.includes("שימוש") || transcript.includes("תנאי")) {
     showIframe('tnaiyShimosh.html');
   }
-  else if (transcript.includes("סיכון") || transcript.includes("סיכון")) {
+  else if (transcript.includes("שאלון") || transcript.includes("סיכון") && !transcript.includes('חשב') && !transcript.includes('בצע')) {
     showIframe('riskQuest.html');
+    const iframe=
+    document.getElementById('ifrm');
+    
+    iframe.onload=function(){
+      iframe.contentWindow.sheelon();
+      handleSheelon(transcript);
+    }
+    
   }
   else if (transcript.includes("עצור") || transcript.includes("הפסק") || transcript.includes("צליל")) {
 	startStop=1;
@@ -375,7 +384,9 @@ if(!transcript){return};
     else if(iframe.src.includes("hasifotMeshulav")){
       handleHasifot(transcript)
     }
-        
+      else if(iframe.src.includes('riskQuest')) {
+        handleSheelon(transcript);handleSheelon(transcript);
+      } 
    }	
 else if(document.getElementById('filter').style.display==='flex'){
 	  handleSharp(transcript);return;	
@@ -1000,4 +1011,49 @@ function matchHevra(transcript){
 	else if (transcript.includes("מיטב")) {return  "מיטב";}
 	else if (transcript.includes("אינפי") || transcript.includes("אנפי")) {return "אינפיניטי";}
 }
+function handleSheelon(transcript){
+  const iframeWindow=document.getElementById('ifrm').contentWindow;
+  const sheala=matchSheala(transcript);
+  
+  const teshuva= matchTeshuva(transcript);
+ 
+  
+  if(sheala && teshuva){
+    if(!transcript.includes('שישית')){
+  iframeWindow.document.querySelector(`input[name="${matchSheala(transcript)}"]`) .scrollIntoView({ behavior: "smooth", block: "start" });
+ }
+    iframeWindow.document.querySelector(`input[name="${matchSheala(transcript)}"][value="${matchTeshuva(transcript)}"]`).checked = true;
+  }
+  if(transcript.includes('חשב') || transcript.includes('בצע')){
+    iframeWindow.calculateRisk();
+  }
+    
+ }
 
+function matchTeshuva(transcript){
+  if(transcript.includes('שניים')||transcript.includes('שתיים')){
+    return 2;alert(2)
+  }
+  else if(transcript.includes('אחד')||transcript.includes('אחת')){
+    return 1;
+  }
+  else if(transcript.includes('שלוש')){
+    return 3;
+  }
+}
+function matchSheala(transcript){
+  if(transcript.includes('ראשונה')){
+    return 'q1';alert(1)}
+    else if(transcript.includes('חמישית')){
+    return 'q5'}
+     else if(transcript.includes('שישית')){
+    return 'q6'}
+    else if(transcript.includes('שניה')){
+    return 'q2'}
+    else if(transcript.includes('שלישית')){
+    return 'q3'}
+    else if(transcript.includes('רביעית')){
+    return 'q4'}
+    
+    
+}
