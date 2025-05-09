@@ -249,7 +249,7 @@ if(!transcript){return};
   else if (transcript.includes("שימוש") || transcript.includes("תנאי")) {
     showIframe('tnaiyShimosh.html');
   }
-  else if (transcript.includes("שאלון") || transcript.includes("סיכון") && !transcript.includes('חשב') && !transcript.includes('בצע')) {
+  else if ((transcript.includes("שאלון") || transcript.includes("סיכון") ) && ifrmValue ===0 ) {
     showIframe('riskQuest.html');
     const iframe=
     document.getElementById('ifrm');
