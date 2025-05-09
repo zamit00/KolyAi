@@ -1,4 +1,3 @@
-
 var timeToListen=5000;var interval;
 const recognition = new webkitSpeechRecognition() || new SpeechRecognition(); 
 recognition.lang = "he-IL";
@@ -187,7 +186,7 @@ if(!transcript){return};
   else if(transcript.includes("מנהלות") || transcript.includes("מנהלת")) {
       hideformic(); showIframe("hashMenahalot.html");
     }
-    else if(transcript.includes("חשיפות")) {
+    else if(transcript.includes("חשיפות") && !document.getElementById('ifrm').src.includes('riskQuest')) {
       hideformic(); showIframe("hasifotMeshulav.html");
     const iframe = document.getElementById("ifrm");
     	iframe.onload = function() {
@@ -1027,6 +1026,10 @@ function handleSheelon(transcript){
   if(transcript.includes('חשב') || transcript.includes('בצע')){
     iframeWindow.calculateRisk();
   }
+   if(transcript.includes('עבור') || transcript.includes('חשיפות')){
+    iframeWindow.showme();
+  }
+  
     
  }
 
