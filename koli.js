@@ -399,12 +399,15 @@ else if(document.getElementById('filter').style.display==='flex'){
   	  if(!transcript.includes('קצר') && !transcript.includes('בינוני') &&!transcript.includes('ארוך')){
         Swal.fire({
           html: "<span style='color: green; font-size: 16px;'>הבקשה אינה ברורה - אמור שוב</span>",
+          
+          
+          showConfirmButton: false,
           width: "clamp(300px, 90vw, 600px)",
           position: "center", 
           timer: 2000, 
-          showConfirmButton: false,
           timerProgressBar: true, 
           background: "#fff",
+          icon: "warning",
           customClass: {
             popup: 'swal2-center-custom'
           }
