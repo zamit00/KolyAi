@@ -150,10 +150,10 @@
 		&nbsp;<i class="fa fa-phone"></i></div>
         <div class='closewindow' onclick='window.parent.showHashvaa();'><i class="fa-solid fa-rotate-left"></i></div>
         <h3 style="text-align: center;color:var(--main-color);">בנה תיק משולב מסלולים</h3>
-             
+         <div id='mas'  style='width:clamp(300px,90vw,600px);height:100vh;z-index=1000;background-color:white;display:none;' ></div> 
         <div class="row">
             <label>בחר מוצר:</label>
-            <select id="sugMMen" style="margin-right: 7px;text-align: center;" onchange="chngTik()">
+            <select id="sugMMen" style="margin-right: 7px;text-align: center;" onchange="chngTik();addMaslulim()">
                 <option value="" disabled selected>בחר מוצר</option>
                 <option value='קרנות השתלמות'>קרנות השתלמות</option>
 				<option value='תגמולים ואישית לפיצויים'>קופות גמל</option>
@@ -174,7 +174,7 @@
                     <input id="percentage" type="number" class="percentage" min="0" max="100" 
                      style="width: 100%;">
                 </div>
-                <button  style="margin-right: 50px;" class="btn btn-add" onclick="addRow(this)">+</button>
+                <button  style="margin-right: 50px;" class="btn btn-add" id='btnDo'  onclick="addRow(this)">+</button>
                 <label >הוסף</label>
         </div>
         <div class="error" id="error-msg"></div>
@@ -224,7 +224,7 @@
 ];  
 
  
-document.getElementById('sugMMen').addEventListener('change', function () {
+ function addMaslulim () {
         const selectedProduct = document.getElementById('sugMMen').value;
         let table = document.getElementById("tblData");
         table.innerHTML=`
@@ -255,9 +255,10 @@ document.getElementById('sugMMen').addEventListener('change', function () {
         });
 
         
-});
+};
 
 function chngTik(){
+  
     document.getElementById('shana').innerHTML='';
     document.getElementById('shalosh').innerHTML='';
     document.getElementById('hamesh').innerHTML='';
