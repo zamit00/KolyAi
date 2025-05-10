@@ -15,7 +15,7 @@ const mictext=document.getElementById('resultMic').textContent;
 	startStop=1;  recognition.stop();document.getElementById('timerDisplay').style.display='none';
   }
 else{
-console.log("האזנה התחילה");
+
   document.getElementById('resultMic').textContent = " מאזין קבוע - לעצירה אמור עצור או לחץ שוב";
   recognition.start();}
 }
@@ -41,20 +41,19 @@ recognition.onstart = function () {
 
 recognition.onresult = (event) => {
   const transcript = event.results[0][0].transcript;
-  console.log("קלט מהמשתמש:", transcript);
+  
   handleSearchFromVoice(transcript);
 };
 
 recognition.onend = () => {
 clearInterval(interval);
-console.log("האזנה הסתיימה – מתחיל מחדש");
+
 if(startStop===0) {recognition.start();}
 else{document.getElementById('resultMic').textContent ="לא מאזין"}
 };
 
 recognition.onerror = (e) => {
-  console.error("שגיאת זיהוי קולי:", e.error);
-  document.getElementById("result").textContent = "שגיאה בזיהוי קולי: " + e.error;
+   document.getElementById("result").textContent = "שגיאה בזיהוי קולי: " + e.error;
 };
 function toggleMenux() {
   if(document.getElementById("hamb").className.includes('open')){
@@ -177,8 +176,11 @@ if(!transcript){return};
      createForm(0);handleSharp(transcript)
     }
     
-    else if (transcript.includes("משולב") || transcript.includes("תיק")) {
+    else if ((transcript.includes("משולב") || transcript.includes("תיק") && ifrmValue===0)) {
       hideformic(); showIframe("VirtualInvest.html");
+      iframe.onload=function(){
+        handleMeshulav(transcript);
+      }
     }
     else {
       hideformic(); showIframe("hashvaotRikuz.html");
@@ -273,7 +275,7 @@ if(!transcript){return};
 		showIframe('tikrot.html');
 	  
     }
-	else if (transcript.includes("מסלול") ) {
+	else if (transcript.includes("מסלול") && ifrmValue===0 ) {
 		const match = transcript.match(/מסלול\s+(\S+)/);
 			if (match) {
 				searchMh(match[1]); 
@@ -385,8 +387,11 @@ if(!transcript){return};
       handleHasifot(transcript)
     }
       else if(iframe.src.includes('riskQuest')) {
-        handleSheelon(transcript);handleSheelon(transcript);
+        handleSheelon(transcript);
       } 
+      else if(iframe.src.includes('VirtualInvest')){
+        handleMeshulav(transcript);
+      }
    }	
 else if(document.getElementById('filter').style.display==='flex'){
 	  handleSharp(transcript);return;	
@@ -419,8 +424,7 @@ else if(document.getElementById('filter').style.display==='flex'){
 }
 		
 function handleLoan(transcript) {
-	console.log("🔍 טקסט שזוהה:", transcript);
-	const iframex = document.getElementById('ifrm');
+		const iframex = document.getElementById('ifrm');
 	const loanDoc = iframex.contentWindow.document;
 	const loanWindow = iframex.contentWindow;
 	const loanAmountInput = loanDoc.getElementById('loan-amount');
@@ -429,40 +433,36 @@ function handleLoan(transcript) {
 	const delayfor = loanDoc.getElementById('payment-delay');
 
 	const pianoach=handleInput(transcript);
-	console.log(pianoach);
-
+	
 
 	// סכום
 	if (pianoach.amount) {  
 		loanAmountInput.value = pianoach.amount;
 		loanDoc.getElementById('loan-amount-range').value=pianoach.amount;
-		console.log("📌 סכום זוהה:", pianoach.amount);
+		
 	}
 
 	// גרייס
 	if (pianoach.grace) {		
 	         delayfor.value = pianoach.grace;
 		loanDoc.getElementById('payment-delay-range').value=pianoach.grace;
-		console.log("📌 גרייס זוהה:", pianoach.grace, "חודשים");	
+			
 	}
 	else if (transcript.includes("גרייס") ) {		
 		delayfor.value = '';
 		loanDoc.getElementById('payment-delay-range').value=0;
-		console.log("📌 גרייס זוהה:", "ללא גרייס");
-	}
+			}
 	// תקופה 
 	if (pianoach.term) {		
 		termfor.value = pianoach.term;
 		loanDoc.getElementById('loan-term-range').value=pianoach.term;
-		console.log("📌 תקופה זוהתה:", pianoach.term, "חודשים");		
-	}
+			}
 
 	// ריבית
 	if (pianoach.interest) {		
 		interestfor.value = pianoach.interest;
 		loanDoc.getElementById('interest-rate-range').value=pianoach.interest;
-		console.log("📌 ריבית זוהתה:", pianoach.interest + "%");	
-	}
+			}
 
 	// הפעלת מחשבון רק אם כל השדות מולאו
 	if (termfor.value && interestfor.value && loanAmountInput.value) {
@@ -477,8 +477,7 @@ function handleLoan(transcript) {
 
  
 function handleCompoundInterest(transcript) {
-  console.log("🔍 טקסט שזוהה:", transcript);
-
+  
   const iframex = document.getElementById('ifrm');
   const compoundDoc = iframex.contentWindow.document;
   const compoundWindow = iframex.contentWindow;
@@ -490,47 +489,39 @@ function handleCompoundInterest(transcript) {
   const tesuaInput= compoundDoc.getElementById('selectoz');
 
   const pianoach=handleInput(transcript);
-  console.log(pianoach.tesua);
-
+  
   	// סכום
 	if (pianoach.had) {  
 		initialAmountInput.value = pianoach.had;
-		console.log("📌 סכום חד פעמי:", pianoach.had);
-	}
+			}
 	if (pianoach.hodshi) {  
 		monthlyDepositInput.value = pianoach.hodshi;
-		console.log("📌 סכום חודשי:", pianoach.hodshi);
 		
 	}
 
 	if (pianoach.term) {	
 			termInput.value = pianoach.term;
-			console.log("📌 תקופה זוהתה:", pianoach.term, "שנים");
-	}
+				}
 
 	// ריבית
 	if (pianoach.interest) {		
 		interestRateInput.value = pianoach.interest/100;
 		compoundDoc.getElementById("kottoz").textContent = `לפי ריבית ${pianoach.interest}% שנתי:`;
-			console.log("📌 ריבית זוהתה:", interestRateInput.value + "%");	
-	}
+				}
 
   if (pianoach.dmey) {
     
     DmeyNihulInput.value = pianoach.dmey;
-    console.log("📌 דמי ניהול שזוהו:", pianoach.dmey + "%");
-  }
+     }
  
 
   // הפעלת חישוב אם כל השדות מולאו
   if (initialAmountInput.value && monthlyDepositInput.value && termInput.value) {
     if (interestRateInput.value) {
       compoundWindow.hashev(interestRateInput.value);
-      console.log("✅ הופעל בריבית:", interestRateInput.value / 100);
-    } else {
+       } else {
       compoundWindow.hashev(0.04);
-      console.log("✅ הופעל hashev(0.04) כברירת מחדל");
-    }
+        }
 	
   }
 }
@@ -545,8 +536,7 @@ function handleMenahalot(transcript) {
   const selmenu2 = menahalotDoc.getElementById('selmen2'); 
 	var input='';
   if (transcript.includes("שתי") || rd2.checked===true) {
-	console.log("שתי חברות נבחרו");
-	rd2.checked=true;
+		rd2.checked=true;
 	menahalotDoc.getElementById('form2').style.display='flex';
 	menahalotDoc.getElementById('form1').style.display='none';
 
@@ -559,12 +549,10 @@ function handleMenahalot(transcript) {
 			input=matchHevra(matchtext[0].trim());
 			var match = gufmosdixA.find(name => name.includes(input));
 			selmenu1.value = match;
-			console.log("מובילה",match);
-			input=matchHevra(matchtext[1].trim());
+				input=matchHevra(matchtext[1].trim());
 			var match = gufmosdixA.find(name => name.includes(input));
 			selmenu2.value = match;
-			console.log("מול",match);
-			
+						
 		}
 		
 		else if(transcript.includes("מובילה")){
@@ -663,8 +651,7 @@ function handleHashDmeyNihul(transcript) {
     }
     else if (transcript.includes("צבירה")) {
      
-        savingAmount.value = extractAmounta(transcript);console.log("צבירה",savingAmount.value); 
-        alltoz.style.display="none";
+        savingAmount.value = extractAmounta(transcript);   alltoz.style.display="none";
       }
 
   }
@@ -919,7 +906,7 @@ function extractAmounta(text) {
 
 function extractInterestRatea(text) {
   text = text.replaceAll("אחוזים", "אחוז").replaceAll("%", "אחוז").trim();
-console.log("🔍 טקסט שזוהה:", text);
+
 const wordMap = {
   "אחת": 1, "אחד": 1, "שתיים": 2, "שניים": 2, "שני": 2, "שניי": 2,
   "שלוש": 3, "שלושה": 3, "ארבע": 4, "ארבעה": 4,
@@ -1057,6 +1044,128 @@ function matchSheala(transcript){
     return 'q3'}
     else if(transcript.includes('רביעית')){
     return 'q4'}
-    
-    
 }
+
+function handleMeshulav(transcript){
+  console.log('קלט: '+transcript)
+  const iframe=document.getElementById('ifrm');
+  const iframeWindow=iframe.contentWindow;
+  
+  const sugMMen=iframeWindow.document.getElementById('sugMMen');
+  
+  const percentage=iframeWindow.document.getElementById('percentage');
+  const btnDo=iframeWindow.document.getElementById('btnDo');
+  
+  if (transcript.includes('מוצר')) {
+    if (transcript.includes("השתלמות")) {
+      sugMMen.selectedIndex = 1;
+    } else if (transcript.includes("פנסיה")) {
+      sugMMen.selectedIndex = 5;
+    } else if (transcript.includes("גמל") && !transcript.includes("השקעה")) {
+      sugMMen.selectedIndex = 2;
+    } else if (transcript.includes("השקעה")) {
+      sugMMen.selectedIndex = 3;
+    } else if ((transcript.includes("חסכון") || transcript.includes("חיסכון")) && !transcript.includes("ילד")) {
+      sugMMen.selectedIndex = 4;
+    } 
+    if (sugMMen.value !== '') {
+    
+      iframeWindow.chngTik(); iframeWindow.addMaslulim();
+      showMaslul();
+  }
+}
+if(transcript.includes('הצג')){
+  showMaslul();
+}
+ if(transcript.includes('מסלול')  && !transcript.includes('הצג')){
+     const nummatch=matchNumber(transcript.replace('מסלול','').trim());
+     if(nummatch && !transcript.includes('אחוז') && !transcript.includes('שיעור')){
+     
+     iframeWindow.document.getElementById('selectShemkupa').selectedIndex=parseInt(nummatch)-1;
+     iframeWindow.document.getElementById('mas').style.display='none';
+   }
+   } 
+   
+  if(transcript.includes('שיעור' ) || transcript.includes('אחוז')){
+     
+     const transcripta = transcript.replace(/שיעור|אחוז|%/g, '').trim();
+     const shiur=extractAmounta(transcripta);    if(shiur && parseFloat(shiur)<100){
+       percentage.value=shiur;
+       
+     }
+     }  
+     
+   if(transcript.includes('הוסף')  || transcript.includes('אוסף')){
+     console.log('הוסף')
+    iframeWindow.addRow(btnDo)
+  }  
+  if(transcript.includes('הפעל') || transcript.includes('בצע')){
+    iframeWindow.submitForm();
+  }
+}
+ 
+function matchNumber(transcript) {
+  transcript = transcript.trim();
+
+  // בדיקה אם יש מספר 1–16, תוך הימנעות ממספרים דומים כמו "11", "12" וכו'
+  if (transcript.includes('1') && !transcript.match(/1[1-6]/)) return 1;
+  if (transcript.includes('2') && !transcript.includes('12')) return 2;
+  if (transcript.includes('3') && !transcript.includes('13')) return 3;
+  if (transcript.includes('4') && !transcript.includes('14')) return 4;
+  if (transcript.includes('5') && !transcript.includes('15')) return 5;
+  if (transcript.includes('6') && !transcript.includes('16')) return 6;
+  if (transcript.includes('7')) return 7;
+  if (transcript.includes('8')) return 8;
+  if (transcript.includes('9')) return 9;
+  if (transcript.includes('10')) return 10;
+  if (transcript.includes('11')) return 11;
+  if (transcript.includes('12')) return 12;
+  if (transcript.includes('13')) return 13;
+  if (transcript.includes('14')) return 14;
+  if (transcript.includes('15')) return 15;
+  if (transcript.includes('16')) return 16;
+
+  // מילים
+  if (!transcript.includes('עשר') && !transcript.includes('עשרה')) {
+    if (transcript.includes('אחת') || transcript.includes('אחד')) return 1;
+    if (transcript.includes('שניים') || transcript.includes('שתיים')) return 2;
+    if (transcript.includes('שלוש')) return 3;
+    if (transcript.includes('ארבע')) return 4;
+    if (transcript.includes('חמש')) return 5;
+    if (transcript.includes('שש')) return 6;
+    if (transcript.includes('שבע')) return 7;
+    if (transcript.includes('שמונה')) return 8;
+    if (transcript.includes('תשע')) return 9;
+  }
+
+  if (transcript.includes('עשר') || transcript.includes('עשרה')) {
+    if (transcript.includes('אחת') || transcript.includes('אחד')) return 11;
+    if (transcript.includes('שניים') || transcript.includes('שתיים')) return 12;
+    if (transcript.includes('שלוש') || transcript.includes('שלושה')) return 13;
+    if (transcript.includes('ארבע') || transcript.includes('ארבעה')) return 14;
+    if (transcript.includes('חמש') || transcript.includes('חמישה')) return 15;
+    if (transcript.includes('שש') || transcript.includes('שישה')) return 16;
+    if (!transcript.match(/(אחת|אחד|שניים|שתיים|שלוש|ארבע|חמש|שש)/)) return 10;
+  }
+
+  return null; // לא זוהה מספר
+}
+function showMaslul(){
+  
+  const iframe=document.getElementById('ifrm');
+  const iframeWindow=iframe.contentWindow;
+  const maslul=iframeWindow.document.getElementById('selectShemkupa');
+  var mas=
+     iframeWindow.document.getElementById('mas');
+     mas.style.display='block';
+var count=1;
+  maslul.querySelectorAll("option").forEach(option => {
+    mas.innerHTML+=`
+    <label style='display:block'>${count}.${option.textContent}
+    </label>`;
+ count++;
+  });
+}
+   
+  
+
