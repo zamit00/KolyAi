@@ -74,10 +74,13 @@ function handleSearchFromVoice(transcript) {
   var iframe = document.getElementById('ifrm');
   var filter = document.getElementById('filter');
   
-  if (transcript.includes("קצר")) {timeToListen=5000;}
+  if (transcript.includes("קצר") && transcript.includes('מאוד')) {timeToListen=3000;}
+  else if (transcript.includes("קצר") && !transcript.includes('מאוד')) {timeToListen=6000;}
   else if (transcript.includes("בינוני") || transcript.includes("בנוני"))
     {timeToListen=10000;}
-  else if (transcript.includes("ארוך")) {timeToListen=17000;}
+  else if (transcript.includes("ארוך") && transcript.includes('מאוד')) {timeToListen=20000;}
+  else if (transcript.includes("ארוך") && !transcript.includes('מאוד')) {timeToListen=15000;}
+  
 
  
 if(iframe){
@@ -1074,9 +1077,13 @@ function handleMeshulav(transcript){
       showMaslul();
   }
 }
-if(transcript.includes('הצג')){
+if((transcript.includes('הצג') || transcript.includes('מסלול')) && iframeWindow.document.getElementById('mas').style.display==='none' ){
   showMaslul();
 }
+else if(transcript.includes('הסתר')){
+  iframeWindow.document.getElementById('mas').style.display='none';
+}
+
  if(transcript.includes('מסלול')  && !transcript.includes('הצג')){
      const nummatch=matchNumber(transcript.replace('מסלול','').trim());
      if(nummatch && !transcript.includes('אחוז') && !transcript.includes('שיעור')){
@@ -1089,7 +1096,7 @@ if(transcript.includes('הצג')){
   if(transcript.includes('שיעור' ) || transcript.includes('אחוז')){
      
      const transcripta = transcript.replace(/שיעור|אחוז|%/g, '').trim();
-     const shiur=extractAmounta(transcripta);    if(shiur && parseFloat(shiur)<100){
+     const shiur=extractAmounta(transcripta);    if(shiur && parseFloat(shiur)<=100){
        percentage.value=shiur;
        
      }
@@ -1101,6 +1108,20 @@ if(transcript.includes('הצג')){
   }  
   if(transcript.includes('הפעל') || transcript.includes('בצע')){
     iframeWindow.submitForm();
+  }
+  if((transcript.includes('מיין') ||transcript.includes('מעיין'))  && iframeWindow.document.getElementById('miyunshana') ){
+    if(transcript.includes('שנה') || transcript.includes('1')){
+      iframeWindow.sortTableX(iframeWindow.document.getElementById('miyunshana'))
+    }
+    else if(transcript.includes('שלוש') || transcript.includes('3')){
+      iframeWindow.sortTableX(iframeWindow.document.getElementById('miyunshalosh'))
+    }
+    else if(transcript.includes('חמש') || transcript.includes('5')){
+      iframeWindow.sortTableX(iframeWindow.document.getElementById('miyunhamesh'))
+    }
+  }
+  if(transcript.includes('נקה')){
+    iframeWindow.chngTik();
   }
 }
  
