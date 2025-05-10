@@ -70,6 +70,7 @@ function hideformic() {
 
 
 function handleSearchFromVoice(transcript) {
+  console.log(transcript)
   var ifrmValue=0;
   var iframe = document.getElementById('ifrm');
   var filter = document.getElementById('filter');
@@ -91,7 +92,7 @@ if(iframe){
 
 }	
 if(!transcript){return};	
-
+console.log(ifrmValue)
 	if ((transcript.includes("קשר") || transcript.includes("סוכן"))) {yossi();
 	}
 	else if (Swal.isVisible()) {
