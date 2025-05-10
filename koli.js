@@ -181,7 +181,9 @@ if(!transcript){return};
     
     else if ((transcript.includes("משולב") || transcript.includes("תיק") && ifrmValue===0)) {
       hideformic(); showIframe("VirtualInvest.html");
-      iframe.onload=function(){
+      
+      const iframe = document.getElementById("ifrm");
+    document.getElementById('ifrm').onload =function(){
         handleMeshulav(transcript);
       }
     }
@@ -250,7 +252,9 @@ if(!transcript){return};
   }
   else if (((transcript.includes("דף") || transcript.includes("חזור") || transcript.includes("הבית"))) 
 && !transcript.includes("ראש")) {
-    hideframe(); showAllimages(); 
+    hideframe();
+    showAllimages(); 
+    hidekupainfo();
   }
   else if (transcript.includes("שימוש") || transcript.includes("תנאי")) {
     showIframe('tnaiyShimosh.html');
@@ -284,7 +288,23 @@ if(!transcript){return};
 				searchMh(match[1]); 
 		}
 
-		else{alert("אמור מסלול + מספר מסלול")}	  
+		else{
+     Swal.fire({
+          html: "<span style='color: green; font-size: 16px'> אמור  מסלול  + מספר מסלול </span>",
+          
+          
+          showConfirmButton: false,
+          width: "clamp(300px, 90vw, 600px)",
+          position: "center", 
+          timer: 2000, 
+          timerProgressBar: true, 
+          background: "#fff",
+          icon: "warning",
+          customClass: {
+            popup: 'swal2-center-custom'
+          }
+        });
+		  }	  
     }
 
 
@@ -1025,7 +1045,7 @@ function handleSheelon(transcript){
 
 function matchTeshuva(transcript){
   if(transcript.includes('שניים')||transcript.includes('שתיים')){
-    return 2;alert(2)
+    return 2;
   }
   else if(transcript.includes('אחד')||transcript.includes('אחת')){
     return 1;
@@ -1036,7 +1056,7 @@ function matchTeshuva(transcript){
 }
 function matchSheala(transcript){
   if(transcript.includes('ראשונה')){
-    return 'q1';alert(1)}
+    return 'q1';}
     else if(transcript.includes('חמישית')){
     return 'q5'}
      else if(transcript.includes('שישית')){
@@ -1050,6 +1070,7 @@ function matchSheala(transcript){
 }
 
 function handleMeshulav(transcript){
+  
   console.log('קלט: '+transcript)
   const iframe=document.getElementById('ifrm');
   const iframeWindow=iframe.contentWindow;
@@ -1060,6 +1081,7 @@ function handleMeshulav(transcript){
   const btnDo=iframeWindow.document.getElementById('btnDo');
   
   if (transcript.includes('מוצר')) {
+    
     if (transcript.includes("השתלמות")) {
       sugMMen.selectedIndex = 1;
     } else if (transcript.includes("פנסיה")) {
