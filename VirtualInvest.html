@@ -149,7 +149,7 @@
         font-weight: bold;overflow-y: hidden;">צור קשר עם סוכן פנסיוני
 		&nbsp;<i class="fa fa-phone"></i></div>
         <div class='closewindow' onclick='window.parent.showHashvaa();'><i class="fa-solid fa-rotate-left"></i></div>
-        <h3 style="text-align: center;color:var(--main-color);">בנה תיק משולב מסלולים</h3>
+        <h3 style="text-align: center;color:rgb(0,148,254);">בנה תיק משולב מסלולים</h3>
          <div id='mas'  style='width:clamp(300px,90vw,600px);height:100vh;z-index=1000;background-color:white;display:none;' ></div> 
         <div class="row">
             <label>בחר מוצר:</label>
@@ -482,7 +482,7 @@ async function submitForm() {
         })
     } 
 });return}
-    btn.innerHTML='חזור' ;
+    btn.innerHTML='נקה' ;
     document.getElementById('centerTbl').style.display='flex';
     if (selectedProduct === "קרנות השתלמות" || selectedProduct === "קופת גמל להשקעה" 
             || selectedProduct === "תגמולים ואישית לפיצויים" || selectedProduct.includes('לילד' )
@@ -586,13 +586,19 @@ if(selectedProduct==='תגמולים ואישית לפיצויים'){selectedPro
 else{selectedProductA=selectedProduct}
 shanaTable.innerHTML=
 `
-    <h4 style='color:var(--main-color);margin-top:10px;'>תשואת התיק במוצר ${selectedProductA}</h4>	
+    <h4 style='color:rgb(0,148,254);margin-top:10px;'>תשואת התיק במוצר ${selectedProductA}</h4>	
     <table class="klalikoch" id="tblshana">
         <tr>
-            <td class="tdbig" style="background:var(--main-color);color:white;">שם גוף מוסדי</td>
-            <td class="tdsmall" style="background:var(--main-color);color:white;"  onclick='sortTableX(this)'>שנה <i class="fa fa-sort"></i></td>
-            <td class="tdsmall" style="background:var(--main-color);color:white;" onclick='sortTableX(this)'>3 שנים <i class="fa fa-sort"></i></td>
-            <td class="tdsmall" style="background:var(--main-color);color:white;" onclick='sortTableX(this)'>5 שנים <i class="fa fa-sort"></i></td>
+            <td class="tdbig" style="background:rgb(0,148,254);color:white;">שם גוף מוסדי</td>
+            <td class="tdsmall" 
+            id="miyunshana"
+            style="background:rgb(0,148,254);color:white;"  onclick='sortTableX(this)'>שנה <i class="fa fa-sort"></i></td>
+            <td class="tdsmall" 
+            id="miyunshalosh"
+            style="background:rgb(0,148,254);color:white;" onclick='sortTableX(this)'>3 שנים <i class="fa fa-sort"></i></td>
+            <td class="tdsmall" 
+            id="miyunhamesh"
+            style="background:rgb(0,148,254);color:white;" onclick='sortTableX(this)'>5 שנים <i class="fa fa-sort"></i></td>
         </tr> 
     </table>	
     
