@@ -70,9 +70,7 @@ function hideformic() {
 
 
 function handleSearchFromVoice(transcript) {
-  transcript=document.getElementById('txtarea').value;
-  
-  var ifrmValue=0;
+var ifrmValue=0;
   var iframe = document.getElementById('ifrm');
   var filter = document.getElementById('filter');
   
