@@ -19,23 +19,33 @@ function opn(x){
 
 }
 function rdchange(){
-   
+   const tablediv= document.getElementById("tozaot");
+       tablediv.innerHTML=""; 
+   var alltoz=document.getElementById('alltoz');
         var rd1=document.getElementById('rdbutton1');
         var rd2=document.getElementById('rdbutton2');
         var rd3=document.getElementById('rdbutton3');
+        var schomdiv1=document.getElementById('schomdiv1');
+        var schomdiv2=document.getElementById('schomdiv2');
+        var schom2=document.getElementById('hodshi');
+        var schom1=document.getElementById('hadpeami');
+        alltoz.style.display='none';
         if(rd1.checked){
-            document.getElementById('schomdiv1').style.display='flex';
-            document.getElementById('schomdiv2').style.display='none';
-            document.getElementById('hodshi').innerText=100;
+            schomdiv1.style.display='flex';
+            schomdiv2.style.display='none';
+             schom2.value='0';
+            
         }
         else if(rd2.checked){
-            document.getElementById('schomdiv1').style.display='none';
-            document.getElementById('schomdiv2').style.display='flex';
-            document.getElementById('hadpeami').innerText=100;
+            schomdiv1.style.display='none';
+            schomdiv2.style.display='flex';
+            schom1.value='0';
         }
         else if (rd3.checked){
-            document.getElementById('schomdiv1').style.display='flex';
-            document.getElementById('schomdiv2').style.display='flex';
+            schomdiv1.style.display='flex';
+            schomdiv2.style.display='flex';
+            schom1.value=0;
+            schom2.value=0;
         }
     
 }
@@ -83,14 +93,22 @@ function rdchange(){
 
 // עדכון הטקסט בתוך האלמנט עם ID kottoz
 document.getElementById("kottoz").textContent = `לפי ריבית ${Math.round(rb*100)}% שנתי:`;       
-        hashev(rb);
+      if(schomdiv1.style.display==='flex' && schomdiv2.style.display==='none' && schom1.value>0){ hashev(rb)}
+      else if(schomdiv1.style.display==='none' && schomdiv2.style.display==='flex' && schom2.value>0){ hashev(rb)}
+      else if(schomdiv1.style.display==='flex' && schomdiv2.style.display==='flex' && schom1.value>0 && schom2.value>0){ hashev(rb)}
+      
+      
     }
 //function chngDn(x){
 //		document.getElementById("txttkofa2").value=x;
 //	}
 function hashev(x) {
-    
-    const rb=parseFloat(x);        
+   var rbvalue=document.getElementById('selecttoz').value;
+    if(!rbvalue){
+     rb=parseFloat(x);} 
+    else{
+      rb=parseFloat(rbvalue)
+    }
     // Retrieve values from input fields
     const hp=document.getElementById("hadpeami");
     const tash=document.getElementById("hodshi");
@@ -283,14 +301,16 @@ function hashev(x) {
                 title: `<span style='color: green; font-size: 16px;'>${x}</span>`,
                 width: "clamp(250px,90vw,600px)", 
                 icon: "warning",
-                showCancelButton: false,
-                confirmButtonText: "אישור",
-                cancelButtonText: "לא, בטל",
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
-                customClass: {
-                  confirmButton: "custom-confirm-button"
-                  }
-                }).then((result) => {
-                });
+                showConfirmButton: false,
+          width: "clamp(300px, 90vw, 600px)",
+          position: "center", 
+          timer: 2000, 
+          timerProgressBar: true, 
+          background: "#fff",
+          icon: "warning",
+          customClass: {
+            popup: 'swal2-center-custom'
+          }
+        });
         }
+
