@@ -70,7 +70,8 @@ function hideformic() {
 
 
 function handleSearchFromVoice(transcript) {
-  console.log(transcript)
+  transcript=document.getElementById('txtarea').value;
+  
   var ifrmValue=0;
   var iframe = document.getElementById('ifrm');
   var filter = document.getElementById('filter');
@@ -157,7 +158,7 @@ console.log(ifrmValue)
       handleYaad(transcript);
     }
   }
-  else if (transcript.includes("מחשבונים") || transcript.includes("פיננסיים")) {
+  else if ((transcript.includes("מחשבונים") || transcript.includes("פיננסיים")) && ifrmValue===0) {
     hideformic(); showIframe("Machshevonim.html");
   }
   else if ((transcript.includes("השוואה") || transcript.includes("השוואת")
@@ -511,7 +512,17 @@ function handleCompoundInterest(transcript) {
   const interestRateInput = compoundDoc.getElementById('selecttoz');
   const DmeyNihulInput= compoundDoc.getElementById('txttkofa2');
   const tesuaInput= compoundDoc.getElementById('selectoz');
-
+if(transcript.includes('סוג')){
+  if(transcript.includes('פעמי') && !transcript.includes('חודשי')){
+    compoundDoc.getElementById('rdbutton1').checked=true;compoundWindow.rdchange();
+  }
+  if(transcript.includes('חודשי') && !transcript.includes('פעמי')){
+    compoundDoc.getElementById('rdbutton2').checked=true;compoundWindow.rdchange();
+  }
+  if(transcript.includes('פעמי') && transcript.includes('חודשי')){
+    compoundDoc.getElementById('rdbutton3').checked=true;compoundWindow.rdchange();
+  }
+}
   const pianoach=handleInput(transcript);
   
   	// סכום
@@ -540,15 +551,12 @@ function handleCompoundInterest(transcript) {
  
 
   // הפעלת חישוב אם כל השדות מולאו
-  if (initialAmountInput.value && monthlyDepositInput.value && termInput.value) {
-    if (interestRateInput.value) {
-      compoundWindow.hashev(interestRateInput.value);
-       } else {
-      compoundWindow.hashev(0.04);
-        }
+ if(transcript.includes('חשב') && !transcript.includes('מחשבונים')){
+    compoundWindow.hashev(0.04)
+  }
 	
   }
-}
+
 function handleMenahalot(transcript) {
 
   const iframex = document.getElementById('ifrm');
