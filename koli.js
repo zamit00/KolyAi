@@ -542,21 +542,10 @@ if(transcript.includes('סוג')){
 		compoundDoc.getElementById("kottoz").textContent = `לפי ריבית ${pianoach.interest}% שנתי:`;
 				}
 
-if (pianoach.dmey) {
-    const valueToSelect = pianoach.dmey.toString();
-    const options = Array.from(DmeyNihulInput.options);
-    const existingOption = options.find(opt => opt.value === valueToSelect);
-
-    if (existingOption) {
-        existingOption.selected = true;
-    } else {
-        const option = document.createElement('option');
-        option.value = valueToSelect;
-        option.textContent = valueToSelect + '%';
-        option.selected = true;
-        DmeyNihulInput.appendChild(option);
-    }
-}
+  if (pianoach.dmey) {
+    
+    DmeyNihulInput.value = pianoach.dmey;
+     }
  
 
   // הפעלת חישוב אם כל השדות מולאו
@@ -1229,3 +1218,4 @@ var count=1;
 }
    
   
+
