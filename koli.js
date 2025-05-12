@@ -510,17 +510,18 @@ function handleCompoundInterest(transcript) {
   const interestRateInput = compoundDoc.getElementById('selecttoz');
   const DmeyNihulInput= compoundDoc.getElementById('txttkofa2');
   const tesuaInput= compoundDoc.getElementById('selectoz');
-if(transcript.includes('סוג')){
-  if(transcript.includes('פעמי') && !transcript.includes('חודשי')){
+if(transcript.includes('סוג')){ 
+  if(transcript.includes('פעמי') && (!transcript.includes('חודשי' || transcript.includes('בתשלומים')))){
     compoundDoc.getElementById('rdbutton1').checked=true;compoundWindow.rdchange();
   }
-  if(transcript.includes('חודשי') && !transcript.includes('פעמי')){
+  if((transcript.includes('חודשי') || transcript.includes('בתשלומים')) && !transcript.includes('פעמי')){
     compoundDoc.getElementById('rdbutton2').checked=true;compoundWindow.rdchange();
   }
-  if(transcript.includes('פעמי') && transcript.includes('חודשי')){
+  if(transcript.includes('פעמי') && (transcript.includes('חודשי') || transcript.includes('בתשלומים'))){
     compoundDoc.getElementById('rdbutton3').checked=true;compoundWindow.rdchange();
   }
 }
+ 
   const pianoach=handleInput(transcript);
   
   	// סכום
