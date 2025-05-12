@@ -537,12 +537,12 @@ if(transcript.includes('סוג')){
 				}
 
 	// ריבית
-	if (pianoach.interest) {		
-		interestRateInput.value = pianoach.interest/100;
-		compoundDoc.getElementById("kottoz").textContent = `לפי ריבית ${pianoach.interest}% שנתי:`;
-				}
+if (pianoach.interest) {		
+   interestRateInput.value = pianoach.interest/100;
+   compoundDoc.getElementById("kottoz").textContent = `לפי ריבית ${pianoach.interest}% שנתי:`;compoundWindow.hashev(0.4);
+}
 
-if (pianoach.dmey) {
+if (pianoach.dmey || pianoach.dmey===0) {
     const valueToSelect = pianoach.dmey.toString();
     const options = Array.from(DmeyNihulInput.options);
     const existingOption = options.find(opt => opt.value === valueToSelect);
@@ -550,13 +550,16 @@ if (pianoach.dmey) {
     if (existingOption) {
         existingOption.selected = true;
     } else {
+       if(valueToSelect<=2 && valueToSelect>=0){
         const option = document.createElement('option');
         option.value = valueToSelect;
         option.textContent = valueToSelect + '%';
         option.selected = true;
         DmeyNihulInput.appendChild(option);
+       }
     }
 }
+
 
  
 
@@ -950,7 +953,9 @@ function extractInterestRatea(text) {
   text = text.replaceAll("אחוזים", "אחוז").replaceAll("%", "אחוז").trim();
 
 const wordMap = {
-  "אחת": 1, "אחד": 1, "שתיים": 2, "שניים": 2, "שני": 2, "שניי": 2,
+  "אפס":0,
+  "אחת": 1, "אחד": 1,
+  "שתיים": 2, "שניים": 2, "שני": 2, "שניי": 2,
   "שלוש": 3, "שלושה": 3, "ארבע": 4, "ארבעה": 4,
   "חמש": 5, "חמישה": 5, "שש": 6, "שישה": 6,
   "שבע": 7, "שבעה": 7, "שמונה": 8,
