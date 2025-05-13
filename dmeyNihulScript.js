@@ -42,7 +42,7 @@ document.querySelectorAll('input[name="calcType"]').forEach(radio => {
 });
 
 function updateFields() {
-    const rd1check=document.getElementById('rd1')
+    //const rd1check=document.getElementById('rd1')
     const rd2check=document.getElementById('rd2')
     const divdeposit=document.getElementById('deposit')
     const divsaving=document.getElementById('saving')
@@ -51,11 +51,12 @@ function updateFields() {
     const tozaot=document.getElementById('tbltoz')
     
     
-    if(rd1check.checked){divdeposit.style.display='none';divsaving.style.display='flex';
+/*    if(rd1check.checked){divdeposit.style.display='none';divsaving.style.display='flex';
         divdepositAmount.value=0;document.getElementById("alltoz").style.display="none"
        
     }
-    else if(rd2check.checked){divdeposit.style.display='flex';divsaving.style.display='none';
+    else */
+    if(rd2check.checked){divdeposit.style.display='flex';divsaving.style.display='none';
         document.getElementById("alltoz").style.display="none";
         divsavingAmount.value=0;
     }
