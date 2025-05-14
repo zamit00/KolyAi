@@ -1,13 +1,11 @@
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
-
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-41JX3YK216"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-
   gtag('config', 'G-41JX3YK216');
 </script>
     <meta property="og:title" content="פיננסי-נט">
@@ -35,7 +33,6 @@
 <script>    
 	eruda.init();
 </script>
-
 <script>
 var startStop;	
 function showmehasifot(x){
@@ -46,7 +43,6 @@ function hideframe(){
   if(document.getElementById('ifrm').style.display==='flex'){
 	document.getElementById('ifrm').src='';
 	document.getElementById('ifrm').style.display='none';
-	
 }
 }
 	document.getElementById('backtop').style.display='block';
@@ -54,7 +50,6 @@ function hideframe(){
 	document.getElementById('tkufatdivuach').style.display='block';
 	showkot();
 	window.scrollTo({ top: 0, behavior: "smooth" }); 
-
   }
 function hidekupainfo(){
 	document.getElementById('kupaInfo').style.display='none';
@@ -64,10 +59,7 @@ function hidekupainfo(){
 	document.getElementById('footer').style.display='flex';
 	showkot();
 }
-
-  
 	</script>
-
 <style>
     #mic { font-size: 2em; cursor: pointer; }
     #result { margin-top: 2em; white-space: pre-line; direction: rtl; }
@@ -103,7 +95,6 @@ function hidekupainfo(){
 		או צורך נוסף.  יחד נוכל להפוך את המידע לכלי מעשי לתכנון פיננסי חכם .
     </p>
 </div>
-
 <div id="overlay">
 	<div id="alert-box">
 		<h2>תנאי שימוש</h2>
@@ -111,16 +102,6 @@ function hidekupainfo(){
   		<button id="accept-btn">הבנתי</button>
 	</div>
 </div>
-
-<div class="divarea" style="position: sticky;top: -50px;left: 30px;width: 600px;
-height: 150px;z-index: 1000;display:none;">
-    <textarea id="txtarea" style="width: 580px;height: 150px;
-	border: 1px solid black;"></textarea>
-    <button onclick="handleSearchFromVoice(document.getElementById('txtarea').value)">בצע</button>
-    <button onclick="document.getElementById('txtarea').value=''">נקה</button>
-  </div>  
-  <div id="result1"></div>
-
 <div id="content">
 	<div class="allmenu" id="allmenu" >  
 		<div id='hamb' class="menu-btn"  ><!--onclick =' toggleMenu()'-->
@@ -134,20 +115,7 @@ height: 150px;z-index: 1000;display:none;">
 			<h3 onclick="toggleMenu();showMachshevonim()">📈 מחשבונים פיננסיים </h3>
 			<h3 onclick="toggleMenu();showHashvaa()">📊 השוואת חברות</h3>
 			<h3 onclick="toggleMenu();showTikrot()">📊 תקרות מס הכנסה </h3>  
-			<h3 >👨‍🔧 השרותים שלנו</h3>
-			<!--  <ul class="dropdown-content" id="drp4">
-				<li><a href="#">ייעוץ פנסיוני</a></li>
-				<li><a href="#">ייעוץ פרישה</a></li>
-				<li><a href="#">ייעוץ בתפעול קופות גמל</a></li>
-				<li><a href="#">כלים תפעוליים</a></li>
-			</ul> -->
 			<h3 onclick='openOdot()'>👬 אודותינו</h3>
-			<!-- <ul class="dropdown-content" id='drp5' >
-				<img src="profile.avif" width='135' height='150'
-				style='margin:20px 50px 0px 0px'\>
-				<li style='margin-right:30px; border:none' >חגי זך, רו"ח ויועץ פנסיוני</li>
-			</ul>
-		-->
 			<h3 onclick="toggleMenu();yossi();">📞 צור קשר</h3>
 		    <h3 onclick="toggleMenu();showIframe('tnaiyShimosh.html'); "> 📝 תנאי שימוש</h3>
 		</nav>
@@ -156,7 +124,6 @@ height: 150px;z-index: 1000;display:none;">
     	<input type="text" id="searchBox" placeholder="חפש באתר...">
     	<ul id="searchResults"></ul>
 	</div>
-	
 	<div class="meidaMuzar" id="mabaatar"
 		style=" width:clamp(300px,90%,1000px);height:200px;position:relative;
 	background-color:aliceblue;margin-left:auto;margin-right:auto;margin-top:30px;margin-bottom:20px;">
@@ -203,7 +170,6 @@ height: 150px;z-index: 1000;display:none;">
 	<div class="baalrishayon" onclick="yossi()">צור קשר עם סוכן פנסיוני
 		&nbsp;<i class="fa fa-phone"></i></div>
 </div>
-
 	<h6 id="tkufatdivuach"></h6>
 	<div style="width: 100%;margin-bottom: 10px;" id="searchmh">
 		<div class="search-mh" id="search-mh">
@@ -217,9 +183,7 @@ height: 150px;z-index: 1000;display:none;">
 	</div>
 	<h1 id="kothasifot" style="width: 100%;text-align: center;">⚖️ חשיפות מרכזיות בהשקעות</h1>
 	<div id="filter">
-		
 		<form id="productForm" style="overflow-y: hidden;">
-			
 			<div class="product">
 				<div class="baalrishayon" onclick="window.parent.yossi()"
         style="width: 100%;
@@ -253,22 +217,18 @@ height: 150px;z-index: 1000;display:none;">
 			</div>
 			<button  id='btnHas' class="sbmitbutton hsf" onclick="tablhasifot(event)">בצע</button>
 		</form>
-		
 	</div>
-
 	<div class="filterChoose" id="filterChoose">
 		<h2 class="phasifot" style="text-align:center; color:#444;margin-top: 50px;">💡 איך לבחור?</h2>
     	<p class="phasifot" style="text-align:center;">בחירת רמת החשיפה תלויה בפרופיל הסיכון האישי שלך,
 		 ביעדים הפיננסיים ובאופק ההשקעה. פיזור נכון בין החשיפות השונות יכול למקסם את התשואה ולנהל את הסיכונים בצורה חכמה! 🚀</p>
 	</div>
-	
 		<input id='leloMifaliut'  type="checkbox" checked onchange='maslulim(1,0,0);'>&nbsp;&nbsp;<span id="spanMif" style='color:#0073e6;font-size: 12px;'>ללא מפעליות</span>
 		<br><input id='hadashim'    type="checkbox" onchange='maslulim(1,0,0);'>&nbsp;&nbsp;<span id="spanHad" style='color:#0073e6;font-size: 12px;'>מסלולים חדשים</span>
 	<div style="justify-content: right;" id="sanenMosdy">
 		<label for="sinon" style="font-size: 12px;margin-top: 10px;" >סנן לפי חברה</label>
 		<select id="sinonHevra" style="transform: scaleY(0.6);max-width: 150px;
 		margin-right: 10px;" onchange="maslulimSanen()"></select>
-		
 	</div>
 	<div class="centertables">
 		<div class="allTheTables" id="allTheTables"></div>	
@@ -335,7 +295,6 @@ height: 150px;z-index: 1000;display:none;">
 	   max-height: 400px;"></canvas> 
 </div> 
 </div>
-
 <div  id="backtop" class="backtop" onclick="backtop()">⬆️</div>
 	<footer id="footer">
 		<p style="margin-top:10px;text-align:center;width:100%;box-sizing:border-box;overflow-x:hidden;color:green;"> 
@@ -353,86 +312,5 @@ height: 150px;z-index: 1000;display:none;">
 	<script src="HasifotMeshulav.js" defer></script> 
  <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
 <script src="https://cdn.userway.org/widget.js" data-account="rylh57CLUH"></script>
-
-
-
 </body>
 </html>
-
-<!--<div class="centerHasifa">	
-			<div class="section" style="width: 50vw !important;
-			overflow-y: hidden;margin-bottom: 20px;">
-				<span class="harhev" style="float: left;margin-left:6vw;
-				color:green;font-weight: bold;"
-				onclick="harhev(this)">הרחב</span>
-				<h2>💹 חשיפה למניות</h2>
-				<div class="explainHasifa" >
-					<p>חשיפה למניות מתייחסת לחלק מהתיק המושקע בשוק המניות. השקעה זו מספקת פוטנציאל לתשואות גבוהות אך מלווה בסיכון גבוה יותר.</p>
-				</div>
-				<div class="advantages hasmenayot">
-					<strong>✔️ יתרונות:</strong>
-					<ul>
-						<li>אפשרות לרווחים גבוהים בטווח הארוך</li>
-						<li>הגנה מפני אינפלציה</li>
-						<li>השתתפות בצמיחה הכלכלית של חברות</li>
-					</ul>
-				</div>
-				<div class="risks  hasmenayot">
-					<strong>❌ סיכונים:</strong>
-					<ul>
-						<li>תנודתיות גבוהה</li>
-						<li>סיכון להפסדים במקרה של ירידות בשוק</li>
-					</ul>
-				</div>
-			</div>
-			<div class="section" style="width: 50vw !important;
-			overflow-y: hidden;margin-bottom: 20px;">
-				<span class="harhev" style="float: left;margin-left:6vw;
-				color:green;font-weight: bold;"
-				onclick="harhev(this)">הרחב</span>
-				<h2>💱 חשיפה למטבע חוץ</h2>
-				<div class="explainHasifa" >
-					<p>חשיפה למט"ח משמעותה השקעה בנכסים הנקובים במטבעות זרים, כמו הדולר, האירו והין היפני.</p>
-				</div>
-				<div class="advantages  hasmenayot">
-					<strong>✔️ יתרונות:</strong>
-					<ul>
-						<li>פיזור סיכונים ושמירה על ערך הכסף</li>
-						<li>רווחים פוטנציאליים משינויים בשערי חליפין</li>
-						<li>התאמה להשקעות בינלאומיות</li>
-					</ul>
-				</div>
-				<div class="risks  hasmenayot">
-					<strong>❌ סיכונים:</strong>
-					<ul>
-						<li>שינויים חדים בשערי חליפין עלולים לפגוע בתשואה</li>
-						<li>חשיפה לתנודות כלכליות בעולם</li>
-					</ul>
-				</div>
-			</div>
-			<div class="section" style="width: 50vw !important;
-			overflow-y: hidden;">
-				<span class="harhev" style="float: left;margin-left:6vw;
-				color:green;font-weight: bold;"
-				onclick="harhev(this)">הרחב</span>
-				<h2>🌍 חשיפה לחו"ל</h2>
-				<div class="explainHasifa" >
-					<p>חשיפה לחו"ל כוללת השקעות בשווקים מחוץ לישראל, כגון מניות, אגרות חוב וקרנות בינלאומיות.</p>
-				</div>
-				<div class="advantages  hasmenayot">
-					<strong>✔️ יתרונות:</strong>
-					<ul>
-						<li>פיזור השקעות בין כלכלות שונות</li>
-						<li>גישה לטכנולוגיות חדשניות ושווקים מתפתחים</li>
-						<li>צמצום הסיכון במקרה של משבר כלכלי מקומי</li>
-					</ul>
-				</div>
-				<div class="risks  hasmenayot">
-					<strong>❌ סיכונים:</strong>
-					<ul>
-						<li>תלות במדיניות כלכלית וממשלתית במדינות היעד</li>
-						<li>שינויים ברגולציה או במיסוי עלולים להשפיע על התשואה</li>
-					</ul>
-				</div>
-			</div>
-		</div>-->	
