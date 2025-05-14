@@ -683,9 +683,8 @@ function handleHashDmeyNihul(transcript) {
   
   if (transcript.includes("סוג")){
     alltoz.style.display="none";
-   /* if (transcript.includes("צבירה") && !transcript.includes("חודשי")) {rd1.checked=true;}
-    else */
-    if (transcript.includes("חודשי") && !transcript.includes("צבירה")) {rd2.checked=true;}
+    if (transcript.includes("צבירה") && !transcript.includes("חודשי")) {rd1.checked=true;}
+    else if (transcript.includes("חודשי") && !transcript.includes("צבירה")) {rd2.checked=true;}
     else if (transcript.includes("חודשי") && transcript.includes("צבירה")) {rd3.checked=true;}
     dmeyNihulWindow.updateFields();
   }
