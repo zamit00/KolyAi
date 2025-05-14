@@ -256,10 +256,10 @@
         <h2>השוואת דמי ניהול</h2><hr>
         <form id="feeForm">
             <label>בחר סוג חישוב:</label><br>
-            <!-- <div class="div_rd">
+            <div class="div_rd">
                 <input class="rdbutton" id="rd1" type="radio" name="calcType" value="saving" > 
                 <label for="rd1"> צבירה בלבד</label>
-            </div> -->
+            </div>
             <div class="div_rd">
                 <input class="rdbutton" id="rd2" type="radio" name="calcType" value="deposit">
                 <label for="rd2"> הפקדה חודשית בלבד</label>
@@ -289,7 +289,7 @@
                     <label for="feeSaving1">דמי ניהול מצבירה קיים</label>
                     <input type="text"   onchange="onch()"  class="inp" id="feeSaving1"oninput="this.value = this.value.replace(/[^0-9.]/g, '')"></input>
                 </div>
-                <div class="amount">
+                <div class="amount" id="divfeeDeposit1">
                     <label for="feeDeposit1">דמי ניהול מהפקדה קיים</label>
                     <input type="text"   onchange="onch()"  class="inp" id="feeDeposit1"oninput="this.value = this.value.replace(/[^0-9.]/g, '')"></input>
                 </div>
@@ -297,7 +297,7 @@
                     <label for="feeSaving2">דמי ניהול מצבירה חדש</label>
                     <input type="text"   onchange="onch()"  class="inp" id="feeSaving2" oninput="this.value = this.value.replace(/[^0-9.]/g, '')"></input>
                 </div>
-                <div class="amount">
+                <div class="amount" id="divfeeDeposit2">
                     <label for="feeDeposit2">דמי ניהול מהפקדה חדש</label>
                     <input type="text"   onchange="onch()"  class="inp" id="feeDeposit2" oninput="this.value = this.value.replace(/[^0-9.]/g, '')"></input>
                 </div>
