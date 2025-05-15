@@ -14,7 +14,7 @@ function notfind(x){
   Swal.fire({
     title: "<span style='color: green; font-size: 16px;'>לא נמצאו מסלולים מתאימים</span>",
     
-    icon: "warning",
+    icon: "error",
     width: "clamp(300px, 90vw, 600px)",
           position: "center", 
           timer: 2000, 
@@ -211,7 +211,7 @@ document.querySelectorAll('.tblHasifot tr').forEach(tr => {
      Swal.fire({
     title: `<span style='color: green; font-size: 16px;'> נמצאו ${table.rows.length-1} מסלולים מתאימים</span>`,
    
-    icon: "warning",
+    icon: "success",
     width: "clamp(300px, 90vw, 600px)",
           position: "top", 
           timer: 2000, 
