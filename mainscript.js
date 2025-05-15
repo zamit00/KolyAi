@@ -120,6 +120,9 @@ function yossi(){
            "</label>",
     width: "clamp(300px,90vw,600px)",
     icon: "success",
+    customClass: {
+        popup: 'SwalYossi'
+      },
     showCancelButton: true,
     confirmButtonText: "מאשר",
     cancelButtonText: "לא מאשר",
