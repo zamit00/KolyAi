@@ -1340,7 +1340,7 @@ else if(transcript.includes('הסתר') || transcript.includes('אסתר')){
     }
   }
   if(transcript.includes('נקה')){
-    iframeWindow.chngTik();
+    iframeWindow.chngTik(); handleSearchFromVoice("הפעל");
   }
 }
 function matchNumber(transcript) {
