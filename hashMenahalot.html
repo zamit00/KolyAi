@@ -420,10 +420,10 @@ padding-right:10px; padding-left: 10px;
     background: #fff;
     border: 1px solid #ccc;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    max-height: 150px;
+    max-height: none;
     z-index: 1000;
     box-sizing: border-box;
-    overflow-y: auto;
+    overflow-y: visible;
 }
 .spn{position: absolute; left: 5px;}
 .dropdown-menu label {
@@ -541,8 +541,10 @@ padding-right:10px; padding-left: 10px;
                </div>
 <div id='dropdown-menu' class="dropdown-menu"></div>
 </div>
+<div id='mas'  style='width:clamp(300px,90vw,600px);height:100vh;z-index:1000;
+    background-color:white;display:none;position: relative;top:-100px;right:80px;' ></div>
 <label class="lblkot" for="sugMMen">בחר מוצר</label>
- <select class="dropdown sugsel"  id="sugMMen" >
+ <select class="dropdown sugsel"  id="sugMMen" onchange="changeTheMuzar()">
  <option value="" disabled selected></option>
  <option value="קרנות השתלמות">קרנות השתלמות</option>
  <option value="תגמולים ואישית לפיצויים">קופות גמל</option>
@@ -553,7 +555,7 @@ padding-right:10px; padding-left: 10px;
 
 <label class="lblkot" for="selectShemkupa">בחר מסלול</label>
             <select class="dropdown sugsel" id="selectShemkupa" onchange='changmoz()' ></select>
-            <button id="compareButton">השווה</button>
+            <button id="compareButton" onclick="dohash()">בצע</button>
         </div>
         <div class="form" id="form2">
             <label class="lblkot" for="sugMMen">בחר מנהלת מובילה</label>
@@ -607,7 +609,7 @@ const gufmosdi = gufmosdix.sort((a, b) => a.localeCompare(b, 'he'));
         for(let i=0;i<gufmosdi.length;i++){
    if(i===0){
     menu.innerHTML+=`  
-      <label style='font-size: 11px !important;'><input class="inputHev" type="checkbox" value="all" onchange="sfira()"> כל החברות </label>
+      <label style='font-size: 11px !important;'><input class="inputHev"  type="checkbox" value="all" onchange="sfira()"> כל החברות </label>
             `;   
             }
             /*if(gufmosdi[z]==='מגדל מקפת קרנות פנסיה וקופות גמל'){gufmosdi[z]='מגדל מקפת'}*/
@@ -681,7 +683,7 @@ function changmoz(){
         document.getElementById('threeYearChart').style.display='none';
         document.getElementById('fiveYearChart').style.display='none';
     }
-document.getElementById('sugMMen').addEventListener('change', function () {
+function changeTheMuzar() {
         document.getElementById('comparisonTable').style.display='none';
         document.getElementById('yearChart').style.display='none';
         document.getElementById('threeYearChart').style.display='none';
@@ -704,7 +706,9 @@ document.getElementById('sugMMen').addEventListener('change', function () {
             option.textContent = relevantList[i];
             selectShemkupa.appendChild(option);
         }
-});
+
+}
+
  async function fetchdataJasonX() {
     try {
         const response = await fetch('dataJasonM.json');
@@ -732,7 +736,7 @@ document.getElementById('sugMMen').addEventListener('change', function () {
     }
 }
 // שינוי בפונקציה של הכפתור כדי להציג נתונים לכל החברות אם נבחר "כל החברות"
-document.getElementById('compareButton').addEventListener('click', async() => {
+ async function dohash() {
     document.querySelector('.dropdown-menu').style.display='none';
     document.querySelector('#comparisonTable tbody').style.display = 'block';
     document.getElementById('compare').style.display = 'none';
@@ -769,13 +773,8 @@ document.getElementById('compareButton').addEventListener('click', async() => {
 
         
     }
-
     var databring;var selectedData
-    
     databring=await filterMaslulXa(selectedMaslul, selectedProduct);
-
-    
-
     if(selectedProduct!=='פוליסות חסכון' && selectedProduct!=='קרנות חדשות'){
     databring=databring.filter(item=>(!item.ochlosiyayaad.includes('עובדי סקטור מסויים')
       &&  !item.ochlosiyayaad.includes('עובדי מפעל/גוף מסויים') && Number( item.tesuam)!==0)
@@ -796,7 +795,7 @@ document.getElementById('compareButton').addEventListener('click', async() => {
     selectedData.sort((a, b) => b.tesuam - a.tesuam);
     updateTable(selectedData);
     updateCharts(selectedData,selectedProduct);
-});
+};
 function updateTable(data) {
             const tableBody = document.querySelector('#comparisonTable tbody');
             tableBody.innerHTML = `
