@@ -6,10 +6,11 @@ recognition.maxAlternatives = 1;
 recognition.continuous = false;
 function micClick() {
    startStop=0;
-const mictext=document.getElementById('resultMic').textContent;
+  const mictext=document.getElementById('resultMic').textContent;
   if(mictext.includes("עצור") ){
-	startStop=1;  recognition.stop();document.getElementById('timerDisplay').style.display='none';
-  }
+	startStop=1;  recognition.stop();
+  
+}
 else{
   document.getElementById('resultMic').textContent = " מאזין קבוע - לעצירה אמור עצור או לחץ שוב";
   recognition.start();}
@@ -62,7 +63,9 @@ if(!transcript){return};
 // פקודות כלליות
   // פקודת עצירה
 if (transcript.includes("עצור") || transcript.includes("הפסק") || transcript.includes("צליל")) {
-	startStop=1;return;
+	startStop=1;
+  document.getElementById('timerDisplay').textContent='';
+  return;
     }
   // פקודות שימוש באתר והסבר קולי
 if (transcript.includes("שימוש") || transcript.includes("תנאי")) {
@@ -608,39 +611,92 @@ function handleMenahalot(transcript) {
   const rd2=menahalotDoc.getElementById('radio2');
   const selmenu1 = menahalotDoc.getElementById('selmen1');
   const selmenu2 = menahalotDoc.getElementById('selmen2');
-	var input='';
-  if (transcript.includes("שתי") || rd2.checked===true) {
+	var input=''; 
+ 
+if(transcript.includes("מול")){
+ 
+  setTimeout(function() {
+
+    menahalotDoc.getElementById('form2').style.display='flex';
+	  menahalotDoc.getElementById('form1').style.display='none';
+    const matchtext=transcript.split("מול");
+    input=matchHevra(matchtext[0].trim());
+    var match1 = gufmosdixA.find(name => name.includes(input));
+    if(match1){
+      rd2.checked=true; 
+      selmenu1.value = match1;
+      menahalotWindow.selchange();
+    
+      input=matchHevra(matchtext[1].trim());
+      var match2 = gufmosdixA.find(name => name.includes(input));
+      if(match1){
+        selmenu2.value = match2;
+      }  
+        if(selmenu1.value && selmenu2.value){
+          menahalotWindow.compare2();
+          setTimeout(function() {
+            iframex.contentWindow.scrollBy(0, window.innerHeight*0.8);
+          }, 100);
+        }
+        return; 
+     } 
+     else{
+       if(transcript.includes("מול")){
+        input=matchHevra(transcript);
+        var match = gufmosdixA.find(name => name.includes(input));
+        if(match){
+          selmenu2.value = match;
+        }
+        if(selmenu1.value && selmenu2.value){
+          menahalotWindow.compare2();
+          setTimeout(function() {
+            iframex.contentWindow.scrollBy(0, window.innerHeight*0.8);
+          }, 100);
+        }
+        return; 
+      }
+     }
+  }, 100);
+   
+  }
+
+ else if (transcript.includes("שתי") || rd2.checked===true) {
 		rd2.checked=true;
 	menahalotDoc.getElementById('form2').style.display='flex';
 	menahalotDoc.getElementById('form1').style.display='none';
+
 	if (transcript.includes("מובילה") || transcript.includes("מול")) {
 		if (transcript.includes("מובילה") && transcript.includes("מול")){
 			const matchtext=transcript.split("מול");
 			input=matchHevra(matchtext[0].trim());
 			var match = gufmosdixA.find(name => name.includes(input));
-			selmenu1.value = match;
-				input=matchHevra(matchtext[1].trim());
+      if(match){
+			  selmenu1.value = match;
+      }
+			input=matchHevra(matchtext[1].trim());
 			var match = gufmosdixA.find(name => name.includes(input));
-			selmenu2.value = match;
+      if(match){
+			  selmenu2.value = match;
+      }
 		}
 		else if(transcript.includes("מובילה")){
 			input=matchHevra(transcript);
 			var match = gufmosdixA.find(name => name.includes(input));
-			selmenu1.value = match;
+      if(match){
+			  selmenu1.value = match;
+      }
 		}
-		else if(transcript.includes("מול")){
-			input=matchHevra(transcript);
-			var match = gufmosdixA.find(name => name.includes(input));
-			selmenu2.value = match;
-		}
+		
 	}
 	if(transcript.includes("השווה") || transcript.includes("השוואה") || transcript.includes("בצע")
 		||  transcript.includes("בצא")){
 		const iframe = document.getElementById('ifrm');
-    
-		menahalotWindow.compare2();
-		iframe.contentWindow.scrollBy(0, window.innerHeight*0.8);
+      if(selmenu1.value && selmenu2.value){  
+        menahalotWindow.compare2();
+        iframe.contentWindow.scrollBy(0, window.innerHeight*0.8);
+      }
 		}
+
 		if(transcript.includes("הדפס") || transcript.includes("pdf")){
         menahalotWindow.pdfDo();
 		}
@@ -648,7 +704,8 @@ function handleMenahalot(transcript) {
 	if (transcript.includes("מרובה")) {
 		rd1.checked=true;
 		menahalotWindow.selchange()}
-	}
+ 
+}
 function handleSharp(transcript) {
         var sugmM=document.getElementById('sugM');
         if (transcript.includes("השתלמות")) {
@@ -668,6 +725,7 @@ function handleSharp(transcript) {
             tablhasifot()
             window.scrollBy(0, window.innerHeight*0.8);
       }
+
 function handleHashDmeyNihul(transcript) {
   const iframex = document.getElementById('ifrm');
   const dmeyNihultDoc = iframex.contentWindow.document;
