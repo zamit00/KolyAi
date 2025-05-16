@@ -542,7 +542,8 @@ function handleLoan(transcript) {
 		loanWindow.calculateLoan();
 	}
 	// לוח סילוקין
-	if (transcript.includes("סילוקין") || transcript.includes("לוח") || transcript.includes("הסתר")) {
+	if (transcript.includes("סילוקין") || transcript.includes("לוח") || transcript.includes("הסתר")
+    || transcript.includes('אסתר')) {
 		loanWindow.toggleAmortizationTable();
 	}
 }
@@ -612,7 +613,7 @@ function handleMenahalot(transcript) {
   const selmenu1 = menahalotDoc.getElementById('selmen1');
   const selmenu2 = menahalotDoc.getElementById('selmen2');
 	var input=''; 
- 
+ console.log(transcript);
 if(transcript.includes("מול")){
  
   setTimeout(function() {
@@ -658,9 +659,9 @@ if(transcript.includes("מול")){
      }
   }, 100);
    
-  }
+}
 
- else if (transcript.includes("שתי") || rd2.checked===true) {
+else if ((transcript.includes("שתי") && menahalotWindow.document.getElementById('mas').style.display==='none') || rd2.checked===true) {
 		rd2.checked=true;
 	menahalotDoc.getElementById('form2').style.display='flex';
 	menahalotDoc.getElementById('form1').style.display='none';
@@ -701,9 +702,90 @@ if(transcript.includes("מול")){
         menahalotWindow.pdfDo();
 		}
 }
-	if (transcript.includes("מרובה")) {
+if (transcript.includes("מרובה") || rd1.checked===true) {
+    const matchHev=matchHevra(transcript);
 		rd1.checked=true;
-		menahalotWindow.selchange()}
+		menahalotWindow.selchange()
+    var sugMMen=menahalotDoc.getElementById('sugMMen');
+    if(transcript.includes('סגור') || transcript.includes('אסתר') || transcript.includes('הסתר') ){
+      
+      if(menahalotDoc.getElementById('mas').style.display==='block'){
+        menahalotDoc.getElementById('mas').style.display='none';
+      }
+      else  if(menahalotDoc.querySelector('.dropdown-menu').style.display==='block'){ 
+        menahalotWindow.toggleDr();
+      }
+    }
+    if (transcript.includes('הצג') || transcript.includes('בצק')){
+      if( transcript.includes('מסלול') && menahalotWindow.document.getElementById('mas').style.display==='none' 
+    && sugMMen.value!==''){
+        showMaslul();
+      }
+      else if((transcript.includes('חבר') || transcript.includes('מנהל')) && menahalotWindow.document.getElementById('mas').style.display==='none'){
+        menahalotWindow.toggleDr();
+      }
+    }
+
+    
+   
+     if(matchHev ||  transcript.includes("כול") || transcript.includes("כל") 
+    || transcript.includes("קול")){
+      
+       const checkboxes = menahalotDoc.querySelectorAll('.dropdown-menu input[type="checkbox"]');
+       checkboxes.forEach((checkbox) => {
+         if((transcript.includes("כל") || transcript.includes("כול") || transcript.includes("קול"))
+           && checkbox.value.includes("all")){
+            
+            checkboxes.forEach((checkb) => {
+              checkb.checked = false;
+            });
+            checkbox.checked = true;menahalotWindow.sfira();
+         } 
+         else if(checkbox.value.includes(matchHev)){
+          checkboxes.forEach((checkb) => {
+            if(checkb.value.includes("all") && checkb.checked === false){
+              checkbox.checked = true;menahalotWindow.sfira();
+            }
+          });
+          
+         } 
+        
+     })
+
+     }
+    if (transcript.includes('מוצר')) {
+      if (transcript.includes("השתלמות")) {
+        sugMMen.selectedIndex = 1;
+      } else if (transcript.includes("פנסיה")) {
+        sugMMen.selectedIndex = 6;
+      } else if (transcript.includes("גמל") && !transcript.includes("השקעה")) {
+        sugMMen.selectedIndex = 2;
+      } else if (transcript.includes("השקעה")) {
+        sugMMen.selectedIndex = 3;
+      } else if ((transcript.includes("חסכון") || transcript.includes("חיסכון")) && !transcript.includes("ילד")) {
+        sugMMen.selectedIndex = 5;
+      } else if (transcript.includes("ילד")) {
+        sugMMen.selectedIndex = 4;
+      }
+      menahalotWindow.changeTheMuzar();
+    }
+    
+    if(transcript.includes('מסלול')  && !transcript.includes('הצג')){
+      const nummatch=matchNumber(transcript.replace('מסלול','').trim());
+      if(nummatch && !transcript.includes('אחוז') && !transcript.includes('שיעור')){
+        menahalotWindow.document.getElementById('selectShemkupa').selectedIndex=parseInt(nummatch)-1;
+        menahalotWindow.document.getElementById('mas').style.display='none';
+        menahalotWindow.changmoz()
+    }
+    }
+  
+  }
+
+  if((transcript.includes("בצע") || transcript.includes("בצא") || transcript.includes("השווה"))
+     && !transcript.includes('מחשבון')){
+      menahalotWindow.dohash();menahalotWindow.scrollBy(0, 300);
+  }
+
  
 }
 function handleSharp(transcript) {
@@ -1199,7 +1281,6 @@ function matchSheala(transcript){
     return 'q4'}
 }
 function handleMeshulav(transcript){
-  console.log('קלט: '+transcript)
   const iframe=document.getElementById('ifrm');
   const iframeWindow=iframe.contentWindow;
   const sugMMen=iframeWindow.document.getElementById('sugMMen');
@@ -1225,7 +1306,7 @@ function handleMeshulav(transcript){
 if((transcript.includes('הצג') || transcript.includes('מסלול')) && iframeWindow.document.getElementById('mas').style.display==='none' ){
   showMaslul();
 }
-else if(transcript.includes('הסתר')){
+else if(transcript.includes('הסתר') || transcript.includes('אסתר')){
   iframeWindow.document.getElementById('mas').style.display='none';
 }
  if(transcript.includes('מסלול')  && !transcript.includes('הצג')){
@@ -1242,7 +1323,6 @@ else if(transcript.includes('הסתר')){
      }
      }
    if(transcript.includes('הוסף')  || transcript.includes('אוסף')){
-     console.log('הוסף')
     iframeWindow.addRow(btnDo)
   }
   if(transcript.includes('הפעל') || transcript.includes('בצע')){
@@ -1306,9 +1386,11 @@ function matchNumber(transcript) {
   return null; // לא זוהה מספר
 }
 function showMaslul(){
+  var maslul;
   const iframe=document.getElementById('ifrm');
   const iframeWindow=iframe.contentWindow;
-  const maslul=iframeWindow.document.getElementById('selectShemkupa');
+  
+  maslul=iframeWindow.document.getElementById('selectShemkupa');  
   var mas=
      iframeWindow.document.getElementById('mas');
      mas.style.display='block';
